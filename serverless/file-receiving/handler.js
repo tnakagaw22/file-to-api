@@ -15,7 +15,7 @@ module.exports.upload = async (event, context) => {
   }
 
   let params = {
-    Bucket: 'tnakagaw-dev-test',
+    Bucket: 'file-to-process',
     Key: `test.txt`,
     Body: event.body
   };
