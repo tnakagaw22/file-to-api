@@ -4,8 +4,7 @@
   "description": "",
   "main": "handler.js",
   "dependencies": {
-    "aws-sdk": "^2.575.0",
-    "file-type": "^12.4.0"
+    "aws-sdk": "^2.575.0"
   },
   "devDependencies": {},
   "scripts": {
