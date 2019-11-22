@@ -12,10 +12,15 @@ provider:
         - s3:*
       Resource: "*"
 
+package:
+  individually: true
+
 functions:
   process:
-    handler: FileProcessing::FileProcessing.Function::Process
+    handler: FileProcessing::FileProcessing.Functions::Process
     events:
       - s3:
           bucket: file-to-process
           event: s3:ObjectCreated:*
+    package:
+      artifact: bin/release/netcoreapp2.1/file-processing.zip
