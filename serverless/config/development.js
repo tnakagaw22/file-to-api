@@ -4,5 +4,5 @@ module.exports = {
     database: 'file-to-api',
     user: 'postgres',
     password: 'postgres',
-
+    awsRegion: 'us-east-1'
 };
