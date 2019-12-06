@@ -13,10 +13,10 @@ module.exports = {
       password: config.password,
     },
     migrations: {
-      directory: './db/migrations'
+      directory: './migrations'
     },
     seeds: {
-      directory: './db/seeds/dev'
+      directory: './seeds/development'
     },
     useNullAsDefault: true
   },
