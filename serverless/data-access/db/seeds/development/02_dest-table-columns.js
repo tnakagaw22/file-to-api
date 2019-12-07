@@ -6,7 +6,7 @@ exports.seed = async knex => {
 
   // Inserts seed entries
   await knex('demo1.destination_tables').insert([
-    { id: 1, table_name: 'listings', valid: true}
+    { id: 1, table_name: 'listings', published: true, valid: true}
   ]);
   await knex('demo1.destination_columns').insert([
     { table_id: 1, column_name: 'mls_number', data_type: 'string', required: true},

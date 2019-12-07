@@ -6,6 +6,7 @@ exports.up = async knex => {
     .createTable('destination_tables', function(dest_table) {
         dest_table.increments('id').unsigned().primary();
         dest_table.string('table_name', 200).notNull();
+        dest_table.boolean('published').defaultTo(false);
         dest_table.boolean('valid').defaultTo(true);
         dest_table.boolean('searchable').defaultTo(true);
         dest_table.timestamp('created_at').defaultTo(knex.fn.now())
@@ -36,5 +37,4 @@ exports.up = async knex => {
 exports.down = async knex => {
     await knex.schema.withSchema('demo1').dropTable('destination_columns');
     await knex.schema.withSchema('demo1').dropTable('destination_tables');
-    // .then(()=> knex.schema.withSchema('demo1').dropTable('destination_table'));
 };
