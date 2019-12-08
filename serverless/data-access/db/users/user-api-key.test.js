@@ -1,8 +1,8 @@
 'use strict';
 
-const userSignup = require("./user-signup");
+const userApiKey = require("./user-api-key");
 
-userSignup.createSchema('demo1')
+userApiKey.createSchema('demo1')
 .then((schema) => {
     return userSignup.generateApiKey('demo1');
 })
