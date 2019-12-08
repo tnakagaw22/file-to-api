@@ -1,6 +1,6 @@
 'use strict';
 
-const destTable = require("./");
+const destTable = require(".");
 
 destTable.generateTableIfNotExist('demo1', 'test')
 .then((res) => {
