@@ -21,6 +21,21 @@ module.exports = {
     useNullAsDefault: true
   },
 
+  test: {
+    client: 'postgresql',
+    connection: {
+      port: config.port,
+      host: config.host,
+      database: config.database,
+      user: config.user,
+      password: config.password,
+    },
+    pool: {
+      min: 2,
+      max: 10
+    }
+  },
+
   staging: {
     client: 'postgresql',
     connection: {
