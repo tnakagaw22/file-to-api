@@ -2,9 +2,9 @@
 
 const userApiKey = require("./user-api-key");
 
-userApiKey.createSchema('demo1')
+userApiKey.createSchema('dev')
 .then((schema) => {
-    return userSignup.generateApiKey('demo1');
+    return userSignup.generateApiKey('dev');
 })
 .catch((e) => console.log(`failed to create schema, ${e}`));
 

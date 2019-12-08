@@ -2,11 +2,11 @@
 
 const tableDef = require("./table-def");
 
-tableDef.insertDestTable('demo1', 'test')
+tableDef.insertDestTable('dev', 'test')
 .then(result => console.log(result))
 .catch(err  => console.log(err));
 
-tableDef.insertDestColumns('demo1', 2,
+tableDef.insertDestColumns('dev', 2,
  [
     {
         columnName: 'test1',
@@ -25,14 +25,14 @@ tableDef.insertDestColumns('demo1', 2,
 .then(result => console.log(result))
 .catch(err  => console.log(err));
 
-// tableDef.getPublishedTableId('demo1', 'listings').then(result => console.log(result));
-// tableDef.getPublishedTableId('demo1', 'notExistingTableName').then(result => console.log(result));
+// tableDef.getPublishedTableId('dev', 'listings').then(result => console.log(result));
+// tableDef.getPublishedTableId('dev', 'notExistingTableName').then(result => console.log(result));
 
 // // fail--------------------
 // // tableDef.getPublishedTableId('nonExistingClient', 'notExistingTableName').then(result => console.log(result));
 
-// tableDef.getDestColumns('demo1', 1).then(res => {
-//     tableDef.generateTable('demo1', 'listings', res);
+// tableDef.getDestColumns('dev', 1).then(res => {
+//     tableDef.generateTable('dev', 'listings', res);
 
 // });
-// tableDef.getDestColumns('demo1', 2);
+// tableDef.getDestColumns('dev', 2);

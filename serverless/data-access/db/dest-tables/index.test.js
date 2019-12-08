@@ -2,7 +2,7 @@
 
 const destTable = require(".");
 
-destTable.generateTableIfNotExist('demo1', 'test')
+destTable.generateTableIfNotExist('dev', 'test')
 .then((res) => {
     console.log('index-test ran successfully');
 })
