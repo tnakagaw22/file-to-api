@@ -36,4 +36,3 @@ tableDef.insertDestColumns('demo1', 2,
 
 // });
 // tableDef.getDestColumns('demo1', 2);
-
