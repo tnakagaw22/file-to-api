@@ -1,6 +1,6 @@
 'use strict';
 
-const db = require("../");
+const db = require("..");
 
 const insertTemplateColumns = async (clientCode, templateId, templateColumns) => {
 

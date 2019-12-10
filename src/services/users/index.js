@@ -1,6 +1,6 @@
 'use strict';
 
-const userApiKey = require('./user-api-key');
+const userApiKey = require('../../db/users/user-api-key');
 const { generateApiKey } = require('./api-gateway');
 
 const signup = async (clientName) => {

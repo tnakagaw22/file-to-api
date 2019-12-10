@@ -1,7 +1,7 @@
 'use strict';
 
-const db = require("../");
-const tableDef = require('./table-def');
+const db = require("../../db");
+const tableDef = require('../../db/dest-tables/table-def');
 
 const generateTableIfNotExist = async (clientCode, tableName) => {
     let tableExist = await db.schema.withSchema(clientCode).hasTable(tableName);

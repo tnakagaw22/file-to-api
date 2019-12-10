@@ -1,5 +1,5 @@
 var Engine = require("json-rules-engine").Engine;
-var readOne = require('../data-access/column-mapping-definition/read-one');
+var readOne = require('../../../serverless/data-access/column-mapping-definition/read-one');
 
 let engine = new Engine();
 
