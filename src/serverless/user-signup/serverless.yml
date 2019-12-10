@@ -1,0 +1,18 @@
+service: user-signup
+
+provider:
+  name: aws
+  runtime: nodejs10.x
+  stage: dev
+  region: us-east-1
+  memorySize: 512
+
+
+functions:
+  create:
+    handler: handler.signup
+    events:
+      - http:
+          path: files
+          method: post
+          cors: true
