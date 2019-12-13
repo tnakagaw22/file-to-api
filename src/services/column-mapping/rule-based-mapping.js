@@ -16,29 +16,7 @@ const getFact = (souroce, mappingRule) => {
     return rtn;
 };
 
-const runRuleEngine = (fact, mappingRule) => {
-    // fact = {listingStatus: 'A'}
-
-    let engine = new Engine();
-
-    engine.addRule(mappingRule);
-    engine.run(fact)
-        .then(results => {
-            // 'results' is an object containing successful events, and an Almanac instance containing facts
-            // let result = results.events.map(event => {
-            //     console.log('result is ' + event.params.message);
-            //     return event.params.message;
-            // });
-
-            return 'temp result';
-        })
-        .catch(err => {
-            console.log(err);
-            throw `failed to map. fact: ${fact}, rule ${mappingRule}`;
-        })
-};
-
-const mapValue = (source, mapping_value) => {
+const runRuleEngine = (source, mapping_value, destColumn) => {
     let mappingRule = mapping_value;
     // let mappingRule = JSON.parse(mapping_value);
     let fact = getFact(source, mappingRule);
@@ -46,14 +24,26 @@ const mapValue = (source, mapping_value) => {
     let engine = new Engine();
 
     engine.addRule(mappingRule);
+    // engine.addRule({ "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "R" }] }, "event": { "type": "mappingValue", "params": { "message": "Rented" } } });
+
     return engine.run(fact)
-    .then(res => res.events[0].params.message)
-    .catch(err => console.log(err));
-        // return engine.run(fact);
+        .then(res => {
+            let mappedValue = '';
+            if (res.events[0]) {
+                mappedValue = res.events[0].params.message;
+            }
+
+            let rtn = {};
+            rtn[destColumn] = mappedValue;
+            return rtn;
+
+        })
+        .catch(err => console.log(err));
+    // return engine.run(fact);
 
 
 }
 
 module.exports = {
-    mapValue
+    runRuleEngine
 };
