@@ -4,27 +4,28 @@ const { Engine } = require('json-rules-engine');
 
 const getFact = (souroce, mappingRule) => {
     // let mappingRule = JSON.parse(mapping_value);
-    let factFields = mappingRule.conditions.any.map(condition => condition.fact);
-
-    if (!factFields) {
-        throw `could not find fact from mappingRule ${mappingRule}`;
-    }
-
     let rtn = {};
-    rtn[factFields[0]] = souroce[factFields];
+    mappingRule.forEach(rule => {
+        let fact = rule.conditions.any.map(condition => condition.fact);
+        rtn[fact[0]] = souroce[fact];
+    });
+
+    // if (factFields.length <= 0) {
+    //     throw `could not find fact from mappingRule ${mappingRule}`;
+    // }
 
     return rtn;
 };
 
-const runRuleEngine = (source, mapping_value, destColumn) => {
-    let mappingRule = mapping_value;
+const runRuleEngine = (source, mappingRule, destColumn) => {
     // let mappingRule = JSON.parse(mapping_value);
     let fact = getFact(source, mappingRule);
 
     let engine = new Engine();
 
-    engine.addRule(mappingRule);
-    // engine.addRule({ "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "R" }] }, "event": { "type": "mappingValue", "params": { "message": "Rented" } } });
+    mappingRule.forEach(rule => {
+        engine.addRule(rule);
+    });
 
     return engine.run(fact)
         .then(res => {
@@ -39,9 +40,6 @@ const runRuleEngine = (source, mapping_value, destColumn) => {
 
         })
         .catch(err => console.log(err));
-    // return engine.run(fact);
-
-
 }
 
 module.exports = {
