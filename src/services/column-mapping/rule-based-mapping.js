@@ -5,6 +5,7 @@ const { Engine } = require('json-rules-engine');
 const getFact = (souroce, mappingRule) => {
     // let mappingRule = JSON.parse(mapping_value);
     let rtn = {};
+
     mappingRule.forEach(rule => {
         let fact = rule.conditions.any.map(condition => condition.fact);
         rtn[fact[0]] = souroce[fact];

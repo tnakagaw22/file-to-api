@@ -10,7 +10,7 @@ const mapColumns = (columnMappings, source) => {
         if (mappings.mapping_type === 'column') {
             resultObj[mappings.column_name] = source[mappings.mapping_value]
         } else {
-            ruleMappingRes.push(runRuleEngine(source, mappings.mapping_value, mappings.column_name));
+            ruleMappingRes.push(runRuleEngine(source, JSON.parse(mappings.mapping_value), mappings.column_name));
         }
     });
 
