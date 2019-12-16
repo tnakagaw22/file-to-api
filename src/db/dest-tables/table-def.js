@@ -84,10 +84,20 @@ const generateTable = async (clientCode, tableName, columnDefs) => {
         });
 
 }
+
+const getIdentifiers = async (clientCode, tableId) => {
+    return db('dest_tables').withSchema(clientCode)
+    .where({
+        id: tableId
+    })
+    .select('identifiers')
+    .first();
+}
 module.exports = {
     insertDestTable,
     insertDestColumns,
     getPublishedTableId,
     getDestColumns,
-    generateTable
+    generateTable,
+    getIdentifiers
 };
