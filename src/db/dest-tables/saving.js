@@ -5,14 +5,14 @@ const db = require("../");
 const { getIdentifiers } = require('./table-def')
 const { getDestTableName } = require("../templates/template-column");
 
-const bulkInsert = async (clientCode, tableName, savingData) => {
+const bulkInsert = (clientCode, tableName, savingData) => {
     console.log(`inserting ${JSON.stringify(savingData)}`);
 
-    await db(tableName).withSchema(clientCode)
+    return db(tableName).withSchema(clientCode)
         .insert(savingData);
 }
 
-const update = async (clientCode, tableName, savingData) => {
+const update = (clientCode, tableName, savingData) => {
 
     let updatePromises = [];
     savingData.forEach(savingRecord => {
@@ -24,7 +24,7 @@ const update = async (clientCode, tableName, savingData) => {
         updatePromises.push(updatePromise);
     })
 
-    await Promise.all(updatePromises);
+    return updatePromises;
 }
 
 const save = async (clientCode, tableId, savingData) => {
@@ -52,16 +52,26 @@ const save = async (clientCode, tableId, savingData) => {
             // if all the valeus are same, no need to update. just delete
             savingDataByKey[key].id = existing.id;
             updatingRecords.push(savingDataByKey[key]);
-            
+
             delete savingDataByKey[key];
         }
     })
 
-    bulkInsert(clientCode, destTableName.table_name, _.values(savingDataByKey));
-    update(clientCode, destTableName.table_name, _.values(updatingRecords));
+    let insertPromise = bulkInsert(clientCode, destTableName.table_name, _.values(savingDataByKey));
+    let updatePromise = update(clientCode, destTableName.table_name, _.values(updatingRecords));
+    updatePromise.concat(insertPromise);
+
+    return Promise.all(updatePromise)
+        .then(res => {
+            console.log(`successfully saving ${res.length} records to ${clientCode}.${destTableName.table_name}`);
+            return res.length;
+        })
+        .catch(err => {
+            console.log(`failed to save to ${clientCode}.${destTableName.table_name}`);
+            return err;
+        });
 }
 
 module.exports = {
-    bulkInsert,
     save
 };
