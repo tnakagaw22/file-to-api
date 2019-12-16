@@ -9,10 +9,10 @@ const sources = [
 
 ];
 
-const mapping_value = [
-    { "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "A" }] }, "event": { "type": "mappingValue", "params": { "message": "Active" } } },
-    { "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "R" }] }, "event": { "type": "mappingValue", "params": { "message": "Rented" } } }
-];
+const mapping_value = '[\
+    { "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "A" }] }, "event": { "type": "mappingValue", "params": { "message": "Active" } } },\
+    { "conditions": { "any": [{ "fact": "listingStatus", "operator": "equal", "value": "R" }] }, "event": { "type": "mappingValue", "params": { "message": "Rented" } } }\
+]';
 
 const columnMappings = [
     { column_name: 'mls_number', mapping_type: 'column', mapping_value: 'mlsNum' },
