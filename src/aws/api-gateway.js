@@ -14,9 +14,9 @@ const generateApiKey = async (clientCode) => {
     };
 
     let apiKey = await apigateway.createApiKey(params).promise();
-    console.log(`generated apiKey ${apiKey} for ${clientCode}`);
+    console.log(`generated apiKey ${JSON.stringify(apiKey)}`);
 
-    return apiKey;
+    return apiKey.value;
 };
 
 module.exports = {

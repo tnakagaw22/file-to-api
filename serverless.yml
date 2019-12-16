@@ -1,5 +1,8 @@
 service: user-signup
 
+plugins:
+  - serverless-offline
+
 provider:
   name: aws
   runtime: nodejs10.x
@@ -10,9 +13,10 @@ provider:
 
 functions:
   create:
-    handler: handler.signup
+    handler: user-signup/handler.signup
     events:
       - http:
-          path: files
+          path: signup/{clientCode}
           method: post
           cors: true
+                

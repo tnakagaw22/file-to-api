@@ -1,7 +1,7 @@
 'use strict';
 
 const userApiKey = require('../../db/users/user-api-key');
-const { generateApiKey } = require('./api-gateway');
+const { generateApiKey } = require('../../aws/api-gateway');
 
 const signup = async (clientName) => {
     try {
@@ -10,6 +10,7 @@ const signup = async (clientName) => {
         console.log(`schema ${clientCode} is created`);
 
         let apiKey = await generateApiKey(clientCode);
+
         await userApiKey.saveApiKey(apiKey, clientCode);
 
     } catch (error) {

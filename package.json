@@ -1,0 +1,24 @@
+{
+  "name": "file-to-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "dependencies": {
+    "aws-sdk": "^2.582.0",
+    "json-rules-engine": "^5.0.0",
+    "knex": "^0.20.3",
+    "pg": "^7.14.0",
+    "underscore": "^1.9.1"
+  },
+  "devDependencies": {
+    "serverless": "^1.59.3",
+    "serverless-offline": "^6.0.0-alpha.53"
+  },
+  "scripts": {
+    "start": "./node_modules/.bin/serverless offline -s dev",
+    "debug": "SET SLS_DEBUG=* && node --debug %USERPROFILE%\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

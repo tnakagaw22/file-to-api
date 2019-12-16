@@ -5,8 +5,8 @@ const db = require("..");
 const createSchema = async (clientCode) => {
     const schemaName = clientCode.trim().replace(' ', '_');
 
-    // await db.raw(`CREATE SCHEMA IF NOT EXISTS ${schemaName}`);
-    await db.raw(`CREATE SCHEMA ${schemaName}`);
+    await db.raw(`CREATE SCHEMA IF NOT EXISTS ${schemaName}`);
+    // await db.raw(`CREATE SCHEMA ${schemaName}`);
 
     return schemaName;
 };
