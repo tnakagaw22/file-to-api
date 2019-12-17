@@ -2,20 +2,27 @@
 
 const db = require("..");
 
-const insertTemplateColumns = async (clientCode, templateId, templateColumns) => {
+const insertTemplateColumn = async (clientCode, templateColumn) => {
 
     // TODO: create unique index for template_id & dest_column_id and handle not to insert dup template column
 
-    let templateColumnsToSave = templateColumns.map(templateColumn => {
-        return {
-            template_id_id: templateId,
-            dest_column_id: templateColumn['destColumnId'],
-            mapping_type: templateColumn['mappingType'],
-            mapping_value: templateColumn['mappingValue']
-        }
-    });
+    // let templateColumnsToSave = templateColumns.map(templateColumn => {
+    //     return {
+    //         template_id_id: templateId,
+    //         dest_column_id: templateColumn['destColumnId'],
+    //         mapping_type: templateColumn['mappingType'],
+    //         mapping_value: templateColumn['mappingValue']
+    //     }
+    // });
 
-    return await db(`${clientCode}.template_columns`).insert(templateColumnsToSave);
+    return await db(`${clientCode}.template_columns`).insert(templateColumn);
+}
+
+const updateTemplateColumn = async (clientCode, templateColumnId, templateColumnUpdateValue) => {
+
+    return await db(`${clientCode}.template_columns`)
+        .where({ id: templateColumnId })
+        .update(templateColumnUpdateValue)
 }
 
 const getColumnMappings = async (clientCode, templateId) => {
@@ -35,7 +42,8 @@ const getDestTableName = async (clientCode, templateId) => {
 }
 
 module.exports = {
-    insertTemplateColumns,
+    insertTemplateColumn,
+    updateTemplateColumn,
     getColumnMappings,
     getDestTableName
 };

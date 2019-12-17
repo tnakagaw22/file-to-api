@@ -27,4 +27,36 @@ functions:
           path: table/
           method: post
           cors: true          
+
+  createTemplate:
+    handler: templates/handler.saveTemplate
+    events:
+      - http:
+          path: templates/
+          method: post
+          cors: true          
+
+  updateTemplate:
+    handler: templates/handler.saveTemplate
+    events:
+      - http:
+          path: templates/{templateId}
+          method: post
+          cors: true          
+
+  createTemplateColumn:
+    handler: templates/handler.saveTemplateColumnHandler
+    events:
+      - http:
+          path: templates/{templateId}/columns
+          method: post
+          cors: true          
+                
+  updateTemplateColumn:
+    handler: templates/handler.saveTemplateColumnHandler
+    events:
+      - http:
+          path: templates/{templateId}/columns/{templateColumnId}
+          method: post
+          cors: true          
                 
