@@ -13,11 +13,18 @@ module.exports.signup = async (event, context) => {
     }
   }
 
-  await signup(clientCode);
+  try {
+    let apiKey = await signup(clientCode);
 
-  return {
-    statusCode: 200,
-    body: `client ${clientCode} has been created successfully`
-  };
+    return {
+      statusCode: 200,
+      body: apiKey
+    };
+    } catch (error) {
+      return {
+        statusCode: 500,
+        body: 'failed to sign up'
+      };
+    }
 
 };
