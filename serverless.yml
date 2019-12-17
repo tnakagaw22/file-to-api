@@ -21,10 +21,10 @@ functions:
           cors: true
 
   saveTable:
-    handler: dest-table/handler.saveTableColumnDefs
+    handler: dest-tables/handler.saveTableColumnDefs
     events:
       - http:
-          path: table/
+          path: tables/
           method: post
           cors: true          
 

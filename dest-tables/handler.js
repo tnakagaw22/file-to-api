@@ -1,7 +1,7 @@
 'use strict';
 
 const { validateApiKey } = require('../src/services/users');
-const { insertTableColumnDefs } = require('../src/services/dest-tables/')
+const { insertTableColumnDefs } = require('../src/services/dest-tables')
 
 module.exports.saveTableColumnDefs = async (event, context) => {
 
