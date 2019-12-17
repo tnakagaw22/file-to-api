@@ -28,6 +28,14 @@ functions:
           method: post
           cors: true          
 
+  publishTable:
+    handler: dest-tables/handler.publishTable
+    events:
+      - http:
+          path: tables/publish/{tableName}
+          method: post
+          cors: true          
+
   createTemplate:
     handler: templates/handler.saveTemplate
     events:
