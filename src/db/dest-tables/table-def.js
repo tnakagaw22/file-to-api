@@ -2,29 +2,39 @@
 
 const db = require("../");
 
-const insertDestTable = async (clientCode, tableName) => {
-    let dup = await db(`${clientCode}.dest_tables`).where({table_name: tableName});
+const insertDestTableColumns = async (clientCode, tableName, columnDefs) => {
+    let dup = await db(`${clientCode}.dest_tables`).where({ table_name: tableName });
 
-    if (dup && dup.length> 0) {
+    if (dup && dup.length > 0) {
         throw `${tableName} already exists for client ${clientCode}`;
     }
 
-    return await db(`${clientCode}.dest_tables`).insert(
-        { table_name: tableName, published: true, valid: true}
-      ).returning('id');
-}
+    return db.transaction((trx) => {
+        db(`${clientCode}.dest_tables`)
+            .insert({ table_name: tableName, published: true, valid: true })
+            .returning('id')
+            .transacting(trx)
+            .then(tableIds => {
 
-const insertDestColumns = async (clientCode, tableId, columnDefs) => {
-    let columnDefsToSave = columnDefs.map(columnDef => {
-        return { 
-            table_id: tableId, 
-            column_name: columnDef['columnName'], 
-            data_type: columnDef['dataType'], 
-            required: columnDef['required']
-        }
-    });
+                let columnDefsToSave = columnDefs.map(columnDef => {
+                    return {
+                        table_id: tableIds[0],
+                        column_name: columnDef['columnName'],
+                        data_type: columnDef['dataType'],
+                        required: columnDef['required']
+                    }
+                });
+                return db(`${clientCode}.dest_columns`).insert(columnDefsToSave).transacting(trx);
+            })
+            .then(trx.commit)
+            .catch(trx.rollback)
+    })
+        .then(() => `${clientCode}.dest_tables and ${clientCode}.dest_columns have been created successfully`)
+        .catch(err => {
+            console.log(`failed to create ${clientCode}.dest_tables and ${clientCode}.dest_columns`);
+            throw err;
+        });
 
-    return await db(`${clientCode}.dest_columns`).insert(columnDefsToSave);
 }
 
 const getPublishedTableId = async (clientCode, tableName) => {
@@ -87,15 +97,15 @@ const generateTable = async (clientCode, tableName, columnDefs) => {
 
 const getIdentifiers = async (clientCode, tableId) => {
     return db('dest_tables').withSchema(clientCode)
-    .where({
-        id: tableId
-    })
-    .select('identifiers')
-    .first();
+        .where({
+            id: tableId
+        })
+        .select('identifiers')
+        .first();
 }
 module.exports = {
-    insertDestTable,
-    insertDestColumns,
+    insertDestTableColumns,
+    // insertDestColumns,
     getPublishedTableId,
     getDestColumns,
     generateTable,

@@ -20,9 +20,10 @@ const saveApiKey = (apiKey, clientCode) => {
 };
 
 const getClientCodeByApiKey = async (apiKey) => {
-    await db.from('api_keys')
+    return await db.from('api_keys')
         .where({ api_key: apiKey })
-        .select('client_code');
+        .select('client_code')
+        .first();
 }
 
 module.exports = {

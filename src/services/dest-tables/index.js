@@ -3,6 +3,15 @@
 const db = require("../../db");
 const tableDef = require('../../db/dest-tables/table-def');
 
+const insertTableColumnDefs = async (clientCode, tableName, columnDefs) => {
+    try {
+        await tableDef.insertDestTableColumns(clientCode, tableName, columnDefs);
+    } catch (error) {
+        console.log(error);
+        return `failed to insert dest table ${tableName}`;
+    }
+};
+
 const generateTableIfNotExist = async (clientCode, tableName) => {
     let tableExist = await db.schema.withSchema(clientCode).hasTable(tableName);
 
@@ -24,5 +33,6 @@ const generateTableIfNotExist = async (clientCode, tableName) => {
 };
 
 module.exports = {
+    insertTableColumnDefs,
     generateTableIfNotExist
 };

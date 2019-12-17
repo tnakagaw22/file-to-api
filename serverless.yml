@@ -19,4 +19,12 @@ functions:
           path: signup/{clientCode}
           method: post
           cors: true
+
+  saveTable:
+    handler: dest-table/handler.saveTableColumnDefs
+    events:
+      - http:
+          path: table/
+          method: post
+          cors: true          
                 
