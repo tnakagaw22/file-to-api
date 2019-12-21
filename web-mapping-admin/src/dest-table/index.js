@@ -1,10 +1,13 @@
 import React from 'react';
-import DestTable from './DestTable';
 
+import DestTableStoreProvider from './DestTableStore';
+import DestTable from './DestTable';
 
 const DestTablePage = (props) => {
     return (
-        <DestTable />
+        <DestTableStoreProvider>
+            <DestTable />
+        </DestTableStoreProvider>
     );
 }
 

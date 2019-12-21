@@ -1,13 +1,17 @@
-import React from 'react';
+import React, { useContext, useState, useEffect } from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
-const DestTable = (props) => {
-    let data = [
-        { id: 1, name: "buildings", published: true },
-        { id: 2, name: "listings", published: false }
-    ];
+import { DestTableStoreContext } from './DestTableStore';
+import { LoadDestTables } from './DestTableAction';
 
-    let rows = data.map((destTable => {
+const DestTable = (props) => {
+    const { destTables, dispatch } = useContext(DestTableStoreContext);
+
+    useEffect(() => {
+        LoadDestTables(dispatch);
+    }, [destTables]);
+
+    let rows = destTables.map((destTable => {
         let publishedCell = destTable.published ? <Icon color='green' name='checkmark' size='large' /> : '';
 
         return (
