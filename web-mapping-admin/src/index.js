@@ -1,10 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import App from './App';
-import DestTable from './pages/dest-table/DestTable';
+import DestTablePage from './dest-table/';
+import 'semantic-ui-css/semantic.min.css';
 import './index.css';
 
 ReactDOM.render(
-  <DestTable />,
+  <DestTablePage />,
   document.getElementById('root')
 );
