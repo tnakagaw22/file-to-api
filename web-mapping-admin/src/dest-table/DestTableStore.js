@@ -1,9 +1,10 @@
 import React, { createContext, useReducer } from 'react';
-import ActionTypes from './DestTableActionType';
+import ActionTypes from './destTableActionType';
 
 const initialState = {
     loading: true,
-    destTables: []
+    destTables: [],
+    destTableDetail: { columns: []}
 };
 
 function reducer(state, action) {
@@ -17,8 +18,15 @@ function reducer(state, action) {
 
             return {
                 ...state,
+                loading: false,
                 destTables: action.payload
-            }
+            };
+        case ActionTypes.LOAD_DESTTABLE_DETAIL:
+            return {
+                ...state,
+                loading: false,
+                destTableDetail: action.payload
+            };
 
         default:
             console.log('default reducer');

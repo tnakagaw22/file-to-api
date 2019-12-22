@@ -1,8 +1,8 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
-import { DestTableStoreContext } from './DestTableStore';
-import { LoadDestTables } from './DestTableAction';
+import { DestTableStoreContext } from './destTableStore';
+import { LoadDestTables } from './destTableAction';
 
 const DestTable = (props) => {
     const { destTables, dispatch } = useContext(DestTableStoreContext);
