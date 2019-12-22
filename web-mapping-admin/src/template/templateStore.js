@@ -1,10 +1,10 @@
 import React, { createContext, useReducer } from 'react';
-import ActionTypes from './destTableActionType';
+import ActionTypes from './templateActionType';
 
 const initialState = {
     loading: true,
-    destTables: [],
-    destTableDetail: { columns: []}
+    templates: [],
+    templateDetail: { columns: []}
 };
 
 function reducer(state, action) {
@@ -14,18 +14,18 @@ function reducer(state, action) {
                 ...state,
                 loading: action.payload
             };
-        case ActionTypes.LOAD_DESTTABLES:
+        case ActionTypes.LOAD_TEMPLATES:
 
             return {
                 ...state,
                 loading: false,
-                destTables: action.payload
+                templates: action.payload
             };
-        case ActionTypes.LOAD_DESTTABLE_DETAIL:
+        case ActionTypes.LOAD_TEMPLATE_DETAIL:
             return {
                 ...state,
                 loading: false,
-                destTableDetail: action.payload
+                templateDetail: action.payload
             };
 
         default:
@@ -33,19 +33,19 @@ function reducer(state, action) {
     }
 }
 
-export const DestTableStoreContext = createContext({
+export const TemplateStoreContext = createContext({
     ...initialState,
     dispatch: undefined
 });
 
-const DestTableStoreProvider = ({ children }) => {
+const TemplateStoreProvider = ({ children }) => {
     const [state, dispatch] = useReducer(reducer, initialState);
 
     return (
-        <DestTableStoreContext.Provider value={{ ...state, dispatch: dispatch }}>
+        <TemplateStoreContext.Provider value={{ ...state, dispatch: dispatch }}>
             {children}
-        </DestTableStoreContext.Provider>
+        </TemplateStoreContext.Provider>
     );
 }
 
-export default DestTableStoreProvider;
+export default TemplateStoreProvider;
