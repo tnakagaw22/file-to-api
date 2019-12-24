@@ -14,11 +14,8 @@ const DestTableDetail = (props) => {
 
     return (
         <div>
+            <h1>Destination Table - {destTableDetail.tableName}</h1>
             <Form>
-                <Form.Field>
-                    <label>Table Name</label>
-                    {destTableDetail.tableName}
-                </Form.Field>
                 <Form.Field>
                     <label>Published</label>
                     <Checkbox label='Published' checked={destTableDetail.published} />

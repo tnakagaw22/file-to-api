@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Table, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 
 import { TemplateStoreContext } from './templateStore';
 import { loadTemplates } from './templateAction';
@@ -17,7 +18,9 @@ const Template = (props) => {
         return (
             <Table.Row key={template.id}>
                 <Table.Cell collapsing>
-                    <Icon link name='edit' onClick={() => console.log(`clicked ${template.id}`)} />
+                    <Link to={`/temp/${template.id}`}>
+                    <Icon link name='edit' />
+                    </Link>
                 </Table.Cell>
                 <Table.Cell>{template.templateName}</Table.Cell>
                 <Table.Cell>{publishedCell}</Table.Cell>

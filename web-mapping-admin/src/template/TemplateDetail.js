@@ -1,5 +1,6 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Checkbox, Form } from 'semantic-ui-react';
+import { useParams } from 'react-router-dom';
 
 import { TemplateStoreContext } from './templateStore';
 import { loadTemplateDetail, loadTables, setMappingDestTables } from './templateAction';
@@ -8,10 +9,11 @@ import DestTableMultipleSelection from '../components/DestTableMultipleSelection
 import ColumnMappings from '../components/ColumnMappings';
 
 const TemplateDetail = (props) => {
+    let { id } = useParams();
     const { templateDetail, destTables, selectedDestTableIds, dispatch } = useContext(TemplateStoreContext);
 
     useEffect(() => {
-        loadTemplateDetail(dispatch);
+        loadTemplateDetail(dispatch, id);
         loadTables(dispatch);
     }, [templateDetail, destTables]);
 

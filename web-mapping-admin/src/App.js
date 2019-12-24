@@ -1,21 +1,57 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from "react";
+import {
+  BrowserRouter as Router,
+  Switch,
+  Route,
+  Link
+} from "react-router-dom";
+import { Menu, Container, Button } from 'semantic-ui-react'
 
-class App extends Component {
-  render() {
-    return (
-      <div className="App">
-        <div className="App-header">
-          <img src={logo} className="App-logo" alt="logo" />
-          <h2>Welcome to React</h2>
-        </div>
-        <p className="App-intro">
-          To get started, edit <code>src/App.js</code> and save to reload.
-        </p>
+import DestTablePage from './dest-table/pages/DestTableListPage';
+import TemplateListPage from './template/pages/TemplateListPage';
+import TemplateDetailPage from './template/pages/TemplateDetailPage';
+
+
+export default function App() {
+  return (
+    <Router>
+      <div>
+        <Menu fixed='top' inverted>
+          <Menu.Item as={Link} to='/temp' header>
+            File Import Mapping
+          </Menu.Item>
+
+          <Menu.Item as={Link} to='/'>
+            Home
+          </Menu.Item>
+
+          <Menu.Item as={Link} to='/dest'>
+            dest
+          </Menu.Item>
+
+          <Menu.Item as={Link} to='/temp'>
+            temp
+          </Menu.Item>
+        </Menu>
+
+
+        <Container fluid style={{ marginTop: '4em', paddingLeft: '30px', paddingRight: '30px' }}>
+          <Switch>
+            <Route exact path="/">
+              <TemplateListPage />
+            </Route>
+            <Route exact path="/temp">
+              <TemplateListPage />
+            </Route>
+            <Route exact path="/temp/:id">
+              <TemplateDetailPage />
+            </Route>
+            <Route exact path="/dest">
+              <DestTablePage />
+            </Route>
+          </Switch>
+        </Container >
       </div>
-    );
-  }
+    </Router>
+  );
 }
-
-export default App;
