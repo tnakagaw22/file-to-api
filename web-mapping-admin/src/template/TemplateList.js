@@ -2,13 +2,13 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 
 import { TemplateStoreContext } from './templateStore';
-import { LoadTemplates } from './templateAction';
+import { loadTemplates } from './templateAction';
 
 const Template = (props) => {
     const { templates, dispatch } = useContext(TemplateStoreContext);
 
     useEffect(() => {
-        LoadTemplates(dispatch);
+        loadTemplates(dispatch);
     }, [templates]);
 
     let rows = templates.map((template => {
@@ -26,19 +26,22 @@ const Template = (props) => {
     }));
 
     return (
-        <Table striped sortable fixed>
-            <Table.Header>
-                <Table.Row>
-                    <Table.HeaderCell />
-                    <Table.HeaderCell>Name</Table.HeaderCell>
-                    <Table.HeaderCell>Published</Table.HeaderCell>
-                </Table.Row>
-            </Table.Header>
+        <div>
+            <h1>Template</h1>
+            <Table striped sortable fixed>
+                <Table.Header>
+                    <Table.Row>
+                        <Table.HeaderCell />
+                        <Table.HeaderCell>Name</Table.HeaderCell>
+                        <Table.HeaderCell>Published</Table.HeaderCell>
+                    </Table.Row>
+                </Table.Header>
 
-            <Table.Body>
-                {rows}
-            </Table.Body>
-        </Table>
+                <Table.Body>
+                    {rows}
+                </Table.Body>
+            </Table>
+        </div>
     );
 }
 

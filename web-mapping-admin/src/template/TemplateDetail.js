@@ -2,30 +2,45 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Checkbox, Form } from 'semantic-ui-react';
 
 import { TemplateStoreContext } from './templateStore';
-import { LoadTemplateDetail } from './templateAction';
-import TemplateColumnList from './TemplateColumnList';
+import { loadTemplateDetail, loadTables, setMappingDestTables } from './templateAction';
+import DestTableColumnSelection from '../dest-table/DestTableColumnSelection';
+import DestTableMultipleSelection from '../components/DestTableMultipleSelection';
+import ColumnMappings from '../components/ColumnMappings';
 
 const TemplateDetail = (props) => {
-    const { templateDetail, dispatch } = useContext(TemplateStoreContext);
+    const { templateDetail, destTables, selectedDestTableIds, dispatch } = useContext(TemplateStoreContext);
 
     useEffect(() => {
-        LoadTemplateDetail(dispatch);
-    }, [templateDetail]);
+        loadTemplateDetail(dispatch);
+        loadTables(dispatch);
+    }, [templateDetail, destTables]);
+
+    let destTableOptions = destTables.map(destTable => ({ key: destTable.id, text: destTable.tableName, value: destTable.id }));
+
+    let mappingColumns = destTables
+        .filter(destTable => selectedDestTableIds.includes(destTable.id))
+        .map(destTable => destTable.columns.map(column => ({ ...column, tableName: destTable.tableName })));
 
     return (
         <div>
+            <h1>Template - {templateDetail.templateName}</h1>
             <Form>
-                <Form.Field>
-                    <label>Table Name</label>
-                    {templateDetail.templateName}
-                </Form.Field>
                 <Form.Field>
                     <label>Published</label>
                     <Checkbox label='Published' checked={templateDetail.published} />
                 </Form.Field>
             </Form>
 
-            <TemplateColumnList templateColumns={templateDetail.columns} />
+            {/* <TemplateColumnList templateColumns={templateDetail.columns} /> */}
+            {/* <DestTableColumnSelection /> */}
+            <DestTableMultipleSelection
+                onChange={(e, data) => setMappingDestTables(dispatch, data.value)}
+                options={destTableOptions}
+            />
+
+            <ColumnMappings
+                columns={Array.prototype.concat(...mappingColumns)}
+            />
         </div>
     );
 }

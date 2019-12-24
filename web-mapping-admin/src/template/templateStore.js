@@ -4,7 +4,10 @@ import ActionTypes from './templateActionType';
 const initialState = {
     loading: true,
     templates: [],
-    templateDetail: { columns: []}
+    templateDetail: { },
+    destTables: [],
+    selectedDestTableIds: [],
+    columnMappings: []
 };
 
 function reducer(state, action) {
@@ -27,7 +30,17 @@ function reducer(state, action) {
                 loading: false,
                 templateDetail: action.payload
             };
-
+        case ActionTypes.LOAD_DESTTABLES:
+            return {
+                ...state,
+                loading: false,
+                destTables: action.payload
+            };
+        case ActionTypes.SET_MAPPING_DESTTABLES:
+            return {
+                ...state,
+                selectedDestTableIds: action.payload
+            }
         default:
             console.log('default reducer');
     }
