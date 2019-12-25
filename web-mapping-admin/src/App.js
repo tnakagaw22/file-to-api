@@ -10,6 +10,7 @@ import { Menu, Container, Button } from 'semantic-ui-react'
 import DestTablePage from './dest-table/pages/DestTableListPage';
 import TemplateListPage from './template/pages/TemplateListPage';
 import TemplateDetailPage from './template/pages/TemplateDetailPage';
+import TemplateColumnMappingPage from './template/pages/TemplateColumnMappingPage';
 
 
 export default function App() {
@@ -45,7 +46,10 @@ export default function App() {
             </Route>
             <Route exact path="/temp/:id">
               <TemplateDetailPage />
+            <Route exact path="/temp/:templateId/columns/:destColumnId">
+              <TemplateColumnMappingPage />
             </Route>
+            
             <Route exact path="/dest">
               <DestTablePage />
             </Route>

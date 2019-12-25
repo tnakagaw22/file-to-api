@@ -22,6 +22,7 @@ const ColumnMappings = (props) => {
         <Table striped sortable fixed>
             <Table.Header>
                 <Table.Row>
+                <Table.HeaderCell />
                 <Table.HeaderCell>Table name</Table.HeaderCell>
                 <Table.HeaderCell>Column name</Table.HeaderCell>
                 <Table.HeaderCell>Data type</Table.HeaderCell>

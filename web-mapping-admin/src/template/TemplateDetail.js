@@ -21,7 +21,7 @@ const TemplateDetail = (props) => {
 
     let mappingColumns = destTables
         .filter(destTable => selectedDestTableIds.includes(destTable.id))
-        .map(destTable => destTable.columns.map(column => ({ ...column, tableName: destTable.tableName })));
+        .map(destTable => destTable.columns.map(column => ({ ...column, tableName: destTable.tableName, templateId: id })));
 
     return (
         <div>
