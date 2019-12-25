@@ -1,5 +1,5 @@
 import React from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
 const mappingTypeOptions = [
   {
@@ -14,13 +14,14 @@ const mappingTypeOptions = [
   }
 ]
 
-const MappingTypeSelection = () => (
-  <Dropdown
+const MappingTypeSelection = (props) => (
+  <Form.Select
     placeholder='Select Mapping type'
     label='Mapping type'
     selection
     clearable
     options={mappingTypeOptions}
+    {...props}
   />
 )
 

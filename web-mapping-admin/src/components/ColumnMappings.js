@@ -1,5 +1,6 @@
 import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
+import { Link } from 'react-router-dom'
 
 const ColumnMappings = (props) => {
 
@@ -8,6 +9,11 @@ const ColumnMappings = (props) => {
 
         return (
             <Table.Row key={destColumn.id}>
+                <Table.Cell collapsing>
+                    <Link to={`/temp/${destColumn.templateId}/columns/${destColumn.id}`}>
+                        <Icon link name='edit' />
+                    </Link>
+                </Table.Cell>
                 <Table.Cell>{destColumn.tableName}</Table.Cell>
                 <Table.Cell>{destColumn.columnName}</Table.Cell>
                 <Table.Cell>{destColumn.dataType}</Table.Cell>
@@ -22,11 +28,11 @@ const ColumnMappings = (props) => {
         <Table striped sortable fixed>
             <Table.Header>
                 <Table.Row>
-                <Table.HeaderCell />
-                <Table.HeaderCell>Table name</Table.HeaderCell>
-                <Table.HeaderCell>Column name</Table.HeaderCell>
-                <Table.HeaderCell>Data type</Table.HeaderCell>
-                <Table.HeaderCell>Requried</Table.HeaderCell>
+                    <Table.HeaderCell />
+                    <Table.HeaderCell>Table name</Table.HeaderCell>
+                    <Table.HeaderCell>Column name</Table.HeaderCell>
+                    <Table.HeaderCell>Data type</Table.HeaderCell>
+                    <Table.HeaderCell>Requried</Table.HeaderCell>
                     <Table.HeaderCell>Mapping type</Table.HeaderCell>
                     <Table.HeaderCell>Mapping value</Table.HeaderCell>
                 </Table.Row>

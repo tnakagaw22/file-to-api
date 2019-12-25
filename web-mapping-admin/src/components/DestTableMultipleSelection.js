@@ -1,9 +1,10 @@
 import React from 'react'
-import { Dropdown } from 'semantic-ui-react'
+import { Form } from 'semantic-ui-react'
 
 const DestTableMultipleSelection = (props) => (
-    <Dropdown
+    <Form.Select
         placeholder='Select tables to map'
+        label='Dest table to map'
         fluid multiple selection
         {...props}
     />

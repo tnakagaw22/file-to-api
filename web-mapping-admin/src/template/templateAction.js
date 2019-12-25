@@ -39,9 +39,9 @@ const templateDetail = {
     templateName: "buildings From Olr",
     published: true,
     columns: [
-        { id: 1, destColumnId: 1, destColumnName: 'streetAddr', mappingType: 'Column', mappingValue: 'StreetAddress' },
-        { id: 2, destColumnId: 2, destColumnName: 'numOfFloor', mappingType: 'Column', mappingValue: 'FloorCount' },
-        { id: 3, destColumnId: 3, destColumnName: 'zipCode', mappingType: 'Rule', mappingValue: '' }
+        { id: 1, destColumnId: 4, destColumnName: 'streetAddr', mappingType: 'Column', mappingValue: 'StreetAddress' },
+        { id: 2, destColumnId: 5, destColumnName: 'numOfFloor', mappingType: 'Column', mappingValue: 'FloorCount' },
+        { id: 3, destColumnId: 6, destColumnName: 'zipCode', mappingType: 'Rule', mappingValue: '' }
     ]
 };
 

@@ -27,7 +27,7 @@ const TemplateDetail = (props) => {
     } else if (destTableIds) {
         selectedDestTableIds = [parseInt(destTableIds)];
     }
-    
+
     let mappingColumns = destTables
         .filter(destTable => selectedDestTableIds.includes(destTable.id))
         .map(destTable => destTable.columns.map(column => ({ ...column, tableName: destTable.tableName, templateId: id })));
@@ -36,22 +36,22 @@ const TemplateDetail = (props) => {
         <div>
             <h1>Template - {templateDetail.templateName}</h1>
             <Form>
-                <Form.Field>
-                    <label>Published</label>
-                    <Checkbox label='Published' checked={templateDetail.published} />
-                </Form.Field>
+                <Form.Group widths='equal'>
+                    <DestTableMultipleSelection
+                        onChange={(e, data) => {
+                            // setMappingDestTables(dispatch, data.value);
+                            onSetValue(data.value);
+                        }}
+                        options={destTableOptions}
+                        defaultValue={selectedDestTableIds}
+                    />
+                    <Form.Checkbox label='Published' checked={templateDetail.published} />
+                </Form.Group>
             </Form>
 
             {/* <TemplateColumnList templateColumns={templateDetail.columns} /> */}
             {/* <DestTableColumnSelection /> */}
-            <DestTableMultipleSelection
-                onChange={(e, data) => {
-                    // setMappingDestTables(dispatch, data.value);
-                    onSetValue(data.value);
-                }}
-                options={destTableOptions}
-                defaultValue={selectedDestTableIds}
-            />
+
 
             <ColumnMappings
                 columns={Array.prototype.concat(...mappingColumns)}
