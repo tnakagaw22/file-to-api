@@ -2,6 +2,7 @@ import React, { useContext, useState, useEffect } from 'react';
 import { Checkbox, Form } from 'semantic-ui-react';
 import { useParams } from 'react-router-dom';
 
+import useQueryString from "../hooks/useQueryString";
 import { TemplateStoreContext } from './templateStore';
 import { loadTemplateDetail, loadTables, setMappingDestTables } from './templateAction';
 import DestTableColumnSelection from '../dest-table/DestTableColumnSelection';
@@ -10,7 +11,8 @@ import ColumnMappings from '../components/ColumnMappings';
 
 const TemplateDetail = (props) => {
     let { id } = useParams();
-    const { templateDetail, destTables, selectedDestTableIds, dispatch } = useContext(TemplateStoreContext);
+    const [destTableIds, onSetValue] = useQueryString("destTableIds");
+    const { templateDetail, destTables, dispatch } = useContext(TemplateStoreContext);
 
     useEffect(() => {
         loadTemplateDetail(dispatch, id);
@@ -19,6 +21,13 @@ const TemplateDetail = (props) => {
 
     let destTableOptions = destTables.map(destTable => ({ key: destTable.id, text: destTable.tableName, value: destTable.id }));
 
+    let selectedDestTableIds = [];
+    if (Array.isArray(destTableIds)) {
+        selectedDestTableIds = destTableIds.map(destTableId => parseInt(destTableId));
+    } else if (destTableIds) {
+        selectedDestTableIds = [parseInt(destTableIds)];
+    }
+    
     let mappingColumns = destTables
         .filter(destTable => selectedDestTableIds.includes(destTable.id))
         .map(destTable => destTable.columns.map(column => ({ ...column, tableName: destTable.tableName, templateId: id })));
@@ -36,8 +45,12 @@ const TemplateDetail = (props) => {
             {/* <TemplateColumnList templateColumns={templateDetail.columns} /> */}
             {/* <DestTableColumnSelection /> */}
             <DestTableMultipleSelection
-                onChange={(e, data) => setMappingDestTables(dispatch, data.value)}
+                onChange={(e, data) => {
+                    // setMappingDestTables(dispatch, data.value);
+                    onSetValue(data.value);
+                }}
                 options={destTableOptions}
+                defaultValue={selectedDestTableIds}
             />
 
             <ColumnMappings

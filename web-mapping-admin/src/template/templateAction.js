@@ -6,7 +6,7 @@ export function loadTemplates(dispatch) {
 
     setTimeout(() => {
         dispatch({ actionType: ActionTypes.LOAD_TEMPLATES, payload: templates });
-    }, 1000);
+    }, 500);
 }
 
 export function loadTemplateDetail(dispatch, templateId) {
@@ -14,7 +14,7 @@ export function loadTemplateDetail(dispatch, templateId) {
 
     setTimeout(() => {
         dispatch({ actionType: ActionTypes.LOAD_TEMPLATE_DETAIL, payload: templateDetail });
-    }, 1000);
+    }, 500);
 }
 
 export function loadTables(dispatch) {
@@ -22,13 +22,13 @@ export function loadTables(dispatch) {
 
     setTimeout(() => {
         dispatch({ actionType: ActionTypes.LOAD_DESTTABLES, payload: destTables });
-    }, 2000);
+    }, 500);
 }
 
-export function setMappingDestTables(dispatch, selectedTableIds) {
-    dispatch({ actionType: ActionTypes.SET_MAPPING_DESTTABLES, payload: selectedTableIds });
+// export function setMappingDestTables(dispatch, selectedTableIds) {
+//     dispatch({ actionType: ActionTypes.SET_MAPPING_DESTTABLES, payload: selectedTableIds });
     
-}
+// }
 const templates = [
     { id: 1, templateName: "buildings From Olr", published: true },
     { id: 2, templateName: "listingsFromOlr", published: false }

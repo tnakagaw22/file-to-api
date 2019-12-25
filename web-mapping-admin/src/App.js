@@ -46,6 +46,7 @@ export default function App() {
             </Route>
             <Route exact path="/temp/:id">
               <TemplateDetailPage />
+              </Route>
             <Route exact path="/temp/:templateId/columns/:destColumnId">
               <TemplateColumnMappingPage />
             </Route>

@@ -6,7 +6,7 @@ const initialState = {
     templates: [],
     templateDetail: { },
     destTables: [],
-    selectedDestTableIds: [],
+    // selectedDestTableIds: [],
     columnMappings: []
 };
 
@@ -36,11 +36,11 @@ function reducer(state, action) {
                 loading: false,
                 destTables: action.payload
             };
-        case ActionTypes.SET_MAPPING_DESTTABLES:
-            return {
-                ...state,
-                selectedDestTableIds: action.payload
-            }
+        // case ActionTypes.SET_MAPPING_DESTTABLES:
+        //     return {
+        //         ...state,
+        //         selectedDestTableIds: action.payload
+        //     }
         default:
             console.log('default reducer');
     }
