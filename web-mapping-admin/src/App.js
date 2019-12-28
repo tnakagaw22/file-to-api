@@ -11,7 +11,7 @@ import DestTablePage from './dest-table/pages/DestTableListPage';
 import TemplateListPage from './template/pages/TemplateListPage';
 import TemplateDetailPage from './template/pages/TemplateDetailPage';
 import TemplateColumnMappingPage from './template/pages/TemplateColumnMappingPage';
-
+import ExistingTableListPage from './existing-table/pages/ExistingTableListPage';
 
 export default function App() {
   return (
@@ -33,6 +33,10 @@ export default function App() {
           <Menu.Item as={Link} to='/temp'>
             temp
           </Menu.Item>
+
+          <Menu.Item as={Link} to='/existing-table'>
+            existing table
+          </Menu.Item>
         </Menu>
 
 
@@ -53,6 +57,10 @@ export default function App() {
             
             <Route exact path="/dest">
               <DestTablePage />
+            </Route>
+            
+            <Route exact path="/existing-table">
+              <ExistingTableListPage />
             </Route>
           </Switch>
         </Container >

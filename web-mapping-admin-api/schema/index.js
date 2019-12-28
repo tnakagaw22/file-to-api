@@ -35,9 +35,8 @@ const RootQuery = new GraphQLObjectType({
         existingTables: {
             type: GraphQLList(ExistingTableType),
             resolve(parent, args) {
-                console.log('showTablesQueryPG');
                 return db.raw(config.showTablesQueryPG).then(data => {
-                    let tablenames = data.rows.map(row => ({name: row.tablename}));
+                let tablenames = data.rows.map(row => ({name: row.tablename}));
                     console.log(tablenames);
                     return tablenames;
                 })
