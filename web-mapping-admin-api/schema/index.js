@@ -21,6 +21,15 @@ const ExistingTableType = new GraphQLObjectType({
     })
 });
 
+const DestTableType = new GraphQLObjectType({
+    name: 'DestTable',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        tableName: { type: GraphQLString },
+    })
+});
+
+
 const RootQuery = new GraphQLObjectType({
     name: 'RootQueryType',
     fields: {
@@ -39,6 +48,32 @@ const RootQuery = new GraphQLObjectType({
                 return db.raw(config.showTablesQueryPG).then(data => {
                     let tables = data.rows.map(row => ({ tableName: row.tablename, schemaName: row.schemaname }));
                     console.log(tables);
+                    return tables;
+                })
+            }
+        },
+        destTable: {
+            type: DestTableType,
+            args: { schema: { type: GraphQLString }, id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return db('dest_tables').withSchema(args.schema)
+                    .where({ id: args.id }).first()
+                    .then(data => {
+                        if (!data) return {};
+
+                        return {
+                            id: data.id,
+                            tableName: data.table_name
+                        }
+                     });
+            }
+        },
+        destTables: {
+            type: GraphQLList(DestTableType),
+            args: { schema: { type: GraphQLString }},
+            resolve(parent, args) {
+                return db('dest_tables').withSchema(args.schema).then(data => {
+                    let tables = data.map(row => ({ id: row.id, tableName: row.table_name }));
                     return tables;
                 })
             }

@@ -5,3 +5,10 @@ query{
     name
   }
 }
+
+query {
+  destTable (schema:"dev", id:21) {
+  	id,
+    tableName
+  }
+}
