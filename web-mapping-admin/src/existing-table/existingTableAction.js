@@ -1,11 +1,7 @@
 import ActionTypes from './existingTableActionType';
 
-export function loadExistingTables(dispatch) {
-    dispatch({ actionType: ActionTypes.SHOW_LOADING, payload: true });
-
-    setTimeout(() => {
-        dispatch({ actionType: ActionTypes.LOAD_EXISTING_ABLES, payload: existingTables });
-    }, 500);
+export function setExistingTables(dispatch, existingTables) {
+    dispatch({ actionType: ActionTypes.SET_EXISTING_TABLES, payload: existingTables });
 }
 
 export function mapToDestTable(dispatch, table) {

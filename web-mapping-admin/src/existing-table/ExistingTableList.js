@@ -1,20 +1,11 @@
 import React, { useContext, useState, useEffect } from 'react';
 import { Grid, List } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
-import { Query } from 'react-apollo'
-import gql from 'graphql-tag'
 
 import { ExistingTableStoreContext } from './existingTableStore';
-import { loadExistingTables, mapToDestTable, unmapFromDestTable } from './existingTableAction';
+import { setExistingTables, mapToDestTable, unmapFromDestTable } from './existingTableAction';
 import { LoadDestTables } from '../dest-table/destTableAction';
 
-const get_existing_table_query = gql`
-{
-    existingTables {
-        name
-  }
-}
-`;
 
 const ExistingTable = (props) => {
     const { existingTables, mappedDestTables, dispatch } = useContext(ExistingTableStoreContext);
@@ -26,7 +17,7 @@ const ExistingTable = (props) => {
 
     useEffect(() => {
         LoadDestTables(dispatch);
-        // loadExistingTables(dispatch);
+        setExistingTables(dispatch, props.existingTables);
     }, []);
 
     // let toBeMappedTables = data.existingTables.map(existingTable => <List.Item
@@ -54,26 +45,17 @@ const ExistingTable = (props) => {
                 <Grid.Row>
                     <Grid.Column>
                         Existing tables
-                        <Query query={get_existing_table_query}>
-                            {({ loading, error, data }) => {
-                                if (loading) return <div>Fetching</div>
-                                if (error) return <div>Error</div>
 
-                                const existingTables = data.existingTables
+                        <List selection>
+                            {existingTables.map(existingTable => <List.Item
+                                key={existingTable.name}
+                                onClick={() => {
+                                    unmapFromDestTable(dispatch, existingTable);
+                                }}
+                            >{existingTable.name}
+                            </List.Item>)}
+                        </List>
 
-                                return (
-                                    <List selection>
-                                        {existingTables.map(existingTable => <List.Item
-                                            key={existingTable.name}
-                                            onClick={() => {
-                                                unmapFromDestTable(dispatch, existingTable);
-                                            }}
-                                        >{existingTable.name}
-                                        </List.Item>)}
-                                    </List>
-                                )
-                            }}
-                        </Query>
                     </Grid.Column>
                     <Grid.Column>
                         Mapped tables

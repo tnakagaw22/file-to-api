@@ -18,19 +18,12 @@ const reducer = (state = initialState, action) =>
                     ...state,
                     loading: action.payload
                 };
-            case ActionTypes.LOAD_EXISTING_ABLES:
-
-                return {
-                    ...state,
-                    loading: false,
-                    existingTables: action.payload
-                };
+            case ActionTypes.SET_EXISTING_TABLES:
+                draft.existingTables = action.payload;
+                break;
             case ActionTypes.LOAD_DESTTABLES:
-                return {
-                    ...state,
-                    loading: false,
-                    mappedDestTables: action.payload
-                };
+                draft.mappedDestTables = action.payload;
+                break;
             case ActionTypes.MAP_TO_DESTTABLE:
                 draft.existingTables.push(action.payload);
                 draft.mappedDestTables.filter(mappedDestTable => mappedDestTable !== action.payload);
