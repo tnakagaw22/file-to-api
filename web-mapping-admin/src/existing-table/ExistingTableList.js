@@ -48,11 +48,11 @@ const ExistingTable = (props) => {
 
                         <List selection>
                             {existingTables.map(existingTable => <List.Item
-                                key={existingTable.name}
+                                key={`${existingTable.schemaName}.${existingTable.tableName}`}
                                 onClick={() => {
                                     unmapFromDestTable(dispatch, existingTable);
                                 }}
-                            >{existingTable.name}
+                            >{`${existingTable.schemaName}.${existingTable.tableName}`}
                             </List.Item>)}
                         </List>
 

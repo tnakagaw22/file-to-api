@@ -16,7 +16,8 @@ const ExistingTableType = new GraphQLObjectType({
     name: 'Existing',
     fields: () => ({
         // id: { type: GraphQLInt },
-        name: { type: GraphQLString },
+        schemaName: { type: GraphQLString },
+        tableName: { type: GraphQLString },
     })
 });
 
@@ -36,9 +37,9 @@ const RootQuery = new GraphQLObjectType({
             type: GraphQLList(ExistingTableType),
             resolve(parent, args) {
                 return db.raw(config.showTablesQueryPG).then(data => {
-                let tablenames = data.rows.map(row => ({name: row.tablename}));
-                    console.log(tablenames);
-                    return tablenames;
+                    let tables = data.rows.map(row => ({ tableName: row.tablename, schemaName: row.schemaname }));
+                    console.log(tables);
+                    return tables;
                 })
             }
         }

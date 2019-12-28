@@ -8,7 +8,8 @@ import ExistingTableList from '../ExistingTableList';
 const get_existing_table_query = gql`
 {
     existingTables {
-        name
+        schemaName,
+        tableName
   }
 }
 `;
@@ -19,7 +20,7 @@ const ExistingTableListPage = (props) => {
             <Query query={get_existing_table_query}>
                 {({ loading, error, data }) => {
                     if (loading) return <div>Fetching</div>
-                    if (error) return <div>Error</div>
+                    if (error) return console.log(error); <div>Error</div>
 
                     return (
                         <ExistingTableList existingTables={data.existingTables} />
