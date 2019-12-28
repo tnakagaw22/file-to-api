@@ -1,0 +1,21 @@
+{
+  "name": "web-mapping-admin-api",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "nodemon index",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "cors": "^2.8.5",
+    "express": "^4.17.1",
+    "express-graphql": "^0.9.0",
+    "graphql": "^14.5.8",
+    "graphql-knex-resolver": "0.0.0",
+    "knex": "^0.20.3",
+    "pg": "^7.14.0"
+  }
+}
