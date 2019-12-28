@@ -1,11 +1,14 @@
 import React from 'react';
-import { Query } from 'react-apollo'
 import gql from 'graphql-tag'
+import { useQuery } from '@apollo/react-hooks';
+import { Query } from 'react-apollo'
 
 import ExistingTableStoreProvider from '../existingTableStore';
 import ExistingTableList from '../ExistingTableList';
+import MappingTableList from '../MappingTableList';
+import { setExistingTables, mapToDestTable, unmapFromDestTable } from '../existingTableAction';
 
-const get_existing_table_query = gql`
+const getExistingTable = gql`
 {
     existingTables {
         schemaName,
@@ -14,10 +17,21 @@ const get_existing_table_query = gql`
 }
 `;
 
+const getDestTables = gql`
+{
+    destTables (schema:"dev") {
+        id,
+        tableName
+  }
+}
+`;
+
 const ExistingTableListPage = (props) => {
+    const { loading: getDestTableLoading, error: getDestTableError, data } = useQuery(getDestTables);
+
     return (
         <ExistingTableStoreProvider>
-            <Query query={get_existing_table_query}>
+            <Query query={getExistingTable}>
                 {({ loading, error, data }) => {
                     if (loading) return <div>Fetching</div>
                     if (error) return console.log(error); <div>Error</div>
@@ -27,6 +41,21 @@ const ExistingTableListPage = (props) => {
                     )
                 }}
             </Query>
+
+            {getDestTableLoading && <p>Loading...</p>}
+            {getDestTableError && <p>Error...</p>}
+            {data && <MappingTableList tables={data.destTables} />}
+
+            {/* <Query query={getDestTables}>
+                {({ loading, error, data }) => {
+                    if (loading) return <div>Fetching</div>
+                    if (error) return console.log(error); <div>Error</div>
+
+                    return (
+                        <MappingTableList tables={data.destTables} mapToDestTable={unmapFromDestTable} />
+                    )
+                }}
+            </Query> */}
         </ExistingTableStoreProvider>
     );
 }

@@ -8,7 +8,7 @@ import { LoadDestTables } from '../dest-table/destTableAction';
 
 
 const ExistingTable = (props) => {
-    const { existingTables, mappedDestTables, dispatch } = useContext(ExistingTableStoreContext);
+    const { notMappedTables: existingTables, mappedDestTables, dispatch } = useContext(ExistingTableStoreContext);
     // const { loading, error, data } = useQuery(get_existing_table_query, {
     //     variables: {
     //         limit: 10
@@ -50,7 +50,7 @@ const ExistingTable = (props) => {
                             {existingTables.map(existingTable => <List.Item
                                 key={`${existingTable.schemaName}.${existingTable.tableName}`}
                                 onClick={() => {
-                                    unmapFromDestTable(dispatch, existingTable);
+                                    mapToDestTable(dispatch, existingTable);
                                 }}
                             >{`${existingTable.schemaName}.${existingTable.tableName}`}
                             </List.Item>)}

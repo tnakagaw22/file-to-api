@@ -15,14 +15,14 @@ export function unmapFromDestTable(dispatch, table) {
 
 const existingTables = [
     {
-        id: 1, name: "buildings", columns: [
+        id: 1, schemaName: "dev", tableName: "buildings", columns: [
             { name: 'id' },
             { name: 'streetAddress' },
             { name: 'postalCode' }
         ]
     },
     {
-        id: 2, name: "listings", columns: [
+        id: 2, schemaName: "dev", tableName: "listings", columns: [
             { name: 'id' },
             { name: 'buildingId' },
             { name: 'listingType' },

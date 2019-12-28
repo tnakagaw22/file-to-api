@@ -26,6 +26,22 @@ const DestTableType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLInt },
         tableName: { type: GraphQLString },
+        destColumns: {
+            type: new GraphQLList(DestColumnType),
+            resolve(parent, args) {
+                return db('dest_columns').withSchema('dev')
+                    .where({ table_id: parent.id });
+            }
+        }
+    })
+});
+
+const DestColumnType = new GraphQLObjectType({
+    name: 'DestColumn',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        table_id: { type: GraphQLInt },
+        column_name: { type: GraphQLString },
     })
 });
 
@@ -46,9 +62,7 @@ const RootQuery = new GraphQLObjectType({
             type: GraphQLList(ExistingTableType),
             resolve(parent, args) {
                 return db.raw(config.showTablesQueryPG).then(data => {
-                    let tables = data.rows.map(row => ({ tableName: row.tablename, schemaName: row.schemaname }));
-                    console.log(tables);
-                    return tables;
+                    return data.rows.map(row => ({ tableName: row.tablename, schemaName: row.schemaname }));
                 })
             }
         },
@@ -65,17 +79,32 @@ const RootQuery = new GraphQLObjectType({
                             id: data.id,
                             tableName: data.table_name
                         }
-                     });
+                    });
             }
         },
         destTables: {
             type: GraphQLList(DestTableType),
-            args: { schema: { type: GraphQLString }},
+            args: { schema: { type: GraphQLString } },
             resolve(parent, args) {
                 return db('dest_tables').withSchema(args.schema).then(data => {
                     let tables = data.map(row => ({ id: row.id, tableName: row.table_name }));
                     return tables;
                 })
+            }
+        },
+        destColumn: {
+            type: DestColumnType,
+            args: { schema: { type: GraphQLString }, id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return db('dest_columns').withSchema(args.schema)
+                    .where({ id: args.id }).first();
+            }
+        },
+        destColumns: {
+            type: GraphQLList(DestColumnType),
+            args: { schema: { type: GraphQLString } },
+            resolve(parent, args) {
+                return db('dest_columns').withSchema(args.schema);
             }
         }
     }
