@@ -15,7 +15,7 @@ const MappingTableList = (props) => {
     });
 
     return (
-        <div>teste
+        <div>
         <List selection>
             {mappedTables}
         </List>
