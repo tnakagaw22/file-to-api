@@ -3,14 +3,14 @@
 const db = require("../");
 
 const insertDestTableColumns = async (clientCode, tableName, columnDefs) => {
-    console.log(clientCode + "3333333333 " + tableName)
-    tableName = tableName + 2;
+    // console.log(clientCode + "3333333333 " + tableName)
+    // tableName = tableName + 2;
 
-    // let dup = await db(`${clientCode}.dest_tables`).where({ table_name: tableName });
+    let dup = await db(`${clientCode}.dest_tables`).where({ table_name: tableName });
 
-    // if (dup && dup.length > 0) {
-    //     throw `${tableName} already exists for client ${clientCode}`;
-    // }
+    if (dup && dup.length > 0) {
+        throw `${tableName} already exists for client ${clientCode}`;
+    }
 
     return db.transaction(async (trx) => {
         try {
