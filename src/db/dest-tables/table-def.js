@@ -3,39 +3,48 @@
 const db = require("../");
 
 const insertDestTableColumns = async (clientCode, tableName, columnDefs) => {
-    let dup = await db(`${clientCode}.dest_tables`).where({ table_name: tableName });
+    console.log(clientCode + "3333333333 " + tableName)
+    tableName = tableName + 2;
 
-    if (dup && dup.length > 0) {
-        throw `${tableName} already exists for client ${clientCode}`;
-    }
+    // let dup = await db(`${clientCode}.dest_tables`).where({ table_name: tableName });
 
-    return db.transaction((trx) => {
-        db(`${clientCode}.dest_tables`)
-            .insert({ table_name: tableName, published: true, valid: true })
-            .returning('id')
-            .transacting(trx)
-            .then(tableIds => {
+    // if (dup && dup.length > 0) {
+    //     throw `${tableName} already exists for client ${clientCode}`;
+    // }
 
-                let columnDefsToSave = columnDefs.map(columnDef => {
-                    return {
-                        table_id: tableIds[0],
-                        column_name: columnDef['columnName'],
-                        data_type: columnDef['dataType'],
-                        required: columnDef['required']
-                    }
-                });
-                return db(`${clientCode}.dest_columns`).insert(columnDefsToSave).transacting(trx);
-            })
-            .then(trx.commit)
-            .catch(trx.rollback)
-    })
-        .then(() => `${clientCode}.dest_tables and ${clientCode}.dest_columns have been created successfully`)
-        .catch(err => {
-            console.log(`failed to create ${clientCode}.dest_tables and ${clientCode}.dest_columns`);
-            throw err;
-        });
+    return db.transaction(async (trx) => {
+        try {
+            let tableIds = await db(`${clientCode}.dest_tables`)
+                .insert({ table_name: tableName, published: true, valid: true })
+                .returning('id')
+                .transacting(trx);
 
-}
+            let tableId = tableIds[0];
+            let savingColumnDefs = columnDefs.map(columnDef => {
+                return {
+                    table_id: tableId,
+                    column_name: columnDef['columnName'],
+                    data_type: columnDef['dataType'],
+                    required: columnDef['required']
+                }
+            });
+
+            await db(`${clientCode}.dest_columns`)
+                .insert(savingColumnDefs)
+                // .returning(tableIds[0])
+                .transacting(trx);
+
+            // trx.commit;
+            trx.rollback;
+
+            return { tableId, tableName };
+        } catch (error) {
+            trx.rollback;
+            console.log(error);
+            return error;
+        }
+    });
+};
 
 const getPublishedTableId = async (clientCode, tableName) => {
 
