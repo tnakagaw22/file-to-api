@@ -1,6 +1,6 @@
 import React from 'react';
 import gql from 'graphql-tag'
-import { useQuery } from '@apollo/react-hooks';
+import { useQuery, useMutation } from '@apollo/react-hooks';
 import { Query } from 'react-apollo'
 import { Grid, List } from 'semantic-ui-react';
 
@@ -11,9 +11,9 @@ import { setExistingTables, mapToDestTable, unmapFromDestTable } from '../existi
 
 const getExistingTable = gql`
 {
-    existingTables {
-        schemaName,
-        tableName
+    clientDatabaseTables {
+        schema,
+        name
   }
 }
 `;
@@ -22,31 +22,64 @@ const getDestTables = gql`
 {
     destTables (schema:"dev") {
         id,
-        tableName,
-        destColumns {
-          column_name
-        }
+        name,
+        schema
   }
 }
+`;
+
+const saveDestTable = gql`
+mutation ($schema: String!, $name: String!) {
+    saveToDestTable(schema: $schema, name: $name) {
+        source{
+            name,
+            schema
+          },
+          dest {
+            id,
+            name,
+            schema
+          }
+    }
+  } 
 `;
 
 const ExistingTableListPage = (props) => {
     const { loading: getExistingTableLoading, error: getExistingTableError, data: getExistingTableData } = useQuery(getExistingTable);
     const { loading: getDestTableLoading, error: getDestTableError, data: getDestTableData } = useQuery(getDestTables);
-
+    const [save, { loading, error }] = useMutation(saveDestTable, {
+        update(cache, { data }) {
+            const cacheDestTable = cache.readQuery({ query: getDestTables });
+            const cacheClientTable = cache.readQuery({ query: getExistingTable });
+            const newDestTables = cacheDestTable.destTables.push({ id: data.saveToDestTable.dest.id, name: data.saveToDestTable.dest.name })
+            const newClientTables = cacheClientTable.clientDatabaseTables.filter(cacheDestTable => {
+                return cacheDestTable.schema != data.saveToDestTable.source.schema && cacheDestTable.name != data.saveToDestTable.source.name
+            });
+            cache.writeQuery({
+                query: getExistingTable,
+                data: { clientDatabaseTables: newClientTables }
+            });
+            cache.writeQuery({
+                query: getDestTables,
+                data: { destTables: newDestTables }
+            });
+        }
+    })
     return (
         <ExistingTableStoreProvider>
 
+            {loading && <p>Loading...</p>}
+            {error && <p>Error...</p>}
             <Grid columns={2} divided>
                 <Grid.Row>
                     <Grid.Column>
-                        Existing tables
+                        Client database tables
                         {getExistingTableLoading && <p>Loading...</p>}
                         {getExistingTableError && <p>Error...</p>}
                         {getExistingTableData &&
                             <MappingTableList
-                                tables={getExistingTableData.existingTables}
-                                moveTable={mapToDestTable}
+                                tables={getExistingTableData.clientDatabaseTables}
+                                moveTable={save}
                             />}
 
                     </Grid.Column>
@@ -59,6 +92,8 @@ const ExistingTableListPage = (props) => {
                                 tables={getDestTableData.destTables}
                                 moveTable={unmapFromDestTable}
                             />}
+
+
                     </Grid.Column>
                 </Grid.Row>
             </Grid>

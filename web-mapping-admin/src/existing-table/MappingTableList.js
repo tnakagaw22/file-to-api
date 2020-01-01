@@ -5,12 +5,11 @@ const MappingTableList = (props) => {
 
     let mappedTables = props.tables.map(table => {
         return <List.Item
-            key={table.tableName}
+            key={`${table.schema}.${table.name}`}
             onClick={() => {
-                // props.moveTable(dispatch, table);
-                console.log(`clicked ${table.tableName}`);
+                props.moveTable({ variables: { schema: table.schema, name: table.name }});
             }}
-        >{table.tableName}
+        >{table.schema}.{table.name}
         </List.Item>
     });
 
