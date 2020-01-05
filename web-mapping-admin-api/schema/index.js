@@ -3,6 +3,7 @@ const {
     GraphQLObjectType,
     GraphQLString,
     GraphQLInt,
+    GraphQLBoolean,
     GraphQLSchema,
     GraphQLID,
     GraphQLList,
@@ -28,14 +29,17 @@ const DestTableType = new GraphQLObjectType({
     fields: () => ({
         id: { type: GraphQLInt },
         name: { type: GraphQLString },
-        schema: { type: GraphQLString }
-        // dest_columns: {
-        //     type: new GraphQLList(DestColumnType),
-        //     resolve(parent, args) {
-        //         return db('dest_columns').withSchema('dev')
-        //             .where({ table_id: parent.id });
-        //     }
-        // }
+        schema: { type: GraphQLString },
+        columns: {
+            type: new GraphQLList(DestColumnType),
+            resolve(parent, args) {
+                return db('dest_columns').withSchema(parent.schema)
+                    .where({ table_id: parent.id })
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, tableId: row.table_id, name: row.column_name, dataType: row.data_type, required: row.required }));
+                    })
+            }
+        }
     })
 });
 
@@ -43,8 +47,60 @@ const DestColumnType = new GraphQLObjectType({
     name: 'DestColumn',
     fields: () => ({
         id: { type: GraphQLInt },
-        table_id: { type: GraphQLInt },
-        column_name: { type: GraphQLString },
+        tableId: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        dataType: { type: GraphQLString },
+        required: { type: GraphQLBoolean }
+    })
+});
+
+const TemplateDefType = new GraphQLObjectType({
+    name: 'TemplateDef',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        name: { type: GraphQLString },
+        published: { type: GraphQLBoolean },
+        valid: { type: GraphQLBoolean },
+        columns: {
+            type: new GraphQLList(TemplateColumnType),
+            resolve(parent, args) {
+                console.log(JSON.stringify(parent))
+                return db('template_columns').withSchema(parent.schema)
+                    .where({ template_id: parent.id })
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, templateId: row.template_id, destColumnId: row.dest_column_id, mappingType: row.mapping_type, mappingValue: row.mapping_value }));
+                    })
+            }
+        }
+    })
+});
+const TemplateColumnType = new GraphQLObjectType({
+    name: 'TemplateColumn',
+    fields: () => ({
+        id: { type: GraphQLInt },
+        mappingType: { type: GraphQLString },
+        mappingValue: { type: GraphQLString },
+        templateDef: {
+            type: TemplateDefType,
+            resolve(parent, args) {
+                console.log(JSON.stringify(parent))
+                return db('template_defs').withSchema(parent.schema)
+                    .where({ id: parent.template_id }).first()
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, name: row.template_name, published: row.published, valid: row.valid }));
+                    });
+            }
+        },
+        destColumn: {
+            type: DestColumnType,
+            resolve(parent, args) {
+                return db('dest_columns').withSchema(parent.schema)
+                    .where({ id: parent.destColumnId }).first()
+                    .then(data => {
+                        return { id: data.id, tableId: data.table_id, name: data.column_name, dataType: data.data_type, required: data.required };
+                    })
+            }
+        }
     })
 });
 
@@ -73,7 +129,7 @@ const RootQuery = new GraphQLObjectType({
             type: GraphQLList(ClientDatabaseTableType),
             resolve(parent, args) {
                 return clientDb.getTables()
-                .then(data => data.map(d => ({schema: d.table_schema, name: d.table_name})));
+                    .then(data => data.map(d => ({ schema: d.table_schema, name: d.table_name })));
             }
         },
         destTable: {
@@ -97,9 +153,9 @@ const RootQuery = new GraphQLObjectType({
             args: { schema: { type: GraphQLString } },
             resolve(parent, args) {
                 return db('dest_tables').withSchema(args.schema)
-                .then(data => {
-                    return data.map(row => ({ id: row.id, name: row.table_name, schema: args.schema }));
-                })
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, name: row.table_name, schema: args.schema }));
+                    })
             }
         },
         destColumn: {
@@ -107,14 +163,64 @@ const RootQuery = new GraphQLObjectType({
             args: { schema: { type: GraphQLString }, id: { type: GraphQLID } },
             resolve(parent, args) {
                 return db('dest_columns').withSchema(args.schema)
-                    .where({ id: args.id }).first();
+                    .where({ id: args.id }).first()
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, tableId: row.table_id, name: row.column_name, dataType: row.data_type, required: row.required, schema: args.schema }));
+                    })
+
             }
         },
         destColumns: {
             type: GraphQLList(DestColumnType),
             args: { schema: { type: GraphQLString } },
             resolve(parent, args) {
-                return db('dest_columns').withSchema(args.schema);
+                return db('dest_columns').withSchema(args.schema)
+                    .where({ table_id: parent.id })
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, tableId: row.table_id, name: row.column_name, dataType: row.data_type, required: row.required, schema: args.schema }));
+                    })
+            }
+        },
+        templateDef: {
+            type: TemplateDefType,
+            args: { schema: { type: GraphQLString }, id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return db('template_defs').withSchema(args.schema)
+                    .where({ id: args.id }).first()
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, name: row.template_name, published: row.published, valid: row.valid, schema: args.schema }));
+                    });
+            }
+        },
+        templateDefs: {
+            type: GraphQLList(TemplateDefType),
+            args: { schema: { type: GraphQLString } },
+            resolve(parent, args) {
+                return db('template_defs').withSchema(args.schema)
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, name: row.template_name, published: row.published, valid: row.valid, schema: args.schema }));
+                    });
+            }
+        },
+        templateColumn: {
+            type: TemplateColumnType,
+            args: { schema: { type: GraphQLString }, id: { type: GraphQLID } },
+            resolve(parent, args) {
+                return db('template_columns').withSchema(args.schema)
+                    .where({ id: args.id }).first()
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, templateId: row.template_id, destColumnId: row.dest_column_id, mappingType: row.mapping_type, mappingValue: row.mapping_value, schema: args.schema }));
+                    })
+            }
+        },
+        templateColumns: {
+            type: GraphQLList(TemplateColumnType),
+            args: { schema: { type: GraphQLString } },
+            resolve(parent, args) {
+                return db('template_columns').withSchema(args.schema)
+                    .then(data => {
+                        return data.map(row => ({ id: row.id, templateId: row.template_id, destColumnId: row.dest_column_id, mappingType: row.mapping_type, mappingValue: row.mapping_value, schema: args.schema }));
+                    })
             }
         }
     }
