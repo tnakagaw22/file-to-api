@@ -1,0 +1,8 @@
+exports[`test DoubleClickEditCell snapshot 1`] = `
+<td
+  className=""
+  onBlur={[Function]}
+  onDoubleClick={[Function]}>
+  test1
+</td>
+`;
