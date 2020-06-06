@@ -16,6 +16,9 @@
   },
   "scripts": {
     "start": "./node_modules/.bin/serverless offline -s dev",
+    "start-admin-api": "nodemon web-mapping-admin-api/index",
+    "start-admin-web": "cd web-mapping-admin && npm run start",
+    "start-admin": "concurrently \"npm run start-admin-api\" \"npm run start-admin-web\"",
     "debug": "SET SLS_DEBUG=* && node --debug %USERPROFILE%\\AppData\\Roaming\\npm\\node_modules\\serverless\\bin\\serverless offline -s dev",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
