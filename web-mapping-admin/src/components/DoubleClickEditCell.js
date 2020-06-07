@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import PropTypes from 'prop-types';
+import PropTypes from "prop-types";
 import { Table, Input, Icon } from "semantic-ui-react";
 
 const DoubleClickEditCell = (props) => {
@@ -25,10 +25,8 @@ const DoubleClickEditCell = (props) => {
       {isEditable ? (
         <Input
           value={cellValue}
-          onChange={(e) => {
-            setCellValue(e.target.value);
-            console.log(e.target.value)}}
-          focus
+          onChange={(e) => { setCellValue(e.target.value) }}
+          autoFocus
         />
       ) : (
         cellValue
@@ -40,8 +38,8 @@ const DoubleClickEditCell = (props) => {
 };
 
 DoubleClickEditCell.propTypes = {
-    value: PropTypes.string,
-    onSave: PropTypes.func
-  };
+  value: PropTypes.string,
+  onSave: PropTypes.func,
+};
 
 export default DoubleClickEditCell;

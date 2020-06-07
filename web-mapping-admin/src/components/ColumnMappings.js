@@ -2,6 +2,8 @@ import React from 'react';
 import { Table, Icon } from 'semantic-ui-react';
 import { Link } from 'react-router-dom'
 
+import DoubleClickEditCell from './DoubleClickEditCell'
+
 const ColumnMappings = (props) => {
 
     let rows = props.columns.map((destColumn => {
@@ -18,8 +20,8 @@ const ColumnMappings = (props) => {
                 <Table.Cell>{destColumn.columnName}</Table.Cell>
                 <Table.Cell>{destColumn.dataType}</Table.Cell>
                 <Table.Cell>{requiredCell}</Table.Cell>
-                <Table.Cell></Table.Cell>
-                <Table.Cell></Table.Cell>
+                <Table.Cell>{destColumn.mappingType}</Table.Cell>
+                <DoubleClickEditCell value={destColumn.mappingValue} />
             </Table.Row>
         )
     }));
