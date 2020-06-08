@@ -35,6 +35,14 @@ class MappingDefinitionAPI extends DataSource {
       .where({ id })
       .first();
   }
+
+  async create(newMappingDef) {
+    console.log(newMappingDef)
+    return await db("mapping_definitions")
+      .withSchema(this.client)
+      .insert({srcFileName: newMappingDef.srcFileName, destTableName: newMappingDef.destTableName})
+      .returning("id");
+  }
 }
 
 module.exports = MappingDefinitionAPI;
