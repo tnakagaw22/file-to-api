@@ -1,10 +1,19 @@
 const { DataSource } = require("apollo-datasource");
 
+const db = require("../../../../src/db/");
+
 class MappingDefinitionAPI extends DataSource {
   //   constructor({ store }) {
   //     super();
   //     this.store = store;
   //   }
+
+  constructor() {
+    super();
+
+    const tempContext = this.context || {};
+    this.client = tempContext.client || "dev";
+  }
 
   /**
    * This is a function that gets called by ApolloServer when being setup.
@@ -17,28 +26,14 @@ class MappingDefinitionAPI extends DataSource {
   }
 
   async getMappingDefinitions() {
-    const defs = [
-      {
-        id: 1,
-        srcFileName: "OLR-12343",
-        destTableName: "listings",
-      },
-      {
-        id: 2,
-        srcFileName: "OLR-12343",
-        destTableName: "buildings",
-      },
-    ];
-
-    return defs;
+    return await db("mapping_definitions").withSchema(this.client);
   }
 
   async getMappingDefinition(id) {
-    return {
-      id: 2,
-      srcFileName: "OLR-12343",
-      destTableName: "buildings",
-    };
+    return await db("mapping_definitions")
+      .withSchema(this.client)
+      .where({ id })
+      .first();
   }
 }
 
