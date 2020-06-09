@@ -1,35 +1,11 @@
-import React, { Fragment } from 'react';
-// import styled from '@emotion/styled';
-
-// import { unit, colors } from '../styles';
-import '../App.css';
+import React, { Fragment } from "react";
+import Container from "@material-ui/core/Container";
 
 export default function PageContainer(props) {
   return (
     <Fragment>
       {/* <Bar /> */}
-      <div className="App">{props.children}</div>
+      <Container maxWidth="sm">{props.children}</Container>
     </Fragment>
   );
 }
-
-/**
- * STYLED COMPONENTS USED IN THIS FILE ARE BELOW HERE
- */
-
-// const Bar = styled('div')({
-//   flexShrink: 0,
-//   height: 12,
-//   backgroundColor: colors.primary,
-// });
-
-// const Container = styled('div')({
-//   display: 'flex',
-//   flexDirection: 'column',
-//   flexGrow: 1,
-//   width: '100%',
-//   maxWidth: 600,
-//   margin: '0 auto',
-//   padding: unit * 3,
-//   paddingBottom: unit * 5,
-// });

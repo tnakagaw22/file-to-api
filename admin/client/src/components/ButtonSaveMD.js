@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
+import { Button } from '@material-ui/core';
+
 
 const ButtonSaveMD = (props) => {
   const updateCache = (cache, { data }) => {
@@ -35,21 +37,19 @@ const ButtonSaveMD = (props) => {
 
   return (
     <div>
-      <button
-        type="submit"
-        onClick={() =>
-          createMappingDefinition({
-            variables: {
-              MappingDefinitionSaveInput: {
-                srcFileName: props.srcFileName,
-                destTableName: props.destTableName,
-              },
+      <Button variant="contained" color="primary"
+      onClick={() =>
+        createMappingDefinition({
+          variables: {
+            MappingDefinitionSaveInput: {
+              srcFileName: props.srcFileName,
+              destTableName: props.destTableName,
             },
-          })
-        }
-      >
-        Create new mapping def
-      </button>
+          },
+        })
+      }>
+  Create new mapping def
+</Button>
     </div>
   );
 };

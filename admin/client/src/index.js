@@ -5,10 +5,11 @@ import { ApolloProvider, useQuery } from '@apollo/react-hooks';
 import gql from "graphql-tag";
 import React from 'react';
 import ReactDOM from 'react-dom'; 
+import CssBaseline from '@material-ui/core/CssBaseline';
+import { ThemeProvider } from '@material-ui/core/styles';
 
 import Pages from './pages/Index';
-import './index.css';
-import injectStyles from './styles';
+import theme from './theme';
 
 const cache = new InMemoryCache();
 const link = new HttpLink({
@@ -25,10 +26,11 @@ const client = new ApolloClient({
   // resolvers
 });
 
-injectStyles();
 ReactDOM.render(
-  <ApolloProvider client={client}>
+  <ThemeProvider theme={theme}> <ApolloProvider client={client}>
+    <CssBaseline />
     <Pages />
-  </ApolloProvider>, 
+  </ApolloProvider>
+  </ThemeProvider>, 
   document.getElementById('root')
 );
