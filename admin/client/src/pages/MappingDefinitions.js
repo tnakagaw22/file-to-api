@@ -2,45 +2,18 @@ import React, { useState } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
+import ButtonSaveMD from "../components/ButtonSaveMD";
+
 const MappingDefinitions = (props) => {
   const [srcFileName, setSrcFileName] = useState("");
   const [destTableName, setDestTableName] = useState("");
 
-  const { loading, error, data: resGetMds } = useQuery(
-    GET_MAPPING_DEFINITIONS
-  );
-
-  const updateCache = (cache, { data }) => {
-    // Fetch the todos from the cache
-    const existings = cache.readQuery({
-      query: GET_MAPPING_DEFINITIONS,
-    });
-
-    // Add the new todo to the cache
-    const newMappingDefinition = data.createMappingDefinition.mappingDefinition;
-    cache.writeQuery({
-      query: GET_MAPPING_DEFINITIONS,
-      data: {
-        mappingDefinitions: [
-          ...existings.mappingDefinitions,
-          newMappingDefinition,
-        ],
-      },
-    });
-  };
+  const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
 
   const resetInputs = () => {
     setSrcFileName("");
     setDestTableName("");
   };
-
-  const [
-    createMappingDefinition,
-    { save_loading, save_error },
-  ] = useMutation(CREATE_MAPPING_DEFINITION, {
-    update: updateCache,
-    onCompleted: resetInputs,
-  });
 
   if (loading) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error.message}</p>;
@@ -65,18 +38,11 @@ const MappingDefinitions = (props) => {
         value={destTableName}
         onChange={(e) => setDestTableName(e.target.value)}
       />
-      <button
-        type="submit"
-        onClick={() =>
-          createMappingDefinition({
-            variables: {
-              MappingDefinitionSaveInput: { srcFileName, destTableName },
-            },
-          })
-        }
-      >
-        Create new mapping def
-      </button>
+      <ButtonSaveMD
+        srcFileName={srcFileName}
+        destTableName={destTableName}
+        resetInputs={resetInputs}
+      />
     </div>
   );
 };
@@ -89,20 +55,6 @@ const GET_MAPPING_DEFINITIONS = gql`
       id
       srcFileName
       destTableName
-    }
-  }
-`;
-
-const CREATE_MAPPING_DEFINITION = gql`
-  mutation createMappingDefinition(
-    $MappingDefinitionSaveInput: MappingDefinitionSaveInput!
-  ) {
-    createMappingDefinition(newMappingDef: $MappingDefinitionSaveInput) {
-      mappingDefinition {
-        id
-        srcFileName
-        destTableName
-      }
     }
   }
 `;
