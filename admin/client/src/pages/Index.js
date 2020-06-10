@@ -6,6 +6,7 @@ import Box from '@material-ui/core/Box';
 
 import MappingDefinition from './MappingDefinition';
 import MappingDefinitions from './MappingDefinitions';
+import NotFound from './NotFound';
 import Footer from '../components/Footer';
 // import { Footer, PageContainer } from '../components';
 
@@ -20,6 +21,7 @@ export default function Pages() {
           <MappingDefinitions path="/" />
           <MappingDefinitions path="mapping-definitions" />
           <MappingDefinition path="mapping-definition/:id" />
+          <NotFound default />
         </Router>
         <Footer/>
       </Box>
