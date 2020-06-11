@@ -4,52 +4,35 @@ import gql from "graphql-tag";
 import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 
-import ButtonSaveMD from "../components/ButtonSaveMD";
+import MappingDefinitionForm from "../components/MappingDefinitionForm";
 
-const useStyles = makeStyles((theme) => ({
-    root: {
-      '& > *': {
-        margin: theme.spacing(1),
-        width: '25ch',
-      },
-    },
-  }));
 const MappingDefinition = (props) => {
-  const [srcFileName, setSrcFileName] = useState("");
-  const [destTableName, setDestTableName] = useState("");
+  const { loading, error, data } = useQuery(GET_MAPPING_DEFINITION, {
+    variables: { mdId: props.id },
+  });
 
-  const classes = useStyles();
-
-  const resetInputs = () => {
-    setSrcFileName("");
-    setDestTableName("");
-  };
+  if (loading) return <h2>Loading...</h2>;
+  if (error) return <p>ERROR: {error.message}</p>;
+  if (!data && !data.mappingDefinition) return <p>Loading..</p>;
 
   return (
     <div>
-      test from mapping definition edit
-      <form className={classes.root} noValidate autoComplete="off">
-        <TextField
-          id="srcFileName"
-          label="Source"
-          value={srcFileName}
-          onChange={(e) => setSrcFileName(e.target.value)}
-        />
-        <TextField
-          id="destTableName"
-          label="Destination"
-          value={destTableName}
-          onChange={(e) => setDestTableName(e.target.value)}
-        />
-
-        <ButtonSaveMD
-          srcFileName={srcFileName}
-          destTableName={destTableName}
-          resetInputs={resetInputs}
-        />
-      </form>
+      <MappingDefinitionForm
+        data={data.mappingDefinition}
+        onSave={(md) => console.log("saving " + JSON.stringify(md))}
+      />
     </div>
   );
 };
 
 export default MappingDefinition;
+
+const GET_MAPPING_DEFINITION = gql`
+  query getMappingDefinition($mdId: ID!) {
+    mappingDefinition(id: $mdId) {
+      id
+      srcFileName
+      destTableName
+    }
+  }
+`;
