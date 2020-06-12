@@ -4,23 +4,22 @@ module.exports = {
       return dataSources.mappingDefinitionAPI.getMappingDefinitions();
     },
     mappingDefinition: async (_, { id }, { dataSources }) => {
+      console.log(id)
       return dataSources.mappingDefinitionAPI.getMappingDefinition(id);
     },
   },
   Mutation: {
-    createMappingDefinition: async (_, { newMappingDef }, { dataSources }) => {
-      const newId = await dataSources.mappingDefinitionAPI.create(
-        newMappingDef
-      );
-      const mappingDef = await dataSources.mappingDefinitionAPI.getMappingDefinition(
-        newId[0]
-      );
+    saveMappingDefinition: async (_, { mappingDefinition} , { dataSources}) => {
+      let id = await dataSources.mappingDefinitionAPI.save(mappingDefinition);
+      console.log(id)
+      const mappingDef = await dataSources.mappingDefinitionAPI.getMappingDefinition(id);
 
       return {
         success: true,
-        message: "successfully created",
+        message: "successfully saved",
         mappingDefinition: mappingDef,
       };
-    },
+
+    }
   },
 };

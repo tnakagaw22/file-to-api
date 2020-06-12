@@ -10,9 +10,10 @@ const MappingDefinition = (props) => {
     variables: { mdId: props.id },
   });
 
-  const [createMappingDefinition, { loading: loading_save, error: error_save }] = useMutation(
-    CREATE_MAPPING_DEFINITION
-  );
+  const [
+    saveMappingDefinition,
+    { loading: loading_save, error: error_save },
+  ] = useMutation(SAVE_MAPPING_DEFINITION);
 
   if (loading || loading_save) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error.message}</p>;
@@ -24,9 +25,10 @@ const MappingDefinition = (props) => {
       <MappingDefinitionForm
         data={data.mappingDefinition}
         onSave={(md) =>
-          createMappingDefinition({
+          saveMappingDefinition({
             variables: {
               MappingDefinitionSaveInput: {
+                id: props.id || null,
                 srcFileName: md.srcFileName,
                 destTableName: md.destTableName,
               },

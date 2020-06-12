@@ -16,6 +16,9 @@ const typeDefs = gql`
     createMappingDefinition(
       newMappingDef: MappingDefinitionSaveInput!
     ): MappingDefinitionSaveResponse!
+    saveMappingDefinition(
+      mappingDefinition: MappingDefinitionSaveInput!
+    ): MappingDefinitionSaveResponse!
   }
 
   type MappingDefinitionSaveResponse {
@@ -25,6 +28,7 @@ const typeDefs = gql`
   }
 
   input MappingDefinitionSaveInput {
+    id: ID
     srcFileName: String!
     destTableName: String!
   }

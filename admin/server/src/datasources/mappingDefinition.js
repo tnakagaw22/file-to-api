@@ -36,12 +36,24 @@ class MappingDefinitionAPI extends DataSource {
       .first();
   }
 
-  async create(newMappingDef) {
-    console.log(newMappingDef)
-    return await db("mapping_definitions")
-      .withSchema(this.client)
-      .insert({srcFileName: newMappingDef.srcFileName, destTableName: newMappingDef.destTableName})
-      .returning("id");
+  async save(mappingDef) {
+    const { srcFileName, destTableName } = mappingDef;
+    const savingFields = { srcFileName, destTableName };
+
+    if (mappingDef.id) {
+      await db("mapping_definitions")
+        .withSchema(this.client)
+        .where({ id: mappingDef.id })
+        .update(savingFields);
+      return mappingDef.id;
+    } else {
+      let newId = await db("mapping_definitions")
+        .withSchema(this.client)
+        .insert(savingFields)
+        .returning("id");
+
+      return newId[0];
+    }
   }
 }
 
