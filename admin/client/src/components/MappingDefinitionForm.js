@@ -6,8 +6,8 @@ import { Button } from "@material-ui/core";
 // import ButtonSaveMD from "../components/ButtonSaveMD";
 
 const MappingDefinitionForm = (props) => {
-  const [srcFileName, setSrcFileName] = useState(props.data.srcFileName);
-  const [destTableName, setDestTableName] = useState(props.data.destTableName);
+  const [srcFileName, setSrcFileName] = useState(props.data.srcFileName || '');
+  const [destTableName, setDestTableName] = useState(props.data.destTableName || '');
 
   return (
     <div>

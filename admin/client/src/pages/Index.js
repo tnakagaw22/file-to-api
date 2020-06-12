@@ -23,6 +23,7 @@ export default function Pages() {
             <MappingDefinitions path="/" />
             <MappingDefinitions path="mapping-definitions" />
             <MappingDefinition path="mapping-definition/:id" />
+            <MappingDefinition path="mapping-definition/" />
             <NotFound default />
           </Router>
           <Footer />

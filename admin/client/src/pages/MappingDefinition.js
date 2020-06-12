@@ -3,11 +3,11 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import MappingDefinitionForm from "../components/MappingDefinitionForm";
-import Error from '../components/Error';
+import Error from "../components/Error";
 
 const MappingDefinition = (props) => {
   const { loading, error, data } = useQuery(GET_MAPPING_DEFINITION, {
-    variables: { mdId: props.id },
+    variables: { mdId: props.id || 0 },
   });
 
   const [
@@ -18,7 +18,9 @@ const MappingDefinition = (props) => {
   if (loading || loading_save) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error.message}</p>;
 
-  if (!data && !data.mappingDefinition) return <p>Loading..</p>;
+  if (data && !data.mappingDefinition) {
+    data.mappingDefinition = {};
+  }
 
   return (
     <div>
@@ -37,9 +39,7 @@ const MappingDefinition = (props) => {
         }
       />
 
-      {error_save && (
-        <Error message="Error occurred when saving" />
-      )}
+      {error_save && <Error message="Error occurred when saving" />}
     </div>
   );
 };
@@ -56,11 +56,11 @@ const GET_MAPPING_DEFINITION = gql`
   }
 `;
 
-const CREATE_MAPPING_DEFINITION = gql`
-  mutation createMappingDefinition(
+const SAVE_MAPPING_DEFINITION = gql`
+  mutation saveMappingDefinition(
     $MappingDefinitionSaveInput: MappingDefinitionSaveInput!
   ) {
-    createMappingDefinition(newMappingDef: $MappingDefinitionSaveInput) {
+    saveMappingDefinition(mappingDefinition: $MappingDefinitionSaveInput) {
       mappingDefinition {
         id
         srcFileName
