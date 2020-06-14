@@ -4,6 +4,8 @@ exports.up = async function(knex) {
         t.increments('id').unsigned().primary();
         t.string('srcFileName', 200).notNull();
         t.string('destTableName', 200).notNull();
+        t.json('fieldMappings').nullable();
+        
         t.unique(['srcFileName', 'destTableName']);
     });
 };
