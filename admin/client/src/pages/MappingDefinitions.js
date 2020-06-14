@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState, useEffect } from "react";
 import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 import { Link } from "@reach/router";
@@ -13,11 +13,35 @@ import EditIcon from "@material-ui/icons/Edit";
 import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
-const MappingDefinitions = (props) => {
-  const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
+import { GlobalContext } from "../context/GlobalContext";
+import { loadMappingDefinitions } from "../context/api";
 
-  if (loading) return <h2>Loading...</h2>;
-  if (error) return <p>ERROR: {error.message}</p>;
+const MappingDefinitions = (props) => {
+  // const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
+  // const { mappingsDefinitions } = useContext(GlobalContext);
+  const [mappingsDefinitions, setMappingsDefinitions] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [error, setError] = useState("");
+
+  useEffect(() => {
+    const fetchData = async () => {
+      setError("");
+      setIsLoading(true);
+
+      try {
+        const result = await loadMappingDefinitions();
+        setMappingsDefinitions(result);
+      } catch (error) {
+        setError(error || "Error occurred");
+      }
+
+      setIsLoading(false);
+    };
+
+    fetchData();
+  }, []);
+  // if (loading) return <h2>Loading...</h2>;
+  // if (error) return <p>ERROR: {error.message}</p>;
 
   return (
     <div>
@@ -38,7 +62,7 @@ const MappingDefinitions = (props) => {
             </TableRow>
           </TableHead>
           <TableBody>
-            {resGetMds.mappingDefinitions.map((def) => (
+            {mappingsDefinitions.map((def) => (
               <TableRow key={def.id}>
                 {/* <TableCell component="th" scope="row">
                 {row.name}
@@ -58,18 +82,21 @@ const MappingDefinitions = (props) => {
           </TableBody>
         </Table>
       </TableContainer>
+
+      {isLoading && <div>Loading...</div>}
+      {error && <div>{error}</div>}
     </div>
   );
 };
 
 export default MappingDefinitions;
 
-const GET_MAPPING_DEFINITIONS = gql`
-  query {
-    mappingDefinitions {
-      id
-      srcFileName
-      destTableName
-    }
-  }
-`;
+// const GET_MAPPING_DEFINITIONS = gql`
+//   query {
+//     mappingDefinitions {
+//       id
+//       srcFileName
+//       destTableName
+//     }
+//   }
+// `;
