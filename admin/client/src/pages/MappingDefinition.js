@@ -3,6 +3,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import MappingDefinitionForm from "../components/MappingDefinitionForm";
+import FieldMapping from "../components/FieldMapping";
 import Error from "../components/Error";
 
 const MappingDefinition = (props) => {
@@ -38,6 +39,8 @@ const MappingDefinition = (props) => {
           })
         }
       />
+
+      <FieldMapping />
 
       {error_save && <Error message="Error occurred when saving" />}
     </div>
