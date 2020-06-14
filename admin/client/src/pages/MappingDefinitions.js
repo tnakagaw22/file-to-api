@@ -15,33 +15,12 @@ import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { GlobalContext } from "../context/GlobalContext";
 import { loadMappingDefinitions } from "../context/api";
+import useFetch from "../hooks/useFetch"
 
 const MappingDefinitions = (props) => {
   // const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
   // const { mappingsDefinitions } = useContext(GlobalContext);
-  const [mappingsDefinitions, setMappingsDefinitions] = useState([]);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
-
-  useEffect(() => {
-    const fetchData = async () => {
-      setError("");
-      setIsLoading(true);
-
-      try {
-        const result = await loadMappingDefinitions();
-        setMappingsDefinitions(result);
-      } catch (error) {
-        setError(error || "Error occurred");
-      }
-
-      setIsLoading(false);
-    };
-
-    fetchData();
-  }, []);
-  // if (loading) return <h2>Loading...</h2>;
-  // if (error) return <p>ERROR: {error.message}</p>;
+  const [mappingsDefinitions, isLoading, error] = useFetch(loadMappingDefinitions);
 
   return (
     <div>
