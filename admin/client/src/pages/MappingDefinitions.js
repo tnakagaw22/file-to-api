@@ -14,13 +14,13 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { GlobalContext } from "../context/GlobalContext";
-import { loadMappingDefinitions } from "../context/api";
+import { getMappingDefinitions } from "../context/api";
 import useFetch from "../hooks/useFetch"
 
 const MappingDefinitions = (props) => {
   // const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
   // const { mappingsDefinitions } = useContext(GlobalContext);
-  const [mappingsDefinitions, isLoading, error] = useFetch(loadMappingDefinitions);
+  const [mappingsDefinitions, isLoading, error] = useFetch(getMappingDefinitions);
 
   return (
     <div>
