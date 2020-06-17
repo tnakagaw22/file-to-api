@@ -16,9 +16,6 @@ export default function Pages() {
       <AppBarTop />
       <Container maxWidth="md">
         <Box my={4}>
-          <Typography variant="h4" component="h1" gutterBottom>
-            Create React App v4-beta example
-          </Typography>
           <Router primary={false} component={Fragment}>
             <MappingDefinitions path="/" />
             <MappingDefinitions path="mapping-definitions" />

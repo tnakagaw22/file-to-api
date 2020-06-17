@@ -41,9 +41,10 @@ export default function AppBarTop() {
             >
               <MenuIcon />
             </IconButton>
-            <Typography variant="h6" className={classes.title}>
+            
+            <Typography variant="h4" component="h1" className={classes.title}>
               <Link className={classes.menu} to="/mapping-definitions">
-                Mapping
+              Mappit
               </Link>
             </Typography>
             <Button color="inherit">Login</Button>
