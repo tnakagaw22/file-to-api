@@ -27,7 +27,8 @@ const MappingDefinition = (props) => {
         }
       />
 
-      <FieldMapping />
+      <FieldMapping
+      fieldMappings={mappingsDefinition.fieldMappings || []} />
 
       {/* {error_save && <Error message="Error occurred when saving" />} */}
     </div>

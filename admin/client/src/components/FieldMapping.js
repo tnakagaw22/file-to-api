@@ -10,7 +10,9 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
-FieldMapping.propTypes = {};
+FieldMapping.propTypes = {
+  fieldMappings: PropTypes.array
+};
 
 const columns = [
   { id: "desteFieldName", label: "Dest Field", minWidth: 170 },
@@ -78,22 +80,21 @@ function FieldMapping(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {rows.map((row) => {
+            {props.fieldMappings.map((fieldMapping) => {
               return (
-                <TableRow hover role="checkbox" tabIndex={-1} key={row.code}>
-                  {columns.map((column) => {
-                    const value = row[column.id];
-                    console.log(row);
-                    console.log(column.id);
-                    console.log(value);
-                    return (
-                      <TableCell key={column.id} align={column.align}>
-                        {column.format && (typeof value === "number" || typeof value === "boolean")
-                          ? column.format(value)
-                          : value}
+                <TableRow hover >
+                      <TableCell>
+                        {fieldMapping.destFieldName}
                       </TableCell>
-                    );
-                  })}
+                      <TableCell>
+                        {fieldMapping.destFieldName}
+                      </TableCell>
+                      <TableCell>
+                        {fieldMapping.destFieldName}
+                      </TableCell>
+                      <TableCell>
+                        {fieldMapping.value}
+                      </TableCell>
                 </TableRow>
               );
             })}
