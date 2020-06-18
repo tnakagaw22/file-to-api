@@ -1,0 +1,13 @@
+{
+  "name": "admin",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start-api": "cd server && npm run start",
+    "start-ui": "cd client && npm run start",
+    "start": "concurrently \"npm run start-api\" \"npm run start-ui\""
+  },
+  "author": "",
+  "license": "ISC"
+}

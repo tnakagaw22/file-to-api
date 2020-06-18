@@ -1,6 +1,8 @@
 
 exports.seed = async knex => {
   // Deletes ALL existing entries
+  await knex('dev.template_columns').del();
+  await knex('dev.template_defs').del();
   await knex('dev.dest_columns').del();
   await knex('dev.dest_tables').del();
 
