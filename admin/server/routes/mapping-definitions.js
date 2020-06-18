@@ -1,35 +1,22 @@
 const express = require("express");
 const router = express.Router();
 
-const MappingDefinitionDatastore = require('../datasources/mappingDefinitions');
-const mappings = [
-  {
-    id: 1,
-    srcFileName: "OLR-OneKeyMls",
-    destTableName: "listings",
-    fieldMappings:
-      '[{"destFieldName": "ListingKey", "mappingType": "Column", "value" : "listingKey"},{"destFieldName": "Status", "mappingType": "Column", "value" : "status"}]',
-  },
-  {
-    id: 2,
-    srcFileName: "OLR-OneKeyMls",
-    destTableName: "buildings",
-    fieldMappings: null,
-  },
-];
+const {
+  getMappingDefinitions,
+  getMappingDefinition,
+  saveMappingDefinition,
+} = require("../datasources/mappingDefinitions");
 
 router.get("/", async (req, res) => {
-  const datastore = new MappingDefinitionDatastore();
   // for (const key in req.query) {
   //     console.log(key, req.query[key])
   //   }
-  const mappings = await datastore.getMappingDefinitions();
+  const mappings = await getMappingDefinitions(getClient(req));
   res.json(mappings);
 });
 
 router.get("/:id", async (req, res) => {
-  const datastore = new MappingDefinitionDatastore();
-  const mapping = await datastore.getMappingDefinition((req.params.id));
+  const mapping = await getMappingDefinition(getClient(req), req.params.id);
 
   if (mapping) {
     // mappings.fieldMappings = JSON.parse(mappings.fieldMappings);
@@ -41,9 +28,8 @@ router.get("/:id", async (req, res) => {
   }
 });
 
-router.post("/", (req, res) => {
+router.post("/", async (req, res) => {
   const newMapping = {
-    id: mappings.length + 1,
     srcFileName: req.body.srcFileName,
     destTableName: req.body.destTableName,
   };
@@ -54,29 +40,29 @@ router.post("/", (req, res) => {
       .json({ msg: "Please include a srcFileName and destTableName" });
   }
 
-  mappings.push(newMapping);
+  await saveMappingDefinition(getClient(req), newMapping);
   res.json(mappings);
 });
 
-router.put("/:id", (req, res) => {
-  const found = mappings.some(
-    (mapping) => mapping.id === parseInt(req.params.id)
-  );
+router.put("/:id", async (req, res) => {
+  const clientCode = getClient(req);
+  const existingMapping = await getMappingDefinition(clientCode, req.params.id);
 
-  if (found) {
+  if (existingMapping) {
     const updMapping = req.body;
-    mappings.forEach((mapping) => {
-      if (mapping.id === parseInt(req.params.id)) {
-        mapping.srcFileName = updMapping.srcFileName
-          ? updMapping.srcFileName
-          : mapping.srcFileName;
-        mapping.destTableName = updMapping.destTableName
-          ? updMapping.destTableName
-          : mapping.destTableName;
 
-        res.json({ msg: "Mapping updated", mapping });
-      }
-    });
+    existingMapping.srcFileName = updMapping.srcFileName
+      ? updMapping.srcFileName
+      : existingMapping.srcFileName;
+    existingMapping.destTableName = updMapping.destTableName
+      ? updMapping.destTableName
+      : existingMapping.destTableName;
+    // existingMapping.fieldMappings = updMapping.fieldMappings
+    // ? updMapping.fieldMappings
+    // : existingMapping.fieldMappings;
+
+    await saveMappingDefinition(clientCode, existingMapping);
+    res.json({ msg: "Mapping updated", existingMapping });
   } else {
     res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });
   }
@@ -98,5 +84,9 @@ router.delete("/:id", (req, res) => {
     res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });
   }
 });
+
+const getClient = (req) => {
+  return req.headers["clientCode"] || "dev";
+};
 
 module.exports = router;
