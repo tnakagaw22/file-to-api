@@ -19,12 +19,14 @@ import useFetch from "../hooks/useFetch"
 
 const MappingDefinitions = (props) => {
   // const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
-  // const { mappingsDefinitions } = useContext(GlobalContext);
+  const { showToaster } = useContext(GlobalContext);
   const [mappingsDefinitions, setMappingsDefinitions, isLoading, error] = useFetch(getMappingDefinitions);
 
   const onclickDelete = async (id) => {
-    await deleteMappingDefinition(id);
+    showToaster();
+    // await deleteMappingDefinition(id);
     setMappingsDefinitions(mappingsDefinitions.filter(m => m.id !== id));
+
   }
 
   return (
