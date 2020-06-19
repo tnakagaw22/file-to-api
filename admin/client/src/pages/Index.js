@@ -9,7 +9,7 @@ import MappingDefinition from "./MappingDefinition";
 import MappingDefinitions from "./MappingDefinitions";
 import NotFound from "./NotFound";
 import Footer from "../components/Footer";
-import Toaster from "../components/Toaster";
+import Notification from "../components/Notification";
 
 export default function Pages() {
   return (
@@ -26,7 +26,7 @@ export default function Pages() {
           </Router>
           <Footer />
         </Box>
-        <Toaster />
+        <Notification />
       </Container>
     </Fragment>
   );

@@ -3,7 +3,8 @@ import AppReducer from "./AppReducer";
 
 // Initial state
 const initialState = {
-  isToasterVisible: false,
+  isNotificationVisible: false,
+  notificationMessage: ''
 };
 
 // Create context
@@ -14,24 +15,31 @@ export const GlobalProvider = ({ children }) => {
   const [state, dispatch] = useReducer(AppReducer, initialState);
 
   // Actions
-  function showToaster() {
+  function showNotification(message) {
     dispatch({
-      type: "SHOW_TOASTER",
-      payload: true,
+      type: "SHOW_NOTIFICATION",
+      payload: {
+        visible: true,
+        message
+      },
     });
     setTimeout(() => {
       dispatch({
-        type: "SHOW_TOASTER",
-        payload: false,
-      });
-    }, 3000);
+        type: "SHOW_NOTIFICATION",
+        payload: {
+          visible: false,
+          message: ''
+        },
+        });
+    }, 2000);
   }
 
   return (
     <GlobalContext.Provider
       value={{
-        isToasterVisible: state.isToasterVisible,
-        showToaster,
+        isNotificationVisible: state.isNotificationVisible,
+        notificationMessage: state.notificationMessage,
+        showNotification,
       }}
     >
       {children}

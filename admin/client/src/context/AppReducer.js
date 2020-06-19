@@ -17,10 +17,11 @@ export default (state, action) => {
     //     ...state,
     //     mappingsDefinitions: [action.payload, ...state.mappingsDefinitions],
     //   };
-    case "SHOW_TOASTER":
+    case "SHOW_NOTIFICATION":
       return {
         ...state,
-        isToasterVisible: action.payload
+        isNotificationVisible: action.payload.visible,
+        notificationMessage: action.payload.message
       }
     default:
       return state;

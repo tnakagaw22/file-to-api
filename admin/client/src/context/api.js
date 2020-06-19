@@ -5,7 +5,7 @@ const getMappingDefinitions = async () => {
   let res = await axios.get(`http://localhost:5000/api/mapping-definitions/`);
 
   return res.data;
-}
+};
 
 const getMappingDefinition = async (id) => {
   let res = await axios.get(
@@ -13,20 +13,23 @@ const getMappingDefinition = async (id) => {
   );
 
   return res.data;
-}
+};
 
 const saveMappingDefinition = async (mappingDefinition) => {
-  if (mappingDefinition.id)
-    return await axios.put(
+  if (mappingDefinition.id) {
+    const res = await axios.put(
       `http://localhost:5000/api/mapping-definitions/${mappingDefinition.id}`,
       mappingDefinition
     );
-  else
-    return await axios.post(
+    return res.data;
+  } else {
+    const res = await axios.post(
       `http://localhost:5000/api/mapping-definitions/`,
       mappingDefinition
     );
-}
+    return res.data;
+  }
+};
 
 const deleteMappingDefinition = async (id) => {
   let res = await axios.delete(
@@ -34,16 +37,15 @@ const deleteMappingDefinition = async (id) => {
   );
 
   // return res.data;
-}
-
+};
 
 const stall = async (stallTime = 3000) => {
   await new Promise((resolve) => setTimeout(resolve, stallTime));
-}
+};
 
 module.exports = {
   getMappingDefinitions,
   getMappingDefinition,
   saveMappingDefinition,
-  deleteMappingDefinition
-}
+  deleteMappingDefinition,
+};
