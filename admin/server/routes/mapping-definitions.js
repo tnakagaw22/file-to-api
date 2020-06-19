@@ -16,6 +16,10 @@ router.get("/", async (req, res) => {
 });
 
 router.get("/:id", async (req, res) => {
+  if (req.params.id == 0) {
+    res.json({});
+    return;
+  }
   const mapping = await getMappingDefinition(getClient(req), req.params.id);
 
   if (mapping) {

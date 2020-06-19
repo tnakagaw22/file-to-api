@@ -9,8 +9,7 @@ import useFetch from "../hooks/useFetch";
 import { getMappingDefinition, saveMappingDefinition } from "../context/api";
 
 const MappingDefinition = (props) => {
-  const [mappingsDefinition, isLoading, error] = useFetch(getMappingDefinition, props.id);
-
+  const [mappingsDefinition, isLoading, error] = useFetch(getMappingDefinition, props.id || 0);
   if (isLoading) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error}</p>;
 
