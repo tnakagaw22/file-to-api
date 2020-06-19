@@ -28,6 +28,15 @@ const saveMappingDefinition = async (mappingDefinition) => {
     );
 }
 
+const deleteMappingDefinition = async (id) => {
+  let res = await axios.delete(
+    `http://localhost:5000/api/mapping-definitions/${id}`
+  );
+
+  // return res.data;
+}
+
+
 const stall = async (stallTime = 3000) => {
   await new Promise((resolve) => setTimeout(resolve, stallTime));
 }
@@ -35,5 +44,6 @@ const stall = async (stallTime = 3000) => {
 module.exports = {
   getMappingDefinitions,
   getMappingDefinition,
-  saveMappingDefinition
+  saveMappingDefinition,
+  deleteMappingDefinition
 }

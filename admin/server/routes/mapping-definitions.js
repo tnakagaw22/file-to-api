@@ -5,6 +5,7 @@ const {
   getMappingDefinitions,
   getMappingDefinition,
   saveMappingDefinition,
+  deleteMappingDefinition
 } = require("../datasources/mappingDefinitions");
 
 router.get("/", async (req, res) => {
@@ -44,8 +45,8 @@ router.post("/", async (req, res) => {
       .json({ msg: "Please include a srcFileName and destTableName" });
   }
 
-  await saveMappingDefinition(getClient(req), newMapping);
-  res.json(mappings);
+  const id = await saveMappingDefinition(getClient(req), newMapping);
+  res.json({...newMapping, id});
 });
 
 router.put("/:id", async (req, res) => {
@@ -72,17 +73,14 @@ router.put("/:id", async (req, res) => {
   }
 });
 
-router.delete("/:id", (req, res) => {
-  const found = mappings.some(
-    (mapping) => mapping.id === parseInt(req.params.id)
-  );
+router.delete("/:id", async (req, res) => {
+  const clientCode = getClient(req);
+  const existingMapping = await getMappingDefinition(clientCode, req.params.id);
 
-  if (found) {
+  if (existingMapping) {
+    await deleteMappingDefinition(clientCode, req.params.id)
     res.json({
-      msg: "Mapping deleted",
-      members: mappings.filter(
-        (mapping) => mapping.id !== parseInt(req.params.id)
-      ),
+      msg: "Mapping deleted"
     });
   } else {
     res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });

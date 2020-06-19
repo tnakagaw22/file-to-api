@@ -14,13 +14,18 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { GlobalContext } from "../context/GlobalContext";
-import { getMappingDefinitions } from "../context/api";
+import { getMappingDefinitions, deleteMappingDefinition } from "../context/api";
 import useFetch from "../hooks/useFetch"
 
 const MappingDefinitions = (props) => {
   // const { loading, error, data: resGetMds } = useQuery(GET_MAPPING_DEFINITIONS);
   // const { mappingsDefinitions } = useContext(GlobalContext);
-  const [mappingsDefinitions, isLoading, error] = useFetch(getMappingDefinitions);
+  const [mappingsDefinitions, setMappingsDefinitions, isLoading, error] = useFetch(getMappingDefinitions);
+
+  const onclickDelete = async (id) => {
+    await deleteMappingDefinition(id);
+    setMappingsDefinitions(mappingsDefinitions.filter(m => m.id !== id));
+  }
 
   return (
     <div>
@@ -54,7 +59,7 @@ const MappingDefinitions = (props) => {
                 <TableCell>{def.srcFileName}</TableCell>
                 <TableCell>{def.destTableName}</TableCell>
                 <TableCell>
-                  <DeleteIcon />
+                  <DeleteIcon onClick={() => onclickDelete(def.id)} />
                 </TableCell>
               </TableRow>
             ))}
