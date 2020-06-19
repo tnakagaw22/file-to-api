@@ -26,7 +26,7 @@ const useFetch = (callApi, param = {}, initialData = []) => {
       fetchData();
     }, []);
    
-    return [ data, isLoading, error];
+    return [ data, setData, isLoading, error];
   };
 
 
