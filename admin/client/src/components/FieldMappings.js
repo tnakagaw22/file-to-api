@@ -13,7 +13,7 @@ import TableRow from "@material-ui/core/TableRow";
 import DoubleClickEditCell from "./DoubleClickEditCell";
 import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 
-FieldMapping.propTypes = {
+FieldMappings.propTypes = {
   fieldMappings: PropTypes.array,
 };
 
@@ -26,7 +26,7 @@ const useStyles = makeStyles({
   },
 });
 
-function FieldMapping(props) {
+function FieldMappings(props) {
   const classes = useStyles();
 
   const onChangeSrcField = (newValue, updatingFieldMapping) => {
@@ -69,4 +69,4 @@ function FieldMapping(props) {
   );
 }
 
-export default FieldMapping;
+export default FieldMappings;

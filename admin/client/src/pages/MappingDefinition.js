@@ -4,7 +4,7 @@ import { useQuery, useMutation } from "@apollo/react-hooks";
 import gql from "graphql-tag";
 
 import MappingDefinitionForm from "../components/MappingDefinitionForm";
-import FieldMapping from "../components/FieldMapping";
+import FieldMappings from "../components/FieldMappings";
 import Error from "../components/Error";
 import useFetch from "../hooks/useFetch";
 import { getMappingDefinition, saveMappingDefinition } from "../context/api";
@@ -58,7 +58,7 @@ const MappingDefinition = (props) => {
         onSave={onSave}
       />
 
-      <FieldMapping
+      <FieldMappings
         fieldMappings={mappingDefinition.fieldMappings || []}
         onChange={onChangeFieldMappings}
       />
