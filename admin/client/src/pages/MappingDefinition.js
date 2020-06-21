@@ -30,9 +30,15 @@ const MappingDefinition = (props) => {
   const onAddFieldMapping = () => {
     const { destFieldName, destRequired, value } = {};
     const { srcFileName, destTableName } = mappingDefinition;
-    const fieldMappings = mappingDefinition.fieldMappings;
+    const fieldMappings = mappingDefinition.fieldMappings || [];
     fieldMappings.push({ destFieldName, destRequired, value });
 
+    setMappingDefinition({ srcFileName, destTableName, fieldMappings });
+  };
+
+  const onDeleteFieldMapping = (updatedFieldMappings) => {
+    const { srcFileName, destTableName } = mappingDefinition;
+    const fieldMappings = updatedFieldMappings;
     setMappingDefinition({ srcFileName, destTableName, fieldMappings });
   };
 
@@ -57,7 +63,7 @@ const MappingDefinition = (props) => {
       navigate(`/mapping-definition/${savedMapping.id}`);
     }
   };
-  
+
   return (
     <div>
       <MappingDefinitionForm
@@ -70,6 +76,7 @@ const MappingDefinition = (props) => {
         fieldMappings={mappingDefinition.fieldMappings || []}
         onChange={onChangeFieldMapping}
         onAdd={onAddFieldMapping}
+        onDelete={onDeleteFieldMapping}
       />
 
       {/* {error_save && <Error message="Error occurred when saving" />} */}

@@ -10,7 +10,7 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
-import { IconButton } from "@material-ui/core";
+import { IconButton, Tab } from "@material-ui/core";
 
 import FieldMapping from "./FieldMapping";
 
@@ -40,6 +40,14 @@ function FieldMappings(props) {
     props.onChange(fieldMappings);
   };
 
+  const onDeleteFieldMapping = (deletedIndex) => {
+    const fieldMappings = props.fieldMappings.filter(
+      (fm, i) => i !== deletedIndex
+    );
+
+    props.onDelete(fieldMappings);
+  };
+
   return (
     <Paper className={classes.root}>
       <div>
@@ -55,6 +63,7 @@ function FieldMappings(props) {
               <TableCell>Dest Type</TableCell>
               <TableCell>Dest Requried</TableCell>
               <TableCell>Src Field</TableCell>
+              <TableCell></TableCell>
             </TableRow>
           </TableHead>
           <TableBody>
@@ -68,6 +77,7 @@ function FieldMappings(props) {
                   onChange={(updatedFieldMapping) =>
                     onChangeFieldMapping(i, updatedFieldMapping)
                   }
+                  onDelete={() => onDeleteFieldMapping(i)}
                 />
               );
             })}
