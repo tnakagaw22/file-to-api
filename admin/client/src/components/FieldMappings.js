@@ -11,6 +11,7 @@ import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
 import DoubleClickEditCell from "./DoubleClickEditCell";
+import FieldMapping from "./FieldMapping";
 import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 
 FieldMappings.propTypes = {
@@ -29,8 +30,8 @@ const useStyles = makeStyles({
 function FieldMappings(props) {
   const classes = useStyles();
 
-  const onChangeSrcField = (newValue, updatingFieldMapping) => {
-    const updatedFieldMapping = { ...updatingFieldMapping, value: newValue };
+  const onChangeSrcField = (updatedFieldMapping) => {
+    // const updatedFieldMapping = { ...updatingFieldMapping, value: newValue };
     props.onChange(updatedFieldMapping);
   };
 
@@ -47,19 +48,15 @@ function FieldMappings(props) {
             </TableRow>
           </TableHead>
           <TableBody>
-            {props.fieldMappings.map((fieldMapping) => {
+            {props.fieldMappings.map((fieldMapping, i) => {
               return (
-                <TableRow hover>
-                  <TableCell>{fieldMapping.destFieldName}</TableCell>
-                  <TableCell>{fieldMapping.destFieldName}</TableCell>
-                  <TableCell>{fieldMapping.destFieldName}</TableCell>
-                  <DoubleClickEditCell
-                    value={fieldMapping.value}
-                    onChange={(newValue) =>
-                      onChangeSrcField(newValue, fieldMapping)
-                    }
-                  />
-                </TableRow>
+                <FieldMapping
+                  key={fieldMapping.destRequired + i}
+                  destFieldName={fieldMapping.destFieldName}
+                  destRequired={fieldMapping.destRequired}
+                  value={fieldMapping.value}
+                  onChange={onChangeSrcField}
+                />
               );
             })}
           </TableBody>
