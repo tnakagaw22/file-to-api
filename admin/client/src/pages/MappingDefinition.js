@@ -19,13 +19,20 @@ const MappingDefinition = (props) => {
   if (isLoading) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error}</p>;
 
-  const onChangeFieldMappings = (updatedFieldMapping) => {
+  const onChangeFieldMapping = (updatedFieldMappings) => {
+    setMappingDefinition({
+      srcFileName: mappingDefinition.srcFileName,
+      destTableName: mappingDefinition.destTableName,
+      fieldMappings: updatedFieldMappings,
+    });
+  };
+
+  const onAddFieldMapping = () => {
+    const { destFieldName, destRequired, value } = {};
     const { srcFileName, destTableName } = mappingDefinition;
-    const fieldMappings = mappingDefinition.fieldMappings.map((fm) =>
-      fm.destFieldName === updatedFieldMapping.destFieldName
-        ? updatedFieldMapping
-        : fm
-    );
+    const fieldMappings = mappingDefinition.fieldMappings;
+    fieldMappings.push({ destFieldName, destRequired, value });
+
     setMappingDefinition({ srcFileName, destTableName, fieldMappings });
   };
 
@@ -50,6 +57,7 @@ const MappingDefinition = (props) => {
       navigate(`/mapping-definition/${savedMapping.id}`);
     }
   };
+  
   return (
     <div>
       <MappingDefinitionForm
@@ -60,7 +68,8 @@ const MappingDefinition = (props) => {
 
       <FieldMappings
         fieldMappings={mappingDefinition.fieldMappings || []}
-        onChange={onChangeFieldMappings}
+        onChange={onChangeFieldMapping}
+        onAdd={onAddFieldMapping}
       />
 
       {/* {error_save && <Error message="Error occurred when saving" />} */}

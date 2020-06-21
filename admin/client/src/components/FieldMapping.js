@@ -17,26 +17,29 @@ FieldMappings.propTypes = {
 function FieldMappings(props) {
   //   const fieldMapping = {props.destFieldName,
 
-  const onChangeSrcField = (newValue) => {
+  const onChangeCell = (fieldName, newValue) => {
     const updatedFieldMapping = {
-      destFieldName: props.destFieldName,
+      destFieldName: fieldName === 'destFieldName' ? newValue: props.destFieldName,
       destType: props.destFieldName,
       destRequired: props.destRequired,
-      value: newValue,
+      value: fieldName === 'value' ? newValue: props.value,
     };
     props.onChange(updatedFieldMapping);
   };
 
   return (
     <TableRow hover>
-      <TableCell>{props.destFieldName}</TableCell>
+      <DoubleClickEditCell
+        value={props.destFieldName}
+        onChange={(newValue) => onChangeCell('destFieldName', newValue)}
+      />
       <TableCell>{props.destFieldName}</TableCell>
       <TableCell>
         <Checkbox checked={props.destRequired} />
       </TableCell>
       <DoubleClickEditCell
         value={props.value}
-        onChange={(newValue) => onChangeSrcField(newValue)}
+        onChange={(newValue) => onChangeCell('value', newValue)}
       />
     </TableRow>
   );

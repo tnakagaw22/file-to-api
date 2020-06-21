@@ -9,13 +9,15 @@ import TableCell from "@material-ui/core/TableCell";
 import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
+import { IconButton } from "@material-ui/core";
 
-import DoubleClickEditCell from "./DoubleClickEditCell";
 import FieldMapping from "./FieldMapping";
-import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
 
 FieldMappings.propTypes = {
   fieldMappings: PropTypes.array,
+  onChange: PropTypes.func,
+  onAdd: PropTypes.func,
 };
 
 const useStyles = makeStyles({
@@ -30,13 +32,21 @@ const useStyles = makeStyles({
 function FieldMappings(props) {
   const classes = useStyles();
 
-  const onChangeSrcField = (updatedFieldMapping) => {
-    // const updatedFieldMapping = { ...updatingFieldMapping, value: newValue };
-    props.onChange(updatedFieldMapping);
+  const onChangeFieldMapping = (updatedIndex, updatedFieldMapping) => {
+    const fieldMappings = props.fieldMappings.map((fm, i) =>
+      i === updatedIndex ? updatedFieldMapping : fm
+    );
+
+    props.onChange(fieldMappings);
   };
 
   return (
     <Paper className={classes.root}>
+      <div>
+        <IconButton aria-label="add" onClick={props.onAdd}>
+          <AddCircleIcon primary />
+        </IconButton>
+      </div>
       <TableContainer className={classes.container}>
         <Table stickyHeader aria-label="sticky table">
           <TableHead>
@@ -55,7 +65,9 @@ function FieldMappings(props) {
                   destFieldName={fieldMapping.destFieldName}
                   destRequired={fieldMapping.destRequired}
                   value={fieldMapping.value}
-                  onChange={onChangeSrcField}
+                  onChange={(updatedFieldMapping) =>
+                    onChangeFieldMapping(i, updatedFieldMapping)
+                  }
                 />
               );
             })}
