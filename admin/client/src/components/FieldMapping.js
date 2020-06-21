@@ -10,50 +10,12 @@ import TableContainer from "@material-ui/core/TableContainer";
 import TableHead from "@material-ui/core/TableHead";
 import TableRow from "@material-ui/core/TableRow";
 
+import DoubleClickEditCell from "./DoubleClickEditCell";
+import { fieldsConflictMessage } from "graphql/validation/rules/OverlappingFieldsCanBeMerged";
+
 FieldMapping.propTypes = {
-  fieldMappings: PropTypes.array
+  fieldMappings: PropTypes.array,
 };
-
-const columns = [
-  { id: "desteFieldName", label: "Dest Field", minWidth: 170 },
-  { id: "destFieldType", label: "Dest Type", minWidth: 100 },
-  {
-    id: "destRequired",
-    label: "Required",
-    minWidth: 100,
-    format: (value) => <input type="checkbox" value />
-  },
-  {
-    id: "srcFieldName",
-    label: "srcFieldName",
-    minWidth: 170,
-  },
-  // {
-  //   id: "size",
-  //   label: "Size\u00a0(km\u00b2)",
-  //   minWidth: 170,
-  //   align: "right",
-  //   format: (value) => value.toLocaleString("en-US"),
-  // },
-  // {
-  //   id: "density",
-  //   label: "Density",
-  //   minWidth: 170,
-  //   align: "right",
-  //   format: (value) => value.toFixed(2),
-  // },
-];
-
-function createData(desteFieldName, destFieldType, destRequired, srcFieldName) {
-  return { desteFieldName, destFieldType, destRequired, srcFieldName };
-}
-
-const rows = [
-  createData("ListingKey", "vnarchar(50)", true, "listingKey"),
-  createData("Status", "vnarchar(50)", true, "status"),
-  createData("Price", "decimal", true, "rent"),
-  createData("BuiltYear", "int", false, "year"),
-];
 
 const useStyles = makeStyles({
   root: {
@@ -66,6 +28,11 @@ const useStyles = makeStyles({
 
 function FieldMapping(props) {
   const classes = useStyles();
+
+  const onChangeSrcField = (newValue, updatingFieldMapping) => {
+    const updatedFieldMapping = { ...updatingFieldMapping, value: newValue };
+    props.onChange(updatedFieldMapping);
+  };
 
   return (
     <Paper className={classes.root}>
@@ -82,19 +49,16 @@ function FieldMapping(props) {
           <TableBody>
             {props.fieldMappings.map((fieldMapping) => {
               return (
-                <TableRow hover >
-                      <TableCell>
-                        {fieldMapping.destFieldName}
-                      </TableCell>
-                      <TableCell>
-                        {fieldMapping.destFieldName}
-                      </TableCell>
-                      <TableCell>
-                        {fieldMapping.destFieldName}
-                      </TableCell>
-                      <TableCell>
-                        {fieldMapping.value}
-                      </TableCell>
+                <TableRow hover>
+                  <TableCell>{fieldMapping.destFieldName}</TableCell>
+                  <TableCell>{fieldMapping.destFieldName}</TableCell>
+                  <TableCell>{fieldMapping.destFieldName}</TableCell>
+                  <DoubleClickEditCell
+                    value={fieldMapping.value}
+                    onChange={(newValue) =>
+                      onChangeSrcField(newValue, fieldMapping)
+                    }
+                  />
                 </TableRow>
               );
             })}

@@ -5,7 +5,7 @@ const {
   getMappingDefinitions,
   getMappingDefinition,
   saveMappingDefinition,
-  deleteMappingDefinition
+  deleteMappingDefinition,
 } = require("../datasources/mappingDefinitions");
 
 router.get("/", async (req, res) => {
@@ -46,7 +46,7 @@ router.post("/", async (req, res) => {
   }
 
   const id = await saveMappingDefinition(getClient(req), newMapping);
-  res.json({...newMapping, id});
+  res.json({ ...newMapping, id });
 });
 
 router.put("/:id", async (req, res) => {
@@ -62,9 +62,9 @@ router.put("/:id", async (req, res) => {
     existingMapping.destTableName = updMapping.destTableName
       ? updMapping.destTableName
       : existingMapping.destTableName;
-    // existingMapping.fieldMappings = updMapping.fieldMappings
-    // ? updMapping.fieldMappings
-    // : existingMapping.fieldMappings;
+    existingMapping.fieldMappings = updMapping.fieldMappings
+      ? updMapping.fieldMappings
+      : existingMapping.fieldMappings;
 
     await saveMappingDefinition(clientCode, existingMapping);
     res.json({ msg: "Mapping updated", existingMapping });
@@ -78,9 +78,9 @@ router.delete("/:id", async (req, res) => {
   const existingMapping = await getMappingDefinition(clientCode, req.params.id);
 
   if (existingMapping) {
-    await deleteMappingDefinition(clientCode, req.params.id)
+    await deleteMappingDefinition(clientCode, req.params.id);
     res.json({
-      msg: "Mapping deleted"
+      msg: "Mapping deleted",
     });
   } else {
     res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });

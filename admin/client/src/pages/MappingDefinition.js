@@ -19,26 +19,49 @@ const MappingDefinition = (props) => {
   if (isLoading) return <h2>Loading...</h2>;
   if (error) return <p>ERROR: {error}</p>;
 
+  const onChangeFieldMappings = (updatedFieldMapping) => {
+    const { srcFileName, destTableName } = mappingDefinition;
+    const fieldMappings = mappingDefinition.fieldMappings.map((fm) =>
+      fm.destFieldName === updatedFieldMapping.destFieldName
+        ? updatedFieldMapping
+        : fm
+    );
+    setMappingDefinition({ srcFileName, destTableName, fieldMappings });
+  };
+
+  const onChangeMappingDefinition = (updatedMd) => {
+    const { srcFileName, destTableName } = updatedMd;
+    const fieldMappings = mappingDefinition.fieldMappings;
+    setMappingDefinition({ srcFileName, destTableName, fieldMappings });
+  };
+
+  const onSave = async (md) => {
+    const { srcFileName, destTableName, fieldMappings } = mappingDefinition;
+    let savedMapping = await saveMappingDefinition({
+      id: props.id || null,
+      srcFileName,
+      destTableName,
+      fieldMappings,
+    });
+    if (props.id) {
+      showNotification(`Mappping ${props.id} has been saved`);
+    } else {
+      showNotification(`Mappping ${savedMapping.id} has been added`);
+      navigate(`/mapping-definition/${savedMapping.id}`);
+    }
+  };
   return (
     <div>
       <MappingDefinitionForm
         data={mappingDefinition}
-        onSave={async (md) => {
-          let savedMapping = await saveMappingDefinition({
-            id: props.id || null,
-            srcFileName: md.srcFileName,
-            destTableName: md.destTableName,
-          });
-          if (props.id) {
-            showNotification(`Mappping ${props.id} has been saved`);
-          } else {
-            showNotification(`Mappping ${savedMapping.id} has been added`);
-            navigate(`/mapping-definition/${savedMapping.id}`);
-          }
-        }}
+        onChange={onChangeMappingDefinition}
+        onSave={onSave}
       />
 
-      <FieldMapping fieldMappings={mappingDefinition.fieldMappings || []} />
+      <FieldMapping
+        fieldMappings={mappingDefinition.fieldMappings || []}
+        onChange={onChangeFieldMappings}
+      />
 
       {/* {error_save && <Error message="Error occurred when saving" />} */}
     </div>

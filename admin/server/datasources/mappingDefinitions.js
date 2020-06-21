@@ -18,8 +18,8 @@ const getMappingDefinition = async (clientCode, id) => {
 };
 
 const saveMappingDefinition = async (clientCode, mappingDef) => {
-  const { srcFileName, destTableName } = mappingDef;
-  const savingFields = { srcFileName, destTableName };
+  const { srcFileName, destTableName, fieldMappings } = mappingDef;
+  const savingFields = { srcFileName, destTableName, fieldMappings:{ data:  fieldMappings }};
 
   if (mappingDef.id) {
     await db("mapping_definitions")
