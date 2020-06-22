@@ -39,6 +39,10 @@ const deleteMappingDefinition = async (id) => {
   // return res.data;
 };
 
+const uploadFile = async (formData) => {
+  await axios.post(`http://localhost:5000/api/upload`, formData);
+}
+
 const stall = async (stallTime = 3000) => {
   await new Promise((resolve) => setTimeout(resolve, stallTime));
 };
@@ -48,4 +52,5 @@ module.exports = {
   getMappingDefinition,
   saveMappingDefinition,
   deleteMappingDefinition,
+  uploadFile
 };

@@ -32,7 +32,6 @@ const MappingDefinitions = (props) => {
 
   return (
     <div>
-      test from mapping definitions
       <div>
         <Link to={`/mapping-definition/`}>
           <AddCircleIcon />
@@ -71,7 +70,7 @@ const MappingDefinitions = (props) => {
       </TableContainer>
 
       {isLoading && <div>Loading...</div>}
-      {error && <div>{error}</div>}
+      {error && <div>Error</div>}
     </div>
   );
 };
