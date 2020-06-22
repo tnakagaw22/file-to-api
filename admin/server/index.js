@@ -17,6 +17,7 @@ app.use(logger);
 
 // API Routes
 app.use('/api/mapping-definitions', require('./routes/mapping-definitions'));
+app.use('/api/upload', require('./routes/upload'));
 
 const PORT = process.env.PORT || 5000;
 
