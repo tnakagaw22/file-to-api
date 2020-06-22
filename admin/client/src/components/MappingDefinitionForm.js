@@ -2,7 +2,7 @@ import React, { useState } from "react";
 // import { makeStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import { Button } from "@material-ui/core";
-
+import Grid from "@material-ui/core/Grid";
 // import ButtonSaveMD from "../components/ButtonSaveMD";
 
 const MappingDefinitionForm = (props) => {
@@ -11,26 +11,28 @@ const MappingDefinitionForm = (props) => {
 
   return (
     <div>
-      test from mapping definition edit
-      <form noValidate autoComplete="off">
-        <TextField
-          id="srcFileName"
-          label="Source"
-          value={srcFileName}
-          onChange={(e) =>
-            props.onChange({ srcFileName: e.target.value, destTableName })
-          }
-        />
-        <TextField
-          id="destTableName"
-          label="Destination"
-          value={destTableName}
-          onChange={(e) =>
-            props.onChange({ srcFileName, destTableName: e.target.value })
-          }
-        />
-
-        <div>
+      <Grid container spacing={3}>
+        <Grid item xs={4}>
+          <TextField
+            id="srcFileName"
+            label="Source"
+            value={srcFileName}
+            onChange={(e) =>
+              props.onChange({ srcFileName: e.target.value, destTableName })
+            }
+          />
+        </Grid>
+        <Grid item xs={4}>
+          <TextField
+            id="destTableName"
+            label="Destination"
+            value={destTableName}
+            onChange={(e) =>
+              props.onChange({ srcFileName, destTableName: e.target.value })
+            }
+          />
+        </Grid>
+        <Grid item xs={4}>
           <Button
             variant="contained"
             color="primary"
@@ -38,8 +40,8 @@ const MappingDefinitionForm = (props) => {
           >
             Save
           </Button>
-        </div>
-      </form>
+        </Grid>
+      </Grid>
     </div>
   );
 };
