@@ -47,6 +47,12 @@ export default function AppBarTop() {
               Mappit
               </Link>
             </Typography>
+                        
+            <Typography variant="h6" component="h6" className={classes.title}>
+              <Link className={classes.menu} to="/upload">
+              Upload
+              </Link>
+            </Typography>
             <Button color="inherit">Login</Button>
           </Toolbar>
         </Container>
