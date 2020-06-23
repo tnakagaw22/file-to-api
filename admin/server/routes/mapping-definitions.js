@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 
+const { getClient } = require("./headerHelper");
 const {
   getMappingDefinitions,
   getMappingDefinition,
@@ -86,9 +87,5 @@ router.delete("/:id", async (req, res) => {
     res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });
   }
 });
-
-const getClient = (req) => {
-  return req.headers["clientCode"] || "dev";
-};
 
 module.exports = router;
