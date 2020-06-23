@@ -101,3 +101,6 @@ bld/
 msbuild.log
 msbuild.err
 msbuild.wrn
+
+#uploaded-files
+admin/server/uploaded-files/
