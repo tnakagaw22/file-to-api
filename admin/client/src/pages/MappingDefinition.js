@@ -5,9 +5,14 @@ import gql from "graphql-tag";
 
 import MappingDefinitionForm from "../components/MappingDefinitionForm";
 import FieldMappings from "../components/FieldMappings";
+import Upload from "../components/Upload";
 import Error from "../components/Error";
 import useFetch from "../hooks/useFetch";
-import { getMappingDefinition, saveMappingDefinition } from "../context/api";
+import {
+  getMappingDefinition,
+  saveMappingDefinition,
+  uploadFile,
+} from "../context/api";
 import { GlobalContext } from "../context/GlobalContext";
 
 const MappingDefinition = (props) => {
@@ -79,6 +84,7 @@ const MappingDefinition = (props) => {
         onDelete={onDeleteFieldMapping}
       />
 
+      <Upload onDrop={(formData) => uploadFile(props.id, formData)} />
       {/* {error_save && <Error message="Error occurred when saving" />} */}
     </div>
   );
