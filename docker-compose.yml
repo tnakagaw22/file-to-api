@@ -1,0 +1,22 @@
+version: '3'
+
+services:
+  admin:
+    build:
+      context: ./admin/server/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks: 
+      - nodeapp-network
+
+  redis:
+    image: redis:alpine
+    ports:
+     - "6379:6379"
+    networks: 
+      - nodeapp-network
+    
+networks:
+  nodeapp-network:
+    driver: bridge
