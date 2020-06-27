@@ -3,7 +3,7 @@ const router = express.Router();
 const Busboy = require("busboy");
 
 const { getClient } = require("./headerHelper");
-const { saveFileToDisk } = require("../datasources/fileUploadDs");
+const { saveFileToDisk, addToQueue } = require("../datasources/fileUploadDs");
 const { getMappingDefinition } = require("../datasources/mappingDefinitions");
 
 router.post("/:id", async (req, res) => {
@@ -22,6 +22,7 @@ router.post("/:id", async (req, res) => {
       console.log("File [" + fieldname + "] Finished");
     });
     saveFileToDisk(file, filename);
+    addToQueue(filename)
   });
   busboy.on("finish", function () {
     res.writeHead(200, {
