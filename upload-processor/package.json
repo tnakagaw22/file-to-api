@@ -9,6 +9,9 @@
   "author": "",
   "license": "ISC",
   "dependencies": {
-    "bull": "^3.14.0"
+    "bull": "^3.14.0",
+    "knex": "^0.21.1",
+    "mssql": "^6.2.0",
+    "winston": "^3.3.3"
   }
 }
