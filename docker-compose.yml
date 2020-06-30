@@ -1,12 +1,22 @@
 version: '3'
 
 services:
-  admin:
+  # admin:
+  #   build:
+  #     context: ./admin/server/
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - "3000:3000"
+  #   networks: 
+  #     - nodeapp-network
+
+  upload-processor:
     build:
-      context: ./admin/server/
+      context: ./upload-processor
       dockerfile: Dockerfile
     ports:
-      - "3000:3000"
+      - "8080:8080"
+    command: [ "pm2-runtime", "start", "npm", "--", "start" ]
     networks: 
       - nodeapp-network
 

@@ -4,7 +4,11 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "node index.js",
+    "dev": "nodemon index",
+    "docker:build": "docker build -t upload-processor .",
+    "docker:run": "docker rm upload-processor & docker run -p 8080:8080 --name upload-processor -d upload-processor",
+    "docker:it": "docker exec -it upload-processor bash"
   },
   "author": "",
   "license": "ISC",
