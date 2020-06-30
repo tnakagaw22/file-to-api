@@ -1,0 +1,21 @@
+{
+  "name": "upload-processor",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "dev": "nodemon index",
+    "docker:build": "docker build -t upload-processor .",
+    "docker:run": "docker rm upload-processor & docker run -p 8080:8080 --name upload-processor -d upload-processor",
+    "docker:it": "docker exec -it upload-processor bash"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "bull": "^3.14.0",
+    "knex": "^0.21.1",
+    "mssql": "^6.2.0",
+    "winston": "^3.3.3"
+  }
+}
