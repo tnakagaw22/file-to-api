@@ -1,4 +1,4 @@
-version: '3'
+version: '3.2'
 
 services:
   # admin:
@@ -27,6 +27,22 @@ services:
     networks: 
       - nodeapp-network
     
+  db:
+    image: "mcr.microsoft.com/mssql/server"
+    environment:
+        SA_PASSWORD: "P@22word"
+        ACCEPT_EULA: "Y"
+    ports:
+      - "1433:1433"
+    volumes:
+      - type: volume
+        source: dbdata
+        target: /var/opt/mssql
+    
 networks:
   nodeapp-network:
     driver: bridge
+
+volumes:
+  dbdata:
+    driver: local
