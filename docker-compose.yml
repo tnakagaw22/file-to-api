@@ -14,9 +14,16 @@ services:
     build:
       context: ./upload-processor
       dockerfile: Dockerfile
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - NODE_ENV=development
+      - PORT=8080
     ports:
       - "8080:8080"
-    command: [ "pm2-runtime", "start", "npm", "--", "start" ]
+    # command: [ "pm2-runtime", "start", "npm", "--", "start" ]
+    working_dir: /root/upload-processor
+    volumes:
+      - ./upload-processor:/root/upload-processor:cached # <--- This will map ./upload-processor to /root/upload-processor inside the container.
     networks: 
       - nodeapp-network
 
