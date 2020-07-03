@@ -15,7 +15,7 @@ const saveFileToDisk = (file, fileName) => {
 
 const addToQueue = (data) => {
     console.log('adding to queue')
-    mappingQueue.add({video: 'http://example.com/video1.mov'});
+    mappingQueue.add(data);
     console.log('added to queue')
 }
 

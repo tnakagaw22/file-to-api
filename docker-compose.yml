@@ -1,14 +1,21 @@
 version: '3.2'
 
 services:
-  # admin:
-  #   build:
-  #     context: ./admin/server/
-  #     dockerfile: Dockerfile
-  #   ports:
-  #     - "3000:3000"
-  #   networks: 
-  #     - nodeapp-network
+  admin-server:
+    build:
+      context: ./admin/server/
+      dockerfile: Dockerfile
+    command: sh -c "npm install && npm run dev"
+    environment:
+      - NODE_ENV=development
+      - PORT=3000
+    ports:
+      - "3000:3000"
+    working_dir: /root/admin-server
+    volumes:
+      - ./admin/server:/root/admin-server:cached # <--- This will map ./upload-processor to /root/upload-processor inside the container.
+    networks: 
+      - nodeapp-network
 
   upload-processor:
     build:
@@ -33,7 +40,22 @@ services:
      - "6379:6379"
     networks: 
       - nodeapp-network
-    
+
+  # postgres:
+  #   image: postgres
+  #   environment:
+  #     - POSTGRES_DB=file-to-api
+  #     - POSTGRES_USER=postgres
+  #     - POSTGRES_PASSWORD=postgres
+  #   ports:
+  #     - "5432:5432"
+  #   volumes:
+  #     - type: volume
+  #       source: postgres-data
+  #       target: /var/lib/postgresql/data
+  #   networks: 
+  #     - nodeapp-network
+
   db:
     image: "mcr.microsoft.com/mssql/server"
     environment:
@@ -53,3 +75,8 @@ networks:
 volumes:
   dbdata:
     driver: local
+  postgres-data:
+    driver: local
+    # filedata:
+  #   driver: local
+      
