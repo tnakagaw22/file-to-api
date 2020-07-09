@@ -4,10 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node index",
+    "start": "node index.js",
     "dev": "nodemon index",
-    "docker:build": "docker build -t admin-api .",
-    "docker:run": "docker run -p 5001:5000 -d admin-api"
+    "docker:build": "docker build -t admin-server .",
+    "docker:run": "docker rm admin-server & docker run -p 5000:5000 --name admin-server -d admin-server"
   },
   "author": "",
   "license": "ISC",
@@ -16,8 +16,16 @@
     "busboy": "^0.3.1",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "express-async-handler": "^1.1.4",
     "fs": "0.0.1-security",
+    "http-errors": "^1.8.0",
+    "knex": "^0.21.1",
     "moment": "^2.24.0",
-    "path": "^0.12.7"
+    "path": "^0.12.7",
+    "pg": "^8.2.1",
+    "winston": "^3.3.3"
+  },
+  "devDependencies": {
+    "nodemon": "^2.0.4"
   }
 }

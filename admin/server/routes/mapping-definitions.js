@@ -1,5 +1,7 @@
 const express = require("express");
 const router = express.Router();
+const asyncHandler = require('express-async-handler')
+const createError = require('http-errors')
 
 const { getClient } = require("./headerHelper");
 const {
@@ -9,15 +11,15 @@ const {
   deleteMappingDefinition,
 } = require("../datasources/mappingDefinitions");
 
-router.get("/", async (req, res) => {
+router.get("/", asyncHandler(async (req, res, next) => {
   // for (const key in req.query) {
   //     console.log(key, req.query[key])
   //   }
   const mappings = await getMappingDefinitions(getClient(req));
   res.json(mappings);
-});
+}));
 
-router.get("/:id", async (req, res) => {
+router.get("/:id", asyncHandler(async (req, res) => {
   if (req.params.id == 0) {
     res.json({});
     return;
@@ -28,29 +30,25 @@ router.get("/:id", async (req, res) => {
     // mappings.fieldMappings = JSON.parse(mappings.fieldMappings);
     res.json(mapping);
   } else {
-    res
-      .status(400)
-      .json({ msg: `No mapping definition with the id of ${req.params.id}` });
+    throw createError(400, `No mapping definition with the id of ${req.params.id}`)
   }
-});
+}));
 
-router.post("/", async (req, res) => {
+router.post("/", asyncHandler(async (req, res) => {
   const newMapping = {
     srcFileName: req.body.srcFileName,
     destTableName: req.body.destTableName,
   };
 
   if (!newMapping.srcFileName || !newMapping.destTableName) {
-    return res
-      .status(400)
-      .json({ msg: "Please include a srcFileName and destTableName" });
+    throw createError(400, `Please include a srcFileName and destTableName`)
   }
 
   const id = await saveMappingDefinition(getClient(req), newMapping);
   res.json({ ...newMapping, id });
-});
+}));
 
-router.put("/:id", async (req, res) => {
+router.put("/:id", asyncHandler(async (req, res) => {
   const clientCode = getClient(req);
   const existingMapping = await getMappingDefinition(clientCode, req.params.id);
 
@@ -70,11 +68,11 @@ router.put("/:id", async (req, res) => {
     await saveMappingDefinition(clientCode, existingMapping);
     res.json({ msg: "Mapping updated", existingMapping });
   } else {
-    res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });
+    throw createError(400, `No mapping with the id of ${req.params.id}`)
   }
-});
+}));
 
-router.delete("/:id", async (req, res) => {
+router.delete("/:id", asyncHandler(async (req, res) => {
   const clientCode = getClient(req);
   const existingMapping = await getMappingDefinition(clientCode, req.params.id);
 
@@ -84,8 +82,8 @@ router.delete("/:id", async (req, res) => {
       msg: "Mapping deleted",
     });
   } else {
-    res.status(400).json({ msg: `No mapping with the id of ${req.params.id}` });
+    throw createError(400, `No mapping with the id of ${req.params.id}`)
   }
-});
+}));
 
 module.exports = router;

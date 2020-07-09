@@ -1,6 +1,7 @@
 const express = require('express');
 const cors = require('cors')
-const logger = require('./middleware/logger');
+const { logger } = require('./middleware/logger');
+const { errorLogger } = require('./middleware/errorLogger');
 
 const app = express();
 
@@ -12,12 +13,13 @@ var corsOptions = {
     optionsSuccessStatus: 200 // some legacy browsers (IE11, various SmartTVs) choke on 204
   }
 app.use(cors(corsOptions))
-
 app.use(logger);
 
 // API Routes
 app.use('/api/mapping-definitions', require('./routes/mapping-definitions'));
 app.use('/api/upload', require('./routes/upload'));
+
+app.use(errorLogger);
 
 const PORT = process.env.PORT || 5000;
 
