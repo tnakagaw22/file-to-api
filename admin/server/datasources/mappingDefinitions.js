@@ -1,4 +1,4 @@
-const db = require("../../../src/db");
+const db = require("./index");
 
 const getMappingDefinitions = async (clientCode) => {
   return await db("mapping_definitions").withSchema(clientCode);

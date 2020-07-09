@@ -1,6 +1,6 @@
 module.exports = {
-    port: 5432,
-    host: 'localhost',
+    port: 5433,
+    host: 'host.docker.internal',
     database: 'file-to-api',
     user: 'postgres',
     password: 'postgres',

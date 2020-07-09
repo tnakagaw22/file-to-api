@@ -1,13 +1,15 @@
 FROM node:10
 
-# Create app directory
-WORKDIR /usr/src/app
+ENV NODE_ENV=development
+ENV PORT=5000
 
-# Install app dependencies
-COPY package*.json ./
+COPY . /var/www
+WORKDIR /var/www
+
 RUN npm install
 
-# Bundle app source
-COPY . .
+# VOLUME [ "/var/www" ]
 
-CMD [ "npm", "start" ]
+EXPOSE $PORT
+
+ENTRYPOINT [ "npm", "start" ]
