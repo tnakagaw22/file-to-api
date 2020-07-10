@@ -11,6 +11,36 @@ const {
   deleteMappingDefinition,
 } = require("../datasources/mappingDefinitions");
 
+
+/**
+ * @swagger
+ * definitions:
+ *   mapping-definition:
+ *     properties:
+ *       srcFileName:
+ *         type: string
+ *       destTableName:
+ *         type: string
+ *       fieldMappings:
+ *         type: array
+ */
+
+
+/**
+ * @swagger
+ * /api/mapping-definitions:
+ *   get:
+ *     tags:
+ *       - mapping-definitions
+ *     description: Returns all mapping-definitions
+ *     produces:
+ *       - application/json
+ *     responses:
+ *       200:
+ *         description: An array of mapping-definitions
+ *         schema:
+ *           $ref: '#/definitions/mapping-definition'
+ */
 router.get("/", asyncHandler(async (req, res, next) => {
   // for (const key in req.query) {
   //     console.log(key, req.query[key])
@@ -19,6 +49,27 @@ router.get("/", asyncHandler(async (req, res, next) => {
   res.json(mappings);
 }));
 
+/**
+ * @swagger
+ * /api/mapping-definitions/{id}:
+ *   get:
+ *     tags:
+ *       - mapping-definitions
+ *     description: Returns a single mapping-definition
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: mapping-definition's id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: A single mapping-definition
+ *         schema:
+ *           $ref: '#/definitions/mapping-definition'
+ */
 router.get("/:id", asyncHandler(async (req, res) => {
   if (req.params.id == 0) {
     res.json({});
@@ -34,6 +85,26 @@ router.get("/:id", asyncHandler(async (req, res) => {
   }
 }));
 
+/**
+ * @swagger
+ * /api/mapping-definitions:
+ *   post:
+ *     tags:
+ *       - mapping-definitions
+ *     description: Creates a new mapping-definition
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: mapping-definition
+ *         description: mapping-definition object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/mapping-definition'
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ */
 router.post("/", asyncHandler(async (req, res) => {
   const newMapping = {
     srcFileName: req.body.srcFileName,
@@ -48,6 +119,26 @@ router.post("/", asyncHandler(async (req, res) => {
   res.json({ ...newMapping, id });
 }));
 
+/**
+ * @swagger
+ * /api/mapping-definitions:
+ *   put:
+ *     tags:
+ *       - mapping-definitions
+ *     description: Updates a new mapping-definition
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: mapping-definition
+ *         description: mapping-definition object
+ *         in: body
+ *         required: true
+ *         schema:
+ *           $ref: '#/definitions/mapping-definition'
+ *     responses:
+ *       200:
+ *         description: Successfully created
+ */
 router.put("/:id", asyncHandler(async (req, res) => {
   const clientCode = getClient(req);
   const existingMapping = await getMappingDefinition(clientCode, req.params.id);
@@ -72,6 +163,25 @@ router.put("/:id", asyncHandler(async (req, res) => {
   }
 }));
 
+/**
+ * @swagger
+ * /api/mapping-definitions/{id}:
+ *   delete:
+ *     tags:
+ *       - mapping-definitions
+ *     description: Deletes a single mapping-definition
+ *     produces:
+ *       - application/json
+ *     parameters:
+ *       - name: id
+ *         description: mapping-definition's id
+ *         in: path
+ *         required: true
+ *         type: integer
+ *     responses:
+ *       200:
+ *         description: Successfully deleted
+ */
 router.delete("/:id", asyncHandler(async (req, res) => {
   const clientCode = getClient(req);
   const existingMapping = await getMappingDefinition(clientCode, req.params.id);
