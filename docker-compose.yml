@@ -1,6 +1,15 @@
 version: '3.2'
 
 services:
+  admin-client:
+    build:
+      context: ./admin/client/
+      dockerfile: Dockerfile
+    ports:
+      - "3000:3000"
+    networks: 
+      - nodeapp-network
+
   admin-server:
     build:
       context: ./admin/server/
@@ -9,14 +18,14 @@ services:
     # environment:
     #   - NODE_ENV=development
     #   - PORT=5000
-    # ports:
-    #   - "5000:5000"
+    ports:
+      - "5000:5000"
     # working_dir: /root/admin-server
     # volumes:
     #   - ./admin/server:/root/admin-server:cached # <--- This will map ./upload-processor to /root/upload-processor inside the container.
     networks: 
       - nodeapp-network
-
+    
   upload-processor:
     build:
       context: ./upload-processor
