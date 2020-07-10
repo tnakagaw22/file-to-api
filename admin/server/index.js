@@ -1,5 +1,8 @@
 const express = require('express');
 const cors = require('cors')
+const swaggerUi = require('swagger-ui-express')
+
+const { swaggerSpec } = require('./swaggerSpec')
 const { logger } = require('./middleware/logger');
 const { errorLogger } = require('./middleware/errorLogger');
 
@@ -18,6 +21,14 @@ app.use(logger);
 // API Routes
 app.use('/api/mapping-definitions', require('./routes/mapping-definitions'));
 app.use('/api/upload', require('./routes/upload'));
+
+app.use('/', swaggerUi.serve);
+app.get(
+  "/",
+  swaggerUi.setup(swaggerSpec, {
+    explorer: true
+  })
+);
 
 app.use(errorLogger);
 
