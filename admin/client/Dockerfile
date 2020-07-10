@@ -5,4 +5,4 @@ WORKDIR /var/www
 
 RUN npm install
 
-ENTRYPOINT [ "npm", "run", "dev" ]
+ENTRYPOINT [ "npm", "start" ]
