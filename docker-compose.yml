@@ -28,6 +28,7 @@ services:
     # working_dir: /root/admin-server
     volumes:
       - ./admin/server:/var/www # <--- This will map ./upload-processor to /root/upload-processor inside the container.
+      - uploaded-files:/var/www/uploaded-files
     networks: 
       - nodeapp-network
     
@@ -90,6 +91,5 @@ volumes:
     driver: local
   postgres-data:
     driver: local
-    # filedata:
-  #   driver: local
+  uploaded-files:
       
