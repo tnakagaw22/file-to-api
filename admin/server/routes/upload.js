@@ -5,6 +5,7 @@ const Busboy = require("busboy");
 const { getClient } = require("./headerHelper");
 const { saveFileToDisk, addToQueue } = require("../datasources/fileUploadDs");
 const { getMappingDefinition } = require("../datasources/mappingDefinitions");
+const { publishToQueue } = require("../datasources/mqService");
 
 router.post("/:id", async (req, res) => {
   var busboy = new Busboy({
@@ -24,7 +25,13 @@ router.post("/:id", async (req, res) => {
       // console.log("File [" + fieldname + "] Finished");
     });
     await saveFileToDisk(file, filename);
-    addToQueue(filename)
+    // addToQueue(filename)
+    const payload = {
+      mapping: JSON.stringify(mapping),
+      fileName: filename
+    };
+    console.log(`payload : ${payload}`)
+    await publishToQueue("process-uploaed-files", payload);
   });
   busboy.on("finish", function () {
     res.writeHead(200, {
