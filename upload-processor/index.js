@@ -1,9 +1,25 @@
 const Queue = require("bull");
+const fs = require('fs')
+const path = require('path');
 
 const { getDbContext } = require("./lib/db");
 const logger = require("./lib/logger");
 
 console.log(process.env.NODE_ENV);
+
+console.log(__dirname)
+const dirPath = path.join(__dirname, '/uploaded-files/');
+const filePath = path.join(dirPath, 'docker rabbit-1594416971186.txt');
+
+
+fs.readFile(filePath, (err, data) => {
+  if (err) {
+    console.error(err)
+    return
+  }
+  console.log('reading data')
+  console.log(data.toString())
+})
 
 const mappingQueue = new Queue("file mapping", "redis://127.0.0.1:6379");
 const db = getDbContext({

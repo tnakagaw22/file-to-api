@@ -12,16 +12,18 @@ router.post("/:id", async (req, res) => {
   });
   const mapping = await getMappingDefinition(getClient(req), req.params.id);
 
-  busboy.on("file", function (fieldname, file, filename, encoding, mimetype) {
-    file.on("data", function (data) {
+  busboy.on("file", async (fieldname, file, filename, encoding, mimetype) => {
+    file.on("data", async (data) => {
       //   console.log("File [" + fieldname + "] got " + data.length + " bytes");
-      // console.log(data.toString())
+      // console.log('---' + data.toString())
+      // await addToQueue(data.toString())
+      // console.log('^^^^^^^');
       // process data
     });
     file.on("end", function () {
-      console.log("File [" + fieldname + "] Finished");
+      // console.log("File [" + fieldname + "] Finished");
     });
-    saveFileToDisk(file, filename);
+    await saveFileToDisk(file, filename);
     addToQueue(filename)
   });
   busboy.on("finish", function () {

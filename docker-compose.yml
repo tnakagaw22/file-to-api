@@ -46,6 +46,7 @@ services:
     working_dir: /root/upload-processor
     volumes:
       - ./upload-processor:/root/upload-processor:cached # <--- This will map ./upload-processor to /root/upload-processor inside the container.
+      - uploaded-files:/root/upload-processor/uploaded-files
     networks: 
       - nodeapp-network
 
