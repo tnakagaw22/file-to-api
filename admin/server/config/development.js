@@ -7,13 +7,10 @@ module.exports = {
     awsRegion: 'us-east-1',
     getTablesQueryPG: 'SELECT DISTINCT table_schema, table_name FROM information_schema.tables ORDER BY table_schema, table_name',
     getClientDbColumns: "SELECT table_schema, table_name, column_name, is_nullable = 'YES' as is_required, data_type, character_maximum_length FROM information_schema.columns",
-    clientDatabase: {
-        databaseType: 'pg',
-        port: 5432,
-        host: 'localhost',
-        database: 'file-to-api',
-        user: 'postgres',
-        password: 'postgres',
+    rabbitmq: {
+        host: 'messaging',
+        user: 'rabbit',
+        password: 'rabbit'
     }
     // clientDatabase: {
     //     databaseType: 'mssql',

@@ -1,6 +1,8 @@
 const amqp = require('amqplib/callback_api');
 
-const CONN_URL = 'amqp://rabbit:rabbit@messaging:5672';
+const config = require('../config');
+
+const CONN_URL = `amqp://${config.rabbitmq.user}:${config.rabbitmq.password}@${config.rabbitmq.host}:5672`;
 
 let ch = null;
 amqp.connect(CONN_URL, function (err, conn) {

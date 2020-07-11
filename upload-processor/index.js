@@ -1,82 +1,97 @@
 const Queue = require("bull");
 const fs = require('fs')
 const path = require('path');
+var amqp = require('amqplib/callback_api');
+
+const config = require('./config');
 
 const { getDbContext } = require("./lib/db");
 const logger = require("./lib/logger");
 
-console.log(process.env.NODE_ENV);
+
+const CONN_URL = `amqp://${config.rabbitmq.user}:${config.rabbitmq.password}@${config.rabbitmq.host}:5672`;
 
 console.log(__dirname)
 const dirPath = path.join(__dirname, '/uploaded-files/');
 const filePath = path.join(dirPath, 'docker rabbit-1594416971186.txt');
 
-
-fs.readFile(filePath, (err, data) => {
-  if (err) {
-    console.error(err)
-    return
-  }
-  console.log('reading data')
-  console.log(data.toString())
-})
-
-const mappingQueue = new Queue("file mapping", "redis://127.0.0.1:6379");
-const db = getDbContext({
-  client: "mssql",
-  connection: {
-    server: "localhost",
-    user: "sa",
-    password: "P@22word",
-    database: "Mappit",
-    port: 1433,
-  },
+amqp.connect(CONN_URL, function (err, conn) {
+  conn.createChannel(function (err, ch) {
+    ch.consume('process-uploaed-files', function (msg) {
+      console.log('.....');
+      setTimeout(function(){
+        console.log("Message:", msg.content.toString());
+      },4000);
+      },{ noAck: true }
+    );
+  });
 });
 
-// const db = getDbContext({
-//   client: 'pg',
-//   connection: {
-//     port: 5432,
-//     host: 'localhost',
-//     database: 'file-to-api',
-//     user: 'postgres',
-//     password: 'postgres',
+// fs.readFile(filePath, (err, data) => {
+//   if (err) {
+//     console.error(err)
+//     return
 //   }
+//   console.log('reading data')
+//   console.log(data.toString())
+// })
+
+// const mappingQueue = new Queue("file mapping", "redis://127.0.0.1:6379");
+// const db = getDbContext({
+//   client: "mssql",
+//   connection: {
+//     server: "localhost",
+//     user: "sa",
+//     password: "P@22word",
+//     database: "Mappit",
+//     port: 1433,
+//   },
 // });
 
-mappingQueue.process(async (job, done) => {
-  logger.info("start processing" + JSON.stringify(job.data));
+// // const db = getDbContext({
+// //   client: 'pg',
+// //   connection: {
+// //     port: 5432,
+// //     host: 'localhost',
+// //     database: 'file-to-api',
+// //     user: 'postgres',
+// //     password: 'postgres',
+// //   }
+// // });
 
-  try {
-    await db("Listings")
-      .withSchema("kagawa")
-      .insert({ ListingKey: "test-123", Status: "active", Address: "111 8th" });
-  } catch (error) {
-    logger.error(error);
-  }
+// mappingQueue.process(async (job, done) => {
+//   logger.info("start processing" + JSON.stringify(job.data));
 
-  logger.info(`successfully inserted`);
+//   try {
+//     await db("Listings")
+//       .withSchema("kagawa")
+//       .insert({ ListingKey: "test-123", Status: "active", Address: "111 8th" });
+//   } catch (error) {
+//     logger.error(error);
+//   }
 
-  // job.data contains the custom data passed when the job was created
-  // job.id contains id of this job.
-  await new Promise((resolve) => setTimeout(resolve, 2000));
+//   logger.info(`successfully inserted`);
 
-  // transcode video asynchronously and report progress
-  job.progress(42);
+//   // job.data contains the custom data passed when the job was created
+//   // job.id contains id of this job.
+//   await new Promise((resolve) => setTimeout(resolve, 2000));
 
-  // call done when finished
-  done(null, "fdf");
+//   // transcode video asynchronously and report progress
+//   job.progress(42);
 
-  // // or give a error if error
-  // done(new Error('error transcoding'));
+//   // call done when finished
+//   done(null, "fdf");
 
-  // // or pass it a result
-  // done(null, { framerate: 29.5 /* etc... */ });
+//   // // or give a error if error
+//   // done(new Error('error transcoding'));
 
-  // // If the job throws an unhandled exception it is also handled correctly
-  // throw new Error('some unexpected error');
-});
+//   // // or pass it a result
+//   // done(null, { framerate: 29.5 /* etc... */ });
 
-//   mappingQueue.on('completed', (job, result) => {
-//     console.log(`Job completed with result ${result}`);
-//   })
+//   // // If the job throws an unhandled exception it is also handled correctly
+//   // throw new Error('some unexpected error');
+// });
+
+// //   mappingQueue.on('completed', (job, result) => {
+// //     console.log(`Job completed with result ${result}`);
+// //   })
