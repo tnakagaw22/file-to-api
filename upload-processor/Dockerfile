@@ -1,5 +1,11 @@
 FROM node:10
 
+COPY . /usr/src/app
+WORKDIR /usr/src/app
+
+RUN npm install
+
+ENTRYPOINT [ "npm", "run", "dev" ]
 # RUN npm install pm2 -g
 
 # # Create app directory

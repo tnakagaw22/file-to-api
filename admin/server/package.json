@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index",
+    "dev": "nodemon index --ignore uploaded-files/",
     "docker:build": "docker build -t admin-server .",
     "docker:run": "docker rm admin-server & docker run -p 5000:5000 --name admin-server -d admin-server"
   },

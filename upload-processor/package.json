@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index",
+    "dev": "nodemon index --ignore uploaded-files/",
     "docker:build": "docker build -t upload-processor .",
     "docker:run": "docker rm upload-processor & docker run -p 8080:8080 --name upload-processor -d upload-processor",
     "docker:it": "docker exec -it upload-processor bash"
