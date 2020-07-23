@@ -3,7 +3,7 @@ const router = express.Router();
 const Busboy = require("busboy");
 
 const { getClient } = require("./headerHelper");
-const { saveFileToDisk, addToQueue } = require("../datasources/fileUploadDs");
+const { saveFileToDisk } = require("../datasources/fileUploadDs");
 const { getMappingDefinition } = require("../datasources/mappingDefinitions");
 const { publishToQueue } = require("../datasources/mqService");
 
