@@ -1,15 +1,19 @@
 module.exports = {
-    rabbitmq: {
-        host: 'messaging',
-        user: 'rabbit',
-        password: 'rabbit'
-    }
-    // clientDatabase: {
-    //     databaseType: 'mssql',
-    //     port: 1433,
-    //     host: 'localhost\\SQLExpress2017',
-    //     database: 'PropertyDatabase',
-    //     user: 'import-mapper',
-    //     password: 'import-mapper',
-    // }
+  rabbitmq: {
+    host: "messaging",
+    user: "rabbit",
+    password: "rabbit",
+  },
+  database: {
+    client: "mssql",
+    connection: {
+      server: "host.docker.internal",
+      user: "mappit-user",
+      password: "mappit-user",
+      database: "Mappit",
+      options: {
+        port: 1433,
+      },
+    },
+  },
 };
