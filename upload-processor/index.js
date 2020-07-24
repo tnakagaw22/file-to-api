@@ -1,4 +1,4 @@
-const fs = require("fs");
+const fs = require("fs").promises;
 const path = require("path");
 var amqp = require("amqplib/callback_api");
 
@@ -19,6 +19,24 @@ amqp.connect(CONN_URL, function (err, conn) {
     ch.consume(
       "process-uploaed-files",
       async function (msg) {
+
+        const payload = JSON.parse(msg.content.toString());
+        const filePath = path.join(dirPath, payload.fileName);
+        const data = await fs.readFile(filePath);
+        const delimiter = ',';
+
+        const lines  = data.toString().split("\n");
+        const dataLines = lines.slice(1);
+        const headers = lines[0].split(delimiter);
+
+        for (const line of dataLines) {
+          const values = line.split(delimiter);
+          for (let index = 0; index < values.length; index++) {
+            const value = values[index];
+            console.log(`field ${headers[index]} val ${value}`);
+            
+          }
+        }
         const mappingDefinition = await db("Listings")
           .withSchema("kagawa")
           .where({ Id: 1 })
