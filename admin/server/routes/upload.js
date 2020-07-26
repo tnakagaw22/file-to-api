@@ -33,7 +33,7 @@ router.post("/:id", async (req, res) => {
       await saveFileToDisk(file, fileNameWithTimestamp);
     // addToQueue(filename)
     const payload = {
-      mapping: JSON.stringify(mapping),
+      mapping: mapping,
       fileName: fileNameWithTimestamp
     };
     console.log(`payload : ${payload}`)
