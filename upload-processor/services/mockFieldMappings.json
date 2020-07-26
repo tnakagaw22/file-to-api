@@ -1,0 +1,9 @@
+[
+  {
+    "value": "listingKey",
+    "destType": "ListingKey",
+    "destFieldName": "ListingKey"
+  },
+  { "value": "status", "destType": "Status", "destFieldName": "Status" },
+  { "value": "address", "destType": "Address", "destFieldName": "Address" }
+]

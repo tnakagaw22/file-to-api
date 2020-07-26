@@ -79,7 +79,7 @@ services:
     networks:
       - nodeapp-network
 
-  db:
+  mssql:
     image: "mcr.microsoft.com/mssql/server"
     environment:
       SA_PASSWORD: "P@22word"

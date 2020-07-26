@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const Busboy = require("busboy");
+const path = require("path");
 
 const { getClient } = require("./headerHelper");
 const { saveFileToDisk } = require("../datasources/fileUploadDs");
@@ -24,11 +25,16 @@ router.post("/:id", async (req, res) => {
     file.on("end", function () {
       // console.log("File [" + fieldname + "] Finished");
     });
-    await saveFileToDisk(file, filename);
+
+    let fileNameWithTimestamp = `${
+      path.parse(filename).name
+    }-${new Date().getTime()}${path.parse(filename).ext}`;
+  
+      await saveFileToDisk(file, fileNameWithTimestamp);
     // addToQueue(filename)
     const payload = {
-      mapping: JSON.stringify(mapping),
-      fileName: filename
+      mapping: mapping,
+      fileName: fileNameWithTimestamp
     };
     console.log(`payload : ${payload}`)
     await publishToQueue("process-uploaed-files", payload);

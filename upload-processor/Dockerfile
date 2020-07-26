@@ -1,7 +1,7 @@
 FROM node:10
 
-COPY . /usr/src/app
-WORKDIR /usr/src/app
+COPY . /root/upload-processor
+WORKDIR /root/upload-processor
 
 RUN npm install
 
