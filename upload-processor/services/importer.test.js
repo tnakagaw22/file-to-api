@@ -1,6 +1,10 @@
 jest.mock("./fileParser");
+jest.mock("./db");
+
 const { parseFile } = require("./fileParser");
+const { insert, update } = require("./db");
 const { importToDb } = require("./importer");
+
 const msgContent = require("./mockMsgContent.json");
 const { parsedRecords } = require("./mockParsedRecords");
 
@@ -9,11 +13,16 @@ describe("importer.importToDb", () => {
     parseFile: jest.fn(),
   }));
 
+  jest.mock("./db", () => ({
+    insert: jest.fn(),
+    update: jest.fn(),
+  }));
+
   test("importTest", async () => {
     parseFile.mockImplementation(async () => parsedRecords);
 
     await importToDb(msgContent, ",");
 
-    expect(2).toEqual(2);
+    expect(insert.mock.calls.length).toBe(1);
   });
 });
