@@ -1,14 +1,13 @@
 const fs = require("fs").promises;
 const path = require("path");
 
-const config = require("../config");
-const { getDbContext } = require("../lib/db");
-const db = getDbContext(config.database);
+const  { insert, update } = require('./db');
 const { parseFile } = require('./fileParser');
 
 const dirPath = path.join(__dirname, "../uploaded-files/");
 
 const importToDb = async (msgContent, delimiter) => {
+
     const payload = JSON.parse(msgContent);
     const filePath = path.join(dirPath, payload.fileName);
 
@@ -30,7 +29,7 @@ const importToDb = async (msgContent, delimiter) => {
       newRecords.push(newRecord);
     }
 
-    await db("Listings").withSchema("kagawa").insert(newRecords);
+    await insert('kagawa', 'Listings', newRecords);
 };
 
 module.exports = {

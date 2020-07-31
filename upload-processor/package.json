@@ -6,6 +6,8 @@
   "scripts": {
     "start": "node index.js",
     "dev": "nodemon index --ignore uploaded-files/",
+    "test": "jest",
+    "test:watch": "npm run test -- --watchAll",
     "docker:build": "docker build -t upload-processor .",
     "docker:run": "docker rm upload-processor & docker run -p 8080:8080 --name upload-processor -d upload-processor",
     "docker:it": "docker exec -it upload-processor bash"
