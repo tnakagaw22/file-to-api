@@ -11,7 +11,7 @@ import DoubleClickEditCell from "./DoubleClickEditCell";
 
 FieldMappings.propTypes = {
   destFieldName: PropTypes.string,
-  destRequired: PropTypes.bool,
+  isIdentifier: PropTypes.bool,
   value: PropTypes.string,
   onChange: PropTypes.func,
   onDelete: PropTypes.func,
@@ -25,7 +25,7 @@ function FieldMappings(props) {
       destFieldName:
         fieldName === "destFieldName" ? newValue : props.destFieldName,
       destType: props.destFieldName,
-      destRequired: props.destRequired,
+      isIdentifier: fieldName === "isIdentifier" ? newValue : props.isIdentifier,
       value: fieldName === "value" ? newValue : props.value,
     };
     props.onChange(updatedFieldMapping);
@@ -39,7 +39,10 @@ function FieldMappings(props) {
       />
       <TableCell>{props.destFieldName}</TableCell>
       <TableCell>
-        <Checkbox checked={props.destRequired} />
+        <Checkbox 
+        checked={props.isIdentifier}
+        onChange={(newValue) => onChangeCell("isIdentifier", newValue.currentTarget.checked)}
+        />
       </TableCell>
       <DoubleClickEditCell
         value={props.value}

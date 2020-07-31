@@ -61,7 +61,7 @@ function FieldMappings(props) {
             <TableRow>
               <TableCell>Dest Field</TableCell>
               <TableCell>Dest Type</TableCell>
-              <TableCell>Dest Requried</TableCell>
+              <TableCell>Identifier</TableCell>
               <TableCell>Src Field</TableCell>
               <TableCell></TableCell>
             </TableRow>
@@ -70,9 +70,9 @@ function FieldMappings(props) {
             {props.fieldMappings.map((fieldMapping, i) => {
               return (
                 <FieldMapping
-                  key={fieldMapping.destRequired + i}
+                  key={fieldMapping.destFieldName}
                   destFieldName={fieldMapping.destFieldName}
-                  destRequired={fieldMapping.destRequired}
+                  isIdentifier={fieldMapping.isIdentifier}
                   value={fieldMapping.value}
                   onChange={(updatedFieldMapping) =>
                     onChangeFieldMapping(i, updatedFieldMapping)
