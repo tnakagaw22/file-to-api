@@ -22,10 +22,11 @@ const importToDb = async (msgContent, delimiter) => {
     }
 
     // create condition obj to see if same record exists
-    let condition = {};
-    payload.mapping.identifiers.forEach(
-      (prop) => (condition[prop] = record[prop])
-    );
+    const identifiers = payload.mapping.fieldMappings.filter(fm => fm.isIdentifier).map(fm => fm.destFieldName);
+    let condition = identifiers.reduce((acc, current) => ({
+      ...acc,
+      [current]: record[current]
+    }), {});
 
     let existing = await getFirstOne("kagawa", "Listings", condition);
     if (existing) {

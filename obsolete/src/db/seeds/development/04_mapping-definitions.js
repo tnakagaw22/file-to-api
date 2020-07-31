@@ -5,7 +5,7 @@ exports.seed = async knex => {
 
   // Inserts seed entries
   await knex('dev.mapping_definitions').insert([
-    { id: 1, srcFileName: 'OLR-OneKeyMls', destTableName: 'listings', fieldMappings:{ data: [{destFieldName: 'ListingKey', destFieldType: 'nvarchar(50)', destRequired: true, mappingType: 'Column', value : 'listingKey'},{destFieldName: 'Status', destFieldType: 'nvarchar(50)', destRequired: true, mappingType: 'Column', value : 'status'}] }},
+    { id: 1, srcFileName: 'OLR-OneKeyMls', destTableName: 'listings', fieldMappings:{ data: [{destFieldName: 'ListingKey', destFieldType: 'nvarchar(50)', isIdentifier: true, mappingType: 'Column', value : 'listingKey'},{destFieldName: 'Status', destFieldType: 'nvarchar(50)', isIdentifier: false, mappingType: 'Column', value : 'status'}] }},
     { id: 2, srcFileName: 'OLR-OneKeyMls', destTableName: 'buildings', fieldMappings: null },
   ]);
 };

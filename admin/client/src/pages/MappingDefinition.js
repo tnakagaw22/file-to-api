@@ -33,10 +33,10 @@ const MappingDefinition = (props) => {
   };
 
   const onAddFieldMapping = () => {
-    const { destFieldName, destRequired, value } = {};
+    const { destFieldName, isIdentifier, value } = {};
     const { srcFileName, destTableName } = mappingDefinition;
     const fieldMappings = mappingDefinition.fieldMappings || [];
-    fieldMappings.push({ destFieldName, destRequired, value });
+    fieldMappings.push({ destFieldName, isIdentifier, value });
 
     setMappingDefinition({ srcFileName, destTableName, fieldMappings });
   };

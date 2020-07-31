@@ -3,10 +3,10 @@ const msgContent = {
 		id: 24,
 		srcFileName: "test-temp333",
 		destTableName: "listings",
-		identifiers: ["ListingKey"],
 		fieldMappings: [{
 				"value": "listingKey",
 				"destType": "ListingKey",
+				"isIdentifier": true,
 				"destFieldName": "ListingKey"
 			}, {
 				"value": "status",
