@@ -19,7 +19,7 @@ amqp.connect(CONN_URL, function (err, conn) {
       "process-uploaed-files",
       async function (msg) {
 
-        await importToDb(msg.content.toString(), ',');
+        await importToDb(msg.content, ',');
 
       },
       { noAck: true }

@@ -7,6 +7,7 @@ const { parseFile } = require('./fileParser');
 const dirPath = path.join(__dirname, "../uploaded-files/");
 
 const importToDb = async (msgContent, delimiter) => {
+
     const payload = JSON.parse(msgContent);
     const filePath = path.join(dirPath, payload.fileName);
 

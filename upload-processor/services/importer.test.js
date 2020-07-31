@@ -5,7 +5,7 @@ const { parseFile } = require("./fileParser");
 const { insert, update } = require("./db");
 const { importToDb } = require("./importer");
 
-const msgContent = require("./mockMsgContent.json");
+const { msgContent } = require("./mockMsgContent");
 const { parsedRecords } = require("./mockParsedRecords");
 
 describe("importer.importToDb", () => {

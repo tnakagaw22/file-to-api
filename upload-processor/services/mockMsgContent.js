@@ -1,9 +1,9 @@
-{
-	"mapping": {
-		"id": 24,
-		"srcFileName": "test-temp333",
-		"destTableName": "listings",
-		"fieldMappings": [{
+const msgContent = {
+	mapping: {
+		id: 24,
+		srcFileName: "test-temp333",
+		destTableName: "listings",
+		fieldMappings: [{
 				"value": "listingKey",
 				"destType": "ListingKey",
 				"destFieldName": "ListingKey"
@@ -18,5 +18,10 @@
 			}
 		]
 	},
-	"fileName": "docker rabbit-1596113520435.txt"
+	fileName: "docker rabbit-1596113520435.txt"
 }
+
+module.exports = {
+    msgContent: JSON.stringify(msgContent)
+  };
+  
