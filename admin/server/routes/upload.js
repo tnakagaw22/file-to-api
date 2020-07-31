@@ -36,7 +36,7 @@ router.post("/:id", async (req, res) => {
       mapping: mapping,
       fileName: fileNameWithTimestamp
     };
-    console.log(`payload : ${payload}`)
+    console.log(`payload : ${JSON.stringify(payload)}`)
     await publishToQueue("process-uploaed-files", payload);
   });
   busboy.on("finish", function () {

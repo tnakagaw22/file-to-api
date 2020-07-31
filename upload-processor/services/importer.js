@@ -28,16 +28,16 @@ const importToDb = async (msgContent, delimiter) => {
       [current]: record[current]
     }), {});
 
-    let existing = await getFirstOne("kagawa", "Listings", condition);
+    let existing = await getFirstOne("kagawa", payload.mapping.destTableName, condition);
     if (existing) {
-      await update("kagawa", "Listings", condition, record);
+      await update("kagawa", payload.mapping.destTableName, condition, record);
     } else {
       newRecords.push(record);
     }
   }
 
   if (newRecords.length > 0) {
-    await insert("kagawa", "Listings", newRecords);
+    await insert("kagawa", payload.mapping.destTableName, newRecords);
   }
 };
 
