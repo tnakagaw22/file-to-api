@@ -19,7 +19,19 @@ amqp.connect(CONN_URL, function (err, conn) {
       "process-uploaed-files",
       async function (msg) {
 
-        await importToDb(msg.content, ',');
+        try {
+          const processStart = new Date();
+
+          await importToDb(msg.content, ',');
+
+          const processEnd = new Date();
+          const secondsElapsed = (processEnd.getTime() - processStart.getTime()) / 1000;
+
+          console.info(`Execution time: ${secondsElapsed} seconds`);
+
+        } catch (error) {
+          console.log(`error ${error}`);
+        }
 
       },
       { noAck: true }
