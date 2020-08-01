@@ -3,7 +3,7 @@ const config = require("../config");
 const { getDbContext } = require("../lib/db");
 const dbContext = getDbContext(config.database);
 
-const getFirstOne = async (clientCode, tableName, condition) => {
+const getFirstOne = async (clientCode: string, tableName: string, condition: any) => {
   if (Object.keys(condition).length <= 0) {
     return null;
   }
@@ -11,11 +11,11 @@ const getFirstOne = async (clientCode, tableName, condition) => {
   return await dbContext(tableName).withSchema(clientCode).where(condition).first();
 };
 
-const insert = async (clientCode, tableName, newRecords) => {
+const insert = async (clientCode: string, tableName: string, newRecords: any[]) => {
   await dbContext(tableName).withSchema(clientCode).insert(newRecords);
 };
 
-const update = async (clientCode, tableName, condition, updatingRecord) => {
+const update = async (clientCode: string, tableName: string, condition: any, updatingRecord: any) => {
   await dbContext(tableName)
     .withSchema(clientCode)
     .where(condition)
