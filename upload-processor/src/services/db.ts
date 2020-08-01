@@ -1,3 +1,4 @@
+export {};
 const config = require("../config");
 const { getDbContext } = require("../lib/db");
 const dbContext = getDbContext(config.database);

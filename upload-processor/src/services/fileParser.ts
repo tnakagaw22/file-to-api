@@ -1,3 +1,4 @@
+export {};
 const fs = require("fs").promises;
 
 const parseFile = async (filePath, delimiter, parseBy) => {

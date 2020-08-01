@@ -1,3 +1,4 @@
+export {};
 const path = require("path");
 const { parseFile } = require("./fileParser");
 
