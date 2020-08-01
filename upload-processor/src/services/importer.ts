@@ -5,9 +5,9 @@ const path = require("path");
 const { getFirstOne, insert, update } = require("./db");
 const { parseFile } = require("./fileParser");
 
-const dirPath = path.join(__dirname, "../uploaded-files/");
+const dirPath = path.join(__dirname, "../../uploaded-files/");
 
-const importToDb = async (msgContent, delimiter) => {
+const importToDb = async (msgContent, delimiter: string) => {
   const payload = JSON.parse(msgContent);
   const filePath = path.join(dirPath, payload.fileName);
 
