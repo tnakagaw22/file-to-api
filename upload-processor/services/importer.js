@@ -12,6 +12,8 @@ const importToDb = async (msgContent, delimiter) => {
 
   const importingRecords = await parseFile(filePath, delimiter, "columnName");
 
+  console.log(`${importingRecords.length} records to process.`);
+
   const newRecords = [];
   for (const importingRecord of importingRecords) {
 
@@ -33,11 +35,18 @@ const importToDb = async (msgContent, delimiter) => {
       await update("kagawa", payload.mapping.destTableName, condition, record);
     } else {
       newRecords.push(record);
+
+      if (newRecords.length % 200 === 0 && newRecords.length > 0) {
+        await insert("kagawa", payload.mapping.destTableName, newRecords);
+        newRecords.length = 0
+        console.log(`inserted 200 records.`)
+      }
     }
   }
-
-  if (newRecords.length > 0) {
+  
+  if (newRecords.length > 0){
     await insert("kagawa", payload.mapping.destTableName, newRecords);
+    console.log(`inserted ${newRecords.length} records.`)
   }
 };
 
