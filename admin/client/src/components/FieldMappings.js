@@ -60,7 +60,6 @@ function FieldMappings(props) {
           <TableHead>
             <TableRow>
               <TableCell>Dest Field</TableCell>
-              <TableCell>Dest Type</TableCell>
               <TableCell>Identifier</TableCell>
               <TableCell>Src Field</TableCell>
               <TableCell></TableCell>

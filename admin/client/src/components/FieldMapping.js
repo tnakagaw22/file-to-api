@@ -22,9 +22,7 @@ function FieldMappings(props) {
 
   const onChangeCell = (fieldName, newValue) => {
     const updatedFieldMapping = {
-      destFieldName:
-        fieldName === "destFieldName" ? newValue : props.destFieldName,
-      destType: props.destFieldName,
+      destFieldName: fieldName === "destFieldName" ? newValue : props.destFieldName,
       isIdentifier: fieldName === "isIdentifier" ? newValue : props.isIdentifier,
       value: fieldName === "value" ? newValue : props.value,
     };
@@ -37,11 +35,10 @@ function FieldMappings(props) {
         value={props.destFieldName}
         onChange={(newValue) => onChangeCell("destFieldName", newValue)}
       />
-      <TableCell>{props.destFieldName}</TableCell>
       <TableCell>
-        <Checkbox 
-        checked={props.isIdentifier}
-        onChange={(newValue) => onChangeCell("isIdentifier", newValue.currentTarget.checked)}
+        <Checkbox
+          checked={props.isIdentifier}
+          onChange={(newValue) => onChangeCell("isIdentifier", newValue.currentTarget.checked)}
         />
       </TableCell>
       <DoubleClickEditCell
