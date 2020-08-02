@@ -1,6 +1,6 @@
 export {};
 const config = require("../config");
-const { getDbContext } = require("../lib/db");
+const { getDbContext } = require("../lib/dbContext");
 const dbContext = getDbContext(config.database);
 
 const getFirstOne = async (clientCode: string, tableName: string, condition: any) => {
