@@ -1,3 +1,4 @@
+export {};
 jest.mock("./fileParser");
 jest.mock("./db");
 

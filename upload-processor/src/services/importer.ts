@@ -1,30 +1,31 @@
+export {};
 const fs = require("fs").promises;
 const path = require("path");
 
 const { getFirstOne, insert, update } = require("./db");
 const { parseFile } = require("./fileParser");
 
-const dirPath = path.join(__dirname, "../uploaded-files/");
+const dirPath = path.join(__dirname, "../../uploaded-files/");
 
-const importToDb = async (msgContent, delimiter) => {
-  const payload = JSON.parse(msgContent);
+const importToDb = async (msgContent, delimiter: string) => {
+  const payload: {fileName: string, mapping: any} = JSON.parse(msgContent);
   const filePath = path.join(dirPath, payload.fileName);
 
   const importingRecords = await parseFile(filePath, delimiter, "columnName");
 
   console.log(`${importingRecords.length} records to process.`);
 
-  const newRecords = [];
+  const newRecords = [] as any[];
   for (const importingRecord of importingRecords) {
 
     // create record to save
-    let record = {};
+    let record = {} as any;
     for (const fieldMapping of payload.mapping.fieldMappings) {
       record[fieldMapping.destFieldName] = importingRecord[fieldMapping.value];
     }
 
     // create condition obj to see if same record exists
-    const identifiers = payload.mapping.fieldMappings.filter(fm => fm.isIdentifier).map(fm => fm.destFieldName);
+    const identifiers: string[] = payload.mapping.fieldMappings.filter(fm => fm.isIdentifier).map(fm => fm.destFieldName);
     let condition = identifiers.reduce((acc, current) => ({
       ...acc,
       [current]: record[current]

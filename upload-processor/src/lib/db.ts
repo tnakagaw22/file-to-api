@@ -1,3 +1,4 @@
+export {};
 const knex = require('knex');
 
 const getDbContext = (dbParam) => {

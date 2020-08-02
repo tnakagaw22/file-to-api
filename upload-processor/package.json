@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node index.js",
-    "dev": "nodemon index --ignore uploaded-files/",
+    "dev": "nodemon built/index --ignore uploaded-files/",
     "test": "jest",
     "test:watch": "npm run test -- --watchAll",
     "docker:build": "docker build -t upload-processor .",

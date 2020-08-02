@@ -104,3 +104,6 @@ msbuild.wrn
 
 #uploaded-files
 admin/server/uploaded-files/
+
+#typescript output
+built
