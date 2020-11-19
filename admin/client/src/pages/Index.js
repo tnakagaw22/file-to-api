@@ -8,6 +8,8 @@ import AppBarTop from "../components/AppBarTop";
 import MappingDefinition from "./MappingDefinition";
 import MappingDefinitions from "./MappingDefinitions";
 import Upload from "./Upload";
+import SignIn from "./SignIn";
+import SignUp from "./SignUp";
 import NotFound from "./NotFound";
 import Footer from "../components/Footer";
 import Notification from "../components/Notification";
@@ -24,6 +26,8 @@ export default function Pages() {
             <MappingDefinition path="mapping-definition/:id" />
             <MappingDefinition path="mapping-definition/" />
             <Upload path="upload/" />
+            <SignIn path="sign-in/" />
+            <SignUp path="sign-up/" />
             <NotFound default />
           </Router>
           <Footer />
