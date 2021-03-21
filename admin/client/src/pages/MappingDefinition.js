@@ -1,7 +1,5 @@
 import React, { useState, useContext } from "react";
 import { navigate } from "@reach/router";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 
 import MappingDefinitionForm from "../components/MappingDefinitionForm";
 import FieldMappings from "../components/FieldMappings";
