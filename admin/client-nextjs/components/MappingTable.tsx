@@ -7,7 +7,7 @@ type MappingTableProps = {
     destTableColumns: DestTableColumn[]
 };
 
-export const MappingTable = ({ destTableColumns }: MappingTableProps) => {
+export const MappingTable = (props: MappingTableProps) => {
 
     return (
         <Table striped bordered hover size="sm">
@@ -20,7 +20,7 @@ export const MappingTable = ({ destTableColumns }: MappingTableProps) => {
                 </tr>
             </thead>
             <tbody>
-                {destTableColumns.map((destTableColumn, index) => {
+                {props.destTableColumns.map((destTableColumn, index) => {
                     return (
                     <tr>
                         <td>{index + 1}</td>
