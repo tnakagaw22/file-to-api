@@ -4,6 +4,7 @@ export default (req, res) => {
     const tableNames = dbTables.map((dbTable) => `${dbTable.TABLE_SCHEMA}.${dbTable.TABLE_NAME}`);
 
     res.status(200).json(tableNames)
+    // res.status(200).json(dbTables)
   }
   
 
