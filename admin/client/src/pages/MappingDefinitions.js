@@ -1,6 +1,4 @@
 import React, { useContext, useState, useEffect } from "react";
-import { useQuery, useMutation } from "@apollo/react-hooks";
-import gql from "graphql-tag";
 import { Link } from "@reach/router";
 import Table from "@material-ui/core/Table";
 import TableBody from "@material-ui/core/TableBody";
