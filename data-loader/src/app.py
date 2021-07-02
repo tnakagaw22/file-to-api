@@ -1,6 +1,7 @@
 import pandas as pd
 import numpy as np
 # import sqlalchemy
+import logging
 
 from datastore import get_mapping_config, save_mapped_data
 
