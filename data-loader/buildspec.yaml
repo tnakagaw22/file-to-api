@@ -21,4 +21,4 @@ phases:
       - echo Writing image definitions file...
       - printf '[{"name":"container","imageUri":"%s"}]' 767567474540.dkr.ecr.us-east-1.amazonaws.com/data-loader:latest > imagedefinitions.json
 artifacts:
-  files: imagedefinitions.json
+  files: data-loader/imagedefinitions.json
