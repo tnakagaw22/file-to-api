@@ -2,9 +2,13 @@
 
 FROM python:3.8-slim-buster
 
-WORKDIR /app
-COPY requirements.txt requirements.txt
-RUN pip install -r requirements.txt
-COPY . .
+ENV APP_DIR /app_dir
+RUN mkdir -p ${APP_DIR}
+WORKDIR ${APP_DIR}
 
-CMD ["python", "src/app.py"]
+ADD ./requirements.txt ${APP_DIR}
+RUN pip install -r requirements.txt
+
+COPY . ${APP_DIR}
+
+ENTRYPOINT ${APP_DIR}/docker-entrypoint.sh
