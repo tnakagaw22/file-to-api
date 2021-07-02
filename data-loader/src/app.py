@@ -2,6 +2,10 @@ import pandas as pd
 import numpy as np
 # import sqlalchemy
 import logging
+import os
+
+logging.basicConfig(level=os.environ.get("LOGLEVEL", "INFO"))
+logger = logging.getLogger(__name__)
 
 from datastore import get_mapping_config, save_mapped_data
 
@@ -17,4 +21,6 @@ def load_file(file_path, mapping_name):
     print('data', df.head(5))
 
 
-load_file('src/data/hgmls_multi.csv', 'hgmls_multi')
+if __name__ == "__main__":
+    logger.info("test logging...")
+    load_file('src/data/hgmls_multi.csv', 'hgmls_multi')
