@@ -107,3 +107,6 @@ admin/server/uploaded-files/
 
 #typescript output
 built
+
+#python venv
+venv
