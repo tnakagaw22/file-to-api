@@ -1,7 +1,0 @@
-
-knex migrate:make fileNameHere
-knex migrate:latest
-knex migrate:rollback
-
-knex seed:make fileNameHere
-knex seed:run
