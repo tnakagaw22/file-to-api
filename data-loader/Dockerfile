@@ -10,5 +10,6 @@ ADD ./requirements.txt ${APP_DIR}
 RUN pip install -r requirements.txt
 
 COPY . ${APP_DIR}
+RUN chmod +x ${APP_DIR}/docker-entrypoint.sh
 
 ENTRYPOINT ${APP_DIR}/docker-entrypoint.sh
