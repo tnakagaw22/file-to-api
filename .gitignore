@@ -110,3 +110,6 @@ built
 
 #python venv
 venv
+
+#test data folder
+test_data/

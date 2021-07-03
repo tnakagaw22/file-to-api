@@ -1,0 +1,22 @@
+[
+    {
+        "mapping_name": "hgmls_multi",
+        "dest_table_name": "test1",
+        "dest_table_id": "ListingKey",
+        "column_mappings":{
+            "Basement":"Basement",
+            "Cooling":"Cooling",
+            "ElementarySchool":"ElementarySchoolDistrict",
+            "Price":"HighPriceDollars",
+            "Status":"MlsStatus",
+            "ListingKey":"ListingKey"
+            },
+        "filters": [
+                {
+                "column_name": "Price",
+                "operator":"greater_than",
+                "value": 600000.0
+                }
+            ]
+    }
+]
