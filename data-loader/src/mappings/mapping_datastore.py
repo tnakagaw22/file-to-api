@@ -1,7 +1,7 @@
 import json
 from typing import Mapping
 
-from src.mappings.models import ColumnMapping, MappingSpec
+from mappings.models import ColumnMapping, MappingSpec
 
 class MappingDatastore:
     def __init__(self) -> None:
@@ -18,6 +18,6 @@ class MappingDatastore:
                                     column_mappings=[ColumnMapping(source="Basement", dest="basement")]
                                     )
 
-        mapping_spec = MappingSpec(**mapping_json)
+        # mapping_spec = MappingSpec(**mapping_json)
 
         return mapping_spec2
