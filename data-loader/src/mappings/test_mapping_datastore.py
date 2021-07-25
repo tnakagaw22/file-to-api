@@ -1,6 +1,6 @@
 import unittest
 
-from src.mappings.mapping_datastore import MappingDatastore
+from mappings.mapping_datastore import MappingDatastore
 
 class TestMappingDatastore(unittest.TestCase):
 
@@ -10,5 +10,5 @@ class TestMappingDatastore(unittest.TestCase):
 
         self.assertNotEqual(mapping_spec, None)
 
-if __name__ == '__main__':
-    unittest.main()
+# if __name__ == '__main__':
+#     unittest.main()
