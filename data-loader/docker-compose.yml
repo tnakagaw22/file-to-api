@@ -4,14 +4,44 @@ services:
 
   app:
     build: .
-#    depends_on:
-#      - db
-#
-#  db:
-#    image: postgres
-#    restart: always
-#    environment:
-#      - POSTGRES_USER=postgres
-#      - POSTGRES_PASSWORD=postgres
-#    ports:
-#      - "5433:5432"
+    depends_on:
+      - postgres
+
+  postgres:
+    image: postgres
+    restart: always
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=postgres
+      - PGDATA=/data/postgres
+      - DB_HOST=host.docker.internal
+    ports:
+      - "5432:5432"
+    volumes:
+      - postgres-data:/data/postgres
+    networks:
+      - data-loader-network
+
+  pgadmin:
+    image: dpage/pgadmin4
+    environment:
+      PGADMIN_DEFAULT_EMAIL: ${PGADMIN_DEFAULT_EMAIL:-pgadmin4@pgadmin.org}
+      PGADMIN_DEFAULT_PASSWORD: ${PGADMIN_DEFAULT_PASSWORD:-postgres}
+      PGADMIN_CONFIG_SERVER_MODE: 'False'
+#    volumes:
+#      - pgadmin:/root/.pgadmin4
+    ports:
+      - "${PGADMIN_PORT:-5050}:80"
+    networks:
+      - data-loader-network
+    restart: unless-stopped
+
+networks:
+  data-loader-network:
+    driver: bridge
+
+volumes:
+  postgres-data:
+    driver: local
+
+
