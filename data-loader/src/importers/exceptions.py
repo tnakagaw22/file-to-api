@@ -1,0 +1,2 @@
+class MappingNotFoundError(Exception):
+    pass
